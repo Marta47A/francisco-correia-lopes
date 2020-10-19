@@ -1,0 +1,28 @@
+<%- include("partials/header"); -%>
+<div class="site-section overlay" id="create-post-section">
+  <div class="container">
+    <h1>Adicionar fotografia</h1>
+    <form class="" action="/photos" method="post">
+      <div class="form-group">
+        <select class="form-control" name="photoTheme">
+          <option value="1">Provas de Equitação de Trabalho</option>
+          <option value="2">Estágios</option>
+          <option value="3">Desbaste, Ensino e Treino</option>
+          <option value="4">Tauromauquia - Amador</option>
+          <option value="5">Tauromauquia - Praticante</option>
+        </select>
+        <label>Título em Português</label>
+        <input class="form-control" type="text" name="photoTitle">
+        <label>Título em Inglês</label>
+        <input class="form-control" type="text" name="photoTitleEN">
+        <label>Título em Francês</label>
+        <input class="form-control" type="text" name="photoTitleFR">
+        <label>Imagem</label>
+        <input type="file" class="form-control-file" name="photoImage">
+      </div>
+      <button class="btn btn-primary" type="submit" name="button">Adicionar</button>
+    </form>
+  </div>
+</div>
+
+<%- include("partials/footer"); -%>

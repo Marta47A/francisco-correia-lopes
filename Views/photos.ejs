@@ -1,0 +1,19 @@
+<%- include("partials/header"); -%>
+
+
+<div class="row">
+  <h2><%=photo.theme%></h2>
+
+  <%  photos.forEach(function(photo){ %>
+  <div class="col-md-4 col-lg-6" data-aos="fade-up" data-aos-delay="">
+    <div>
+      <a href="" class="mb-4 d-block"><img src=<%=photo.data%> alt="Image" class="img-fluid rounded"></a>
+
+    </div>
+  </div>
+
+  <% }); %>
+
+</div>
+
+<%- include("partials/footer"); -%>

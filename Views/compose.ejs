@@ -1,0 +1,28 @@
+
+<%- include("partials/header"); -%>
+<div class="site-section overlay" id="create-post-section">
+  <div class="container">
+    <h1>Compor</h1>
+    <form class="" action="/posts" method="post">
+      <div class="form-group">
+        <label>Título em Português</label>
+        <input class="form-control" type="text" name="postTitle">
+        <label>Título em Inglês</label>
+        <input class="form-control" type="text" name="postTitleEN">
+        <label>Título em Francês</label>
+        <input class="form-control" type="text" name="postTitleFR">
+        <label>Imagem</label>
+        <input type="file" class="form-control-file" name="postImage">
+        <label>Notícia em Português</label>
+        <textarea class="form-control" name="postBody" rows="5" cols="30"></textarea>
+        <label>Notícia em Inglês</label>
+        <textarea class="form-control" name="postBodyEN" rows="5" cols="30"></textarea>
+        <label>Notícia em Francês</label>
+        <textarea class="form-control" name="postBodyFR" rows="5" cols="30"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" name="button">Publicar</button>
+    </form>
+  </div>
+</div>
+
+<%- include("partials/footer"); -%>
