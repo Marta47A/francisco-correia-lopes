@@ -7,7 +7,8 @@
   <%  photos.forEach(function(photo){ %>
   <div class="col-md-4 col-lg-6" data-aos="fade-up" data-aos-delay="">
     <div>
-      <a href="" class="mb-4 d-block"><img src=<%=photo.data%> alt="Image" class="img-fluid rounded"></a>
+      <a href="" class="mb-4 d-block"><img src="data:image/<%=photo.img.contentType%>;base64,
+                     <%=photo.img.data.toString('base64')%>" alt="Image" class="img-fluid rounded"></a>
 
     </div>
   </div>
