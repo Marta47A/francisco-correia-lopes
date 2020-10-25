@@ -46,7 +46,7 @@ mongoose.set("useCreateIndex", true);
 
 //Users
 
-const userSchema = new mongoose.Schema ({
+const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   googleId: String,
@@ -73,50 +73,49 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/francisco-correia-lopes",
+    callbackURL: "http://localhost:3000/auth/google/",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile);
 
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    User.findOrCreate({
+      googleId: profile.id
+    }, function(err, user) {
       return cb(err, user);
     });
   }
 ));
 
 app.get("/auth/google",
-  passport.authenticate('google', { scope: ["profile"] })
+  passport.authenticate('google', {
+    scope: ["profile"]
+  })
 );
 
-app.get("/auth/google/francisco-correia-lopes",
-  passport.authenticate('google', { failureRedirect: "/login" }),
-  function(req, res) {
-    // Successful authentication, redirect to secrets.
-    res.redirect("/");
-  });
-
-app.get("/login", function(req, res){
+app.get("/login", function(req, res) {
   res.render("login");
 });
 
-app.get("/register", function(req, res){
+app.get("/register", function(req, res) {
   res.render("register");
 });
 
-app.get("/logout", function(req, res){
+app.get("/logout", function(req, res) {
   req.logout();
   res.redirect("/");
 });
 
-app.post("/register", function(req, res){
+app.post("/register", function(req, res) {
 
-  User.register({username: req.body.username}, req.body.password, function(err, user){
+  User.register({
+    username: req.body.username
+  }, req.body.password, function(err, user) {
     if (err) {
       console.log(err);
       res.redirect("/register");
     } else {
-      passport.authenticate("local")(req, res, function(){
+      passport.authenticate("local")(req, res, function() {
         res.redirect("/secrets");
       });
     }
@@ -124,18 +123,18 @@ app.post("/register", function(req, res){
 
 });
 
-app.post("/login", function(req, res){
+app.post("/login", function(req, res) {
 
   const user = new User({
     username: req.body.username,
     password: req.body.password
   });
 
-  req.login(user, function(err){
+  req.login(user, function(err) {
     if (err) {
       console.log(err);
     } else {
-      passport.authenticate("local")(req, res, function(){
+      passport.authenticate("local")(req, res, function() {
         res.redirect("/secrets");
       });
     }
@@ -188,25 +187,6 @@ app.route("/posts")
       img.data = fs.readFileSync(req.body.postImage),
       img.contentType = 'image / png'
     });
-
-
-
-
-    User.findById(req.user.id, function(err, foundUser){
-      if (err) {
-        console.log(err);
-      } else {
-        if (foundUser) {
-          foundUser.secret = submittedSecret;
-          foundUser.save(function(){
-            res.redirect("/secrets");
-          });
-        }
-      }
-    });
-
-
-
 
     post.save(function(err) {
       if (!err) {
@@ -344,7 +324,7 @@ app.route("/photos")
     photo.save(function(err) {
       if (!err) {
         // res.send("Successfully added a new post.");
-        res.redirect("/"+req.body.photoTheme);
+        res.redirect("/" + req.body.photoTheme);
 
       } else {
         res.send(err);
@@ -459,8 +439,9 @@ app.get("/", function(req, res) {
   });
 });
 
+
 app.get("/add-post", function(req, res) {
-  if (req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     res.render("add-post");
   } else {
     res.redirect("/login");
@@ -468,7 +449,7 @@ app.get("/add-post", function(req, res) {
 });
 
 app.get("/add-photo", function(req, res) {
-  if (req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     res.render("add-photo");
   } else {
     res.redirect("/login");
@@ -476,7 +457,7 @@ app.get("/add-photo", function(req, res) {
 });
 
 app.delete("/posts/:postTitle/delete", function(req, res) {
-  if (req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     res.render("posts");
   } else {
     res.redirect("/login");
@@ -484,7 +465,7 @@ app.delete("/posts/:postTitle/delete", function(req, res) {
 });
 
 app.delete("/photos/:photoTitle/delete", function(req, res) {
-  if (req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     res.render("submit");
   } else {
     res.redirect("/");
