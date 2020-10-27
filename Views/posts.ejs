@@ -1,29 +1,33 @@
 <%- include("partials/header"); -%>
 
-<div class="site-section">
+<div class="site-section overlay img-bg-section" id="services-section">
   <div class="container">
-    <div class="row">
-      <h1>Notícias</h1>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-
-      <%  posts.forEach(function(post){ %>
-      <div class="col-md-6 col-lg-6" data-aos="fade-up" data-aos-delay="">
-        <div>
-          <a href="" class="mb-4 d-block"><img src="data:image/<%=post.img.contentType%>;base64,
-                     <%=post.img.data.toString('base64')%>" alt="Image" class="img-fluid rounded"></a>
-          <h2><a href="/posts/<%=post._id%>"><%=post.title%></a></h2>
-          <p class="text-muted mb-3 text-uppercase small"><span class="mr-2">><%=post.updatedOn%></span></p>
-          <p><%=post.content.substring(0, 100) + " ..."%></p>
-          <p><a href="/posts/<%=post._id%>">Ler mais</a></p>
-
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <div class="block-heading-1">
+          <h2>Notícias</h2>
         </div>
       </div>
+    </div>
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
 
-      <% }); %>
+        <%  posts.forEach(function(post){ %>
+        <div class="col-md-6 col-lg-6" data-aos="fade-up" data-aos-delay="">
+          <div>
+            <a href="" class="mb-4 d-block"><img src="data:image/<%=post.img.contentType%>;base64,
+                     <%=post.img.data.toString('base64')%>" alt="Image" class="img-fluid rounded"></a>
+            <h2><a href="/posts/<%=post._id%>"><%=post.title%></a></h2>
+            <p class="text-muted mb-3 text-uppercase small"><span class="mr-2">><%=post.updatedOn%></span></p>
+            <p><%=post.content.substring(0, 100) + " ..."%></p>
+            <p><a href="/posts/<%=post._id%>">Ler mais</a></p>
 
+          </div>
+        </div>
+
+        <% }); %>
+
+      </div>
     </div>
   </div>
 </div>

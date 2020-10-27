@@ -7,12 +7,25 @@
   text-decoration: none !important;
 }
 
+.form-part-container-sm {
+  margin: 20px;
+}
+
+.form-part-container-md {
+  margin: 50px;
+}
+
+.form-title{
+  color: white;
+}
+
+
 .language {
   font-size: 90%;
   color: black;
 }
 
-.language-inactive{
+.language-inactive {
   color: #939393;
 }
 
@@ -364,7 +377,7 @@ h1, h2, h3, h4, h5,
   text-transform: uppercase;
 }
 
-.heading2{
+.heading2 {
   color: #DADADA;
   text-transform: capitalize;
 }
@@ -506,8 +519,23 @@ h1, h2, h3, h4, h5,
   box-shadow: 20px 0 0 #000, -20px 0 0 #000;
 }
 
-.text-white {
-  color: #fff !important;
+.text-white-normal-nolink {
+  font-size: 1.4rem;
+  color: white;
+}
+
+.text-white-normal {
+  font-size: 1.4rem;
+  color: white;
+}
+
+.text-white-smaller {
+  color: white;
+  font-size: 95%;
+}
+
+.text-white-normal:hover, .text-white-smaller:hover {
+  color: #ff8b00;
 }
 
 .text-white-opacity-05 {
@@ -773,7 +801,6 @@ h1, h2, h3, h4, h5,
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   font-family: 'icomoon';
-
 }
 
 .site-navbar .site-navigation .site-menu .has-children .dropdown {
@@ -792,7 +819,6 @@ h1, h2, h3, h4, h5,
   -webkit-transition: 0.2s 0s;
   -o-transition: 0.2s 0s;
   transition: 0.2s 0s;
-
 }
 
 .site-navbar .site-navigation .site-menu .has-children .dropdown.arrow-top {
@@ -816,7 +842,6 @@ h1, h2, h3, h4, h5,
   border-bottom-color: #fff;
   border-width: 10px;
   margin-left: -10px;
-
 }
 
 .site-navbar .site-navigation .site-menu .has-children .dropdown a {
@@ -827,7 +852,6 @@ h1, h2, h3, h4, h5,
   transition: 0s all;
   color: #000 !important;
   font-size: 80%;
-
 }
 
 .site-navbar .site-navigation .site-menu .has-children .dropdown a.active {
@@ -836,7 +860,7 @@ h1, h2, h3, h4, h5,
 }
 
 .site-navbar .site-navigation .site-menu .has-children .dropdown>li {
-list-style: none;
+  list-style: none;
   padding: 0;
   margin: 0;
   min-width: 200px;
@@ -1760,11 +1784,6 @@ list-style: none;
 .block__35630 .icon>span {
   font-size: 3rem;
   color: #ff8b00;
-}
-
-.block__35630 h3 {
-  color: #000;
-  font-size: 1.4rem;
 }
 
 .footer-suscribe-form .form-control {

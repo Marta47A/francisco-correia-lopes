@@ -1,27 +1,46 @@
 <%- include("partials/header"); -%>
-<div class="site-section overlay" id="create-post-section">
+<div class="site-section overlay img-bg-section" id="services-section" style="background-image: url('images/cavaleiro-profissional-dia-a-dia.jpg'); background-size: cover;">
   <div class="container">
-    <h1>Adicionar fotografia</h1>
-    <form class="" action="/photos" method="post">
-      <div class="form-group">
-        <select class="form-control" name="photoTheme">
-          <option value="1">Provas de Equitação de Trabalho</option>
-          <option value="2">Estágios</option>
-          <option value="3">Desbaste, Ensino e Treino</option>
-          <option value="4">Tauromauquia - Amador</option>
-          <option value="5">Tauromauquia - Praticante</option>
-        </select>
-        <label>Título em Português</label>
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <div class="block-heading-1">
+          <h2>Adicionar foto</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-12">
+
+        <form class="" action="/photos" method="post">
+          <div class="form-group form-part-container-md">
+            <div class="form-part-container-sm"><select class="form-control" name="photoTheme">
+                <option value="1">Provas de Equitação de Trabalho</option>
+                <option value="2">Estágios</option>
+                <option value="3">Desbaste, Ensino e Treino</option>
+                <option value="4">Tauromauquia - Amador</option>
+                <option value="5">Tauromauquia - Praticante</option>
+              </select>
+              <!-- <label>Título em Português</label>
         <input class="form-control" type="text" name="photoTitle">
         <label>Título em Inglês</label>
         <input class="form-control" type="text" name="photoTitleEN">
         <label>Título em Francês</label>
-        <input class="form-control" type="text" name="photoTitleFR">
-        <label>Imagem</label>
-        <input type="file" class="form-control-file" name="photoImage">
+        <input class="form-control" type="text" name="photoTitleFR"> -->
+            </div>
+          </div>
+          <div class="form-group form-part-container-md">
+            <div class="form-part-container-sm"><label class="form-title">Imagem</label>
+              <input type="file" class="form-control-file" name="photoImage">
+            </div>
+          </div>
+          <div class="form-group form-part-container-md">
+            <div class="form-part-container-sm"><button class="btn btn-primary" type="submit" name="button">Adicionar</button>
+            </div>
+          </div>
+        </form>
       </div>
-      <button class="btn btn-primary" type="submit" name="button">Adicionar</button>
-    </form>
+    </div>
   </div>
 </div>
 

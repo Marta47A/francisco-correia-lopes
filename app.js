@@ -66,6 +66,33 @@ userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema);
 
+const postSchema = {
+  title: String,
+  content: String,
+  updatedOn: Date,
+  img: {
+    data: Buffer,
+    contentType: String
+  }
+};
+
+const Post = mongoose.model("Post", postSchema);
+
+const photoSchema = {
+  title: String,
+  titleEN: String,
+  titleFR: String,
+  theme: String,
+  img: {
+    data: Buffer,
+    contentType: String
+  }
+};
+
+const Photo = mongoose.model("Photo", photoSchema);
+
+// Authentication
+
 passport.use(User.createStrategy());
 
 passport.serializeUser(function(user, done) {
@@ -81,25 +108,34 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/",
+    callbackURL: "http://localhost:3000/auth/google/home",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
-  function(accessToken, refreshToken, profile, cb) {
+  function(accessToken, refreshToken, profile, done) {
     console.log(profile);
 
     User.findOrCreate({
       googleId: profile.id
     }, function(err, user) {
-      return cb(err, user);
+      return done(err, user);
     });
   }
 ));
+
+
 
 app.get("/auth/google",
   passport.authenticate('google', {
     scope: ["profile"]
   })
 );
+
+app.get("/auth/google/home",
+  passport.authenticate('google', { failureRedirect: "/register" }),
+  function(req, res) {
+    // Successful authentication, redirect to secrets.
+    res.redirect("/");
+  });
 
 app.get("/login", function(req, res) {
   res.render("login");
@@ -108,10 +144,12 @@ app.get("/login", function(req, res) {
 app.get("/register", function(req, res) {
   User.countDocuments({}, function(err, count) {
     if (err) {
-      console.log(err)
+      console.log(err);
     } else {
-      if (count == 0) {
+      if (count === 0) {
         res.render("register");
+      } else {
+        res.send("There already is an administrator.");
       }
     }
   });
@@ -129,10 +167,9 @@ app.post("/register", function(req, res) {
   }, req.body.password, function(err, user) {
     if (err) {
       console.log(err);
-      res.redirect("/register");
     } else {
       passport.authenticate("local")(req, res, function() {
-        res.redirect("/secrets");
+        res.redirect("/");
       });
     }
   });
@@ -151,7 +188,7 @@ app.post("/login", function(req, res) {
       console.log(err);
     } else {
       passport.authenticate("local")(req, res, function() {
-        res.redirect("/secrets");
+        res.redirect("/");
       });
     }
   });
@@ -162,20 +199,6 @@ app.post("/login", function(req, res) {
 //Posts
 
 ///////////////////////////////////Requests Targetting all posts////////////////////////
-
-const postSchema = {
-  title: String,
-  content: String,
-  updatedOn: Date,
-  img: {
-    data: Buffer,
-    contentType: String
-  }
-};
-
-const Post = mongoose.model("Post", postSchema);
-
-
 
 app.route("/posts")
 
@@ -306,19 +329,6 @@ app.route("/posts/:postTitle")
 //Photos
 
 ///////////////////////////////////Requests Targetting all Photos////////////////////////
-
-const photoSchema = {
-  title: String,
-  titleEN: String,
-  titleFR: String,
-  theme: String,
-  img: {
-    data: Buffer,
-    contentType: String
-  }
-};
-
-const Photo = mongoose.model("Photo", photoSchema);
 
 app.route("/photos")
 

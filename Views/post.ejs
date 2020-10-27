@@ -1,19 +1,28 @@
 <%- include("partials/header"); -%>
-
-<div class="row">
-  <div class="col-sm-12">
-    <div>
-      <h2><%=post.title%></h2>
-      <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post.updatedOn%></span></p>
-      <a href="" class="mb-4 d-block"><img src="data:image/<%=post.img.contentType%>;base64,
-                     <%=post.img.data.toString('base64')%>" alt="Image" class="img-fluid rounded"></a>
+<div class="site-section overlay img-bg-section" id="services-section">
+  <div class="container">
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <div class="block-heading-1">
+          <h2><%=post.title%></h2>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-12">
-    <div>
-      <p><%=post.content%></p>
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <div>
+          <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post.updatedOn%></span></p>
+          <a href="" class="mb-4 d-block"><img src="data:image/<%=post.img.contentType%>;base64,
+                     <%=post.img.data.toString('base64')%>" alt="Image" class="img-fluid rounded"></a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div>
+          <p><%=post.content%></p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

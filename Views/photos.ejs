@@ -1,27 +1,31 @@
 <%- include("partials/header"); -%>
 
-<div class="site-section">
+<div class="site-section overlay img-bg-section" id="services-section">
   <div class="container">
-    <div class="row">
-      <h1><%=requestedPhotoTheme%></h1>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-
-      <%  photos.forEach(function(photo){ %>
-      <div class="col-md-4 col-lg-6" data-aos="fade-up" data-aos-delay="">
-        <div>
-          <a href="" class="mb-4 d-block"><img src="data:image/<%=photo.img.contentType%>;base64,
-                     <%=photo.img.data.toString('base64')%>" alt="Image" class="img-fluid rounded"></a>
-
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <div class="block-heading-1">
+          <h2><%=requestedPhotoTheme%></h2>
         </div>
       </div>
+    </div>
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
 
-      <% }); %>
+        <%  photos.forEach(function(photo){ %>
+        <div class="col-md-4 col-lg-6" data-aos="fade-up" data-aos-delay="">
+          <div>
+            <a href="" class="mb-4 d-block"><img src="data:image/<%=photo.img.contentType%>;base64,
+                     <%=photo.img.data.toString('base64')%>" alt="Image" class="img-fluid rounded"></a>
 
+          </div>
+        </div>
+
+        <% }); %>
+
+      </div>
     </div>
   </div>
 </div>
 
-<%- include("partials/footer"); -%>
+  <%- include("partials/footer"); -%>
