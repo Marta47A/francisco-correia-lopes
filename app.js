@@ -291,7 +291,7 @@ app.get("/posts/:postTitle/delete", function(req, res) {
 
   if (req.isAuthenticated()) {
     Post.deleteOne({
-      title: postTitle
+        title: postTitle
       },
       function(err) {
         if (!err) {
@@ -342,16 +342,13 @@ app.post("/add-photo", upload.single("photoImage"), function(req, res, next) {
 
 
 app.get("/photos/:photoTheme", function(req, res) {
-  const photoTheme = req.params.photoTheme;
-  const requestedPhotoTheme = _.startCase(photoTheme);
-
   Photo.find({
-    theme: photoTheme
+    theme: req.params.photoTheme
   }, function(err, photos) {
     if (!err) {
       res.render("photos", {
         photos: photos,
-        requestedPhotoTheme: requestedPhotoTheme
+        requestedPhotoTheme: req.params.photoTheme
       });
     } else {
       res.send("No photos matching that title were found.");
