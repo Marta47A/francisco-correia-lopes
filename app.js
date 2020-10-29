@@ -11,11 +11,13 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
-const multer = require('multer');
+// const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 require('dotenv/config');
+const multer = require('multer');
 
+let currentDate = Date.now();
 
 app.set('view engine', 'ejs');
 
@@ -25,18 +27,31 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static("public"));
 
-var storage = multer.diskStorage({
+
+const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads');
+    cb(null, 'public/uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, file.fieldname);
+    currentDate = Date.now();
+    cb(null, file.fieldname + " - " + currentDate + ".jpg");
   }
 });
 
-var upload = multer({
-  storage: storage
+const imageFilter = function(req, file, cb) {
+  // Accept images only
+  if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+    req.fileValidationError = 'Only image files are allowed!';
+    return cb(new Error('Only image files are allowed!'), false);
+  }
+  cb(null, true);
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: imageFilter
 });
+
 
 app.use(session({
   secret: "This is a secret.",
@@ -48,7 +63,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect("mongodb://localhost:27017/francisco-correia-lopes_DB", {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 mongoose.set("useCreateIndex", true);
 
@@ -70,10 +86,7 @@ const postSchema = {
   title: String,
   content: String,
   updatedOn: Date,
-  img: {
-    data: Buffer,
-    contentType: String
-  }
+  photoName: String
 };
 
 const Post = mongoose.model("Post", postSchema);
@@ -83,10 +96,7 @@ const photoSchema = {
   titleEN: String,
   titleFR: String,
   theme: String,
-  img: {
-    data: Buffer,
-    contentType: String
-  }
+  name: String
 };
 
 const Photo = mongoose.model("Photo", photoSchema);
@@ -112,7 +122,6 @@ passport.use(new GoogleStrategy({
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
 
     User.findOrCreate({
       googleId: profile.id
@@ -123,6 +132,16 @@ passport.use(new GoogleStrategy({
 ));
 
 
+app.get("/", function(req, res) {
+  Post.find().sort({
+    updatedOn: -1
+  }).limit(2).exec(function(err, posts) {
+    res.render("home", {
+      posts: posts
+    });
+  });
+});
+
 
 app.get("/auth/google",
   passport.authenticate('google', {
@@ -131,7 +150,9 @@ app.get("/auth/google",
 );
 
 app.get("/auth/google/home",
-  passport.authenticate('google', { failureRedirect: "/register" }),
+  passport.authenticate('google', {
+    failureRedirect: "/register"
+  }),
   function(req, res) {
     // Successful authentication, redirect to secrets.
     res.redirect("/");
@@ -200,129 +221,92 @@ app.post("/login", function(req, res) {
 
 ///////////////////////////////////Requests Targetting all posts////////////////////////
 
-app.route("/posts")
-
-  .get(function(req, res) {
-    Post.find(function(err, posts) {
-      if (!err) {
-        res.render("posts", {
-          posts: posts
-        });
-      } else {
-        res.send(err);
-      }
-    });
-  })
-
-
-  .post(upload.single('postImage'), function(req, res) {
-
-    const post = new Post({
-      title: req.body.postTitle,
-      titleEN: req.body.postTitleEN,
-      titleFR: req.body.postTitleFR,
-      content: req.body.postBody,
-      contentEN: req.body.postBodyEN,
-      contentFR: req.body.postBodyFR,
-      updatedOn: Date.now(),
-      img: {
-        data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-        contentType: 'image/png'
-      }
-    });
-
-
-
-    post.save(function(err) {
-      if (!err) {
-        // res.send("Successfully added a new post.");
-        res.redirect("/posts");
-
-      } else {
-        res.send(err);
-      }
+app.get("/posts", function(req, res) {
+  Post.find().sort({
+    updatedOn: -1
+  }).exec(function(err, posts) {
+    res.render("posts", {
+      posts: posts
     });
   });
+});
 
-// .delete(function(req, res){
-//
-//   Post.deleteMany(function(err){
-//     if (!err){
-//       res.send("Successfully deleted all posts.");
-//     } else {
-//       res.send(err);
-//     }
-//   });
-// });
+
+app.get("/add-post", function(req, res) {
+  if (req.isAuthenticated()) {
+    res.render("add-post");
+  } else {
+    res.redirect("/login");
+  }
+});
+
+app.post("/add-post", upload.single("postImage"), function(req, res) {
+
+  const post = new Post({
+    title: req.body.postTitle,
+    titleEN: req.body.postTitleEN,
+    titleFR: req.body.postTitleFR,
+    content: req.body.postBody,
+    contentEN: req.body.postBodyEN,
+    contentFR: req.body.postBodyFR,
+    updatedOn: Date.now(),
+    photoName: "postImage - " + currentDate + ".jpg"
+  });
+
+  post.save(function(err) {
+    if (!err) {
+      // res.send("Successfully added a new post.");
+      res.redirect("/posts");
+
+    } else {
+      res.send(err);
+    }
+  });
+
+});
 
 
 
 ////////////////////////////////Requests Targetting A Specific Post////////////////////////
 
-app.route("/posts/:postTitle")
+app.get("/posts/:postTitle", function(req, res) {
 
-  .get(function(req, res) {
-
-    Post.findOne({
-      title: req.params.postTitle
-    }, function(err, post) {
-      if (post) {
-        res.send(post);
-      } else {
-        res.send("No posts matching that title were found.");
-      }
-    });
-  })
-
-  // .put(function(req, res) {
-  //
-  //   Post.update({
-  //       title: req.params.postTitle
-  //     }, {
-  //       title: req.body.title,
-  //       content: req.body.content
-  //     }, {
-  //       overwrite: true
-  //     },
-  //     function(err) {
-  //       if (!err) {
-  //         res.send("Successfully updated the selected post.");
-  //       }
-  //     }
-  //   );
-  // })
-
-  .patch(function(req, res) {
-
-    Post.update({
-        title: req.params.postTitle
-      }, {
-        $set: req.body
-      },
-      function(err) {
-        if (!err) {
-          res.send("Successfully updated post.");
-        } else {
-          res.send(err);
-        }
-      }
-    );
-  })
-
-  .delete(function(req, res) {
-
-    Post.deleteOne({
-        title: req.params.postTitle
-      },
-      function(err) {
-        if (!err) {
-          res.send("Successfully deleted the corresponding post.");
-        } else {
-          res.send(err);
-        }
-      }
-    );
+  Post.findOne({
+    title: req.params.postTitle
+  }, function(err, post) {
+    if (post) {
+      res.render("post", {
+        post: post
+      });
+    } else {
+      res.send("No posts matching that title were found.");
+    }
   });
+});
+
+app.get("/posts/:postTitle/delete", function(req, res) {
+
+  const postTitle = req.params.postTitle.split("%").join(" ");
+
+
+  if (req.isAuthenticated()) {
+    Post.deleteOne({
+      title: postTitle
+      },
+      function(err) {
+        if (!err) {
+          res.redirect("/posts");
+          // res.redirect("/");
+          // res.render("photos/"+req.params.photoTheme);
+        } else {
+          res.send("No posts matching that title were found.");
+        }
+      }
+    );
+  } else {
+    res.redirect("/login");
+  }
+});
 
 
 
@@ -330,136 +314,39 @@ app.route("/posts/:postTitle")
 
 ///////////////////////////////////Requests Targetting all Photos////////////////////////
 
-app.route("/photos")
 
-  .get(function(req, res) {
-    Photo.find(function(err, photos) {
-      if (!err) {
-        res.render("photos", {
-          photos: photos
-        });
-      } else {
-        res.send(err);
-      }
-    });
-  })
+app.get("/add-photo", function(req, res) {
+  if (req.isAuthenticated()) {
+    res.render("add-photo");
+  } else {
+    res.redirect("/login");
+  }
+});
 
-  .post(function(req, res) {
+app.post("/add-photo", upload.single("photoImage"), function(req, res, next) {
 
-    const photo = new Photo({
-      // title: req.body.photoTitle,
-      // titleEN: req.body.photoTitleEN,
-      // titleFR: req.body.photoTitleFR,
-      theme: req.body.photoTheme,
-      img: {
-        data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-        contentType: 'image/png'
-      }
-    });
-
-    photo.save(function(err) {
-      if (!err) {
-        // res.send("Successfully added a new post.");
-        res.redirect("/" + req.body.photoTheme);
-
-      } else {
-        res.send(err);
-      }
-    });
+  const photo = new Photo({
+    theme: req.body.photoTheme,
+    name: "photoImage - " + currentDate + ".jpg"
   });
 
-// .delete(function(req, res){
-//
-//   Photo.deleteMany(function(err){
-//     if (!err){
-//       res.send("Successfully deleted all photos.");
-//     } else {
-//       res.send(err);
-//     }
-//   });
-// });
+  photo.save(function(err) {
+    if (!err) {
+      res.redirect("/photos/" + req.body.photoTheme);
 
-
-
-////////////////////////////////Requests Targetting A Specific Photo////////////////////////
-
-app.route("/photos/:photoTitle")
-
-  // .get(function(req, res) {
-  //
-  //   Photo.findOne({
-  //     title: req.params.photoTitle
-  //   }, function(err, photo) {
-  //     if (photo) {
-  //       res.render("photo", {
-  //         photo: photo
-  //       });
-  //     } else {
-  //       res.send("No photo whith that title was found.");
-  //     }
-  //   });
-  // })
-
-  // .put(function(req, res) {
-  //
-  //   Photo.update({
-  //       title: req.params.photoTitle
-  //     }, {
-  //       title: req.body.photoTitle,
-  //       theme: req.body.photoTheme,
-  //       img.data = fs.readFileSync(req.body.photoImage),
-  //       img.contentType = 'image / png'
-  //     }, {
-  //       overwrite: true
-  //     },
-  //     function(err) {
-  //       if (!err) {
-  //         res.send("Successfully updated the selected photo.");
-  //       }
-  //     }
-  //   );
-  // })
-
-  .patch(function(req, res) {
-
-    Photo.update({
-        title: req.params.photoTitle
-      }, {
-        $set: req.body
-      },
-      function(err) {
-        if (!err) {
-          res.send("Successfully updated photo.");
-        } else {
-          res.send(err);
-        }
-      }
-    );
-  })
-
-  .delete(function(req, res) {
-
-    Photo.deleteOne({
-        title: req.params.postTitle
-      },
-      function(err) {
-        if (!err) {
-          res.send("Successfully deleted the corresponding photo.");
-        } else {
-          res.send(err);
-        }
-      }
-    );
+    } else {
+      res.send(err);
+    }
   });
+});
 
 
 app.get("/photos/:photoTheme", function(req, res) {
-
-  const requestedPhotoTheme = _.startCase(req.params.photoTheme);
-
+  const photoTheme = req.params.photoTheme;
+  const requestedPhotoTheme = _.startCase(photoTheme);
 
   Photo.find({
-    theme: requestedPhotoTheme
+    theme: photoTheme
   }, function(err, photos) {
     if (!err) {
       res.render("photos", {
@@ -475,50 +362,55 @@ app.get("/photos/:photoTheme", function(req, res) {
 });
 
 
-app.get("/", function(req, res) {
-  Post.find().sort({
-    updatedOn: -1
-  }).limit(2).exec(function(err, posts) {
-    res.render("home", {
-      posts: posts
-    });
+
+////////////////////////////////Requests Targetting A Specific Photo////////////////////////
+
+app.get("/photos/:photoTheme/:photoName", function(req, res) {
+
+  const photoName = req.params.photoName.split("%").join(" ");
+
+  Photo.findOne({
+    name: photoName
+  }, function(err, photo) {
+    if (photo) {
+      res.render("photo", {
+        photo: photo
+      });
+    } else {
+      res.send("No photos matching that title were found.");
+    }
   });
+
 });
 
+app.get("/photos/:photoTheme/:photoName/delete", function(req, res) {
 
-app.get("/add-post", function(req, res) {
+  const photoName = req.params.photoName.split("%").join(" ");
+
+
   if (req.isAuthenticated()) {
-    res.render("add-post");
+    Photo.deleteOne({
+        name: photoName
+      },
+      function(err) {
+        if (!err) {
+          res.redirect("/photos/" + req.params.photoTheme);
+          // res.redirect("/");
+          // res.render("photos/"+req.params.photoTheme);
+        } else {
+          res.send("No photos matching that title were found.");
+        }
+      }
+    );
   } else {
     res.redirect("/login");
   }
 });
 
-app.get("/add-photo", function(req, res) {
-  if (req.isAuthenticated()) {
-    res.render("add-photo");
-  } else {
-    res.redirect("/login");
-  }
-});
-
-app.delete("/posts/:postTitle/delete", function(req, res) {
-  if (req.isAuthenticated()) {
-    res.render("posts");
-  } else {
-    res.redirect("/login");
-  }
-});
-
-app.delete("/photos/:photoTitle/delete", function(req, res) {
-  if (req.isAuthenticated()) {
-    res.render("submit");
-  } else {
-    res.redirect("/");
-  }
-});
 
 
-app.listen(3000, function() {
-  console.log("Server started on port 3000");
+const port = process.env.PORT || 3000;
+
+app.listen(port, function() {
+  console.log("Server started on port " + port);
 });

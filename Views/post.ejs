@@ -12,8 +12,7 @@
       <div class="col-md-7 text-center">
         <div>
           <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post.updatedOn%></span></p>
-          <a href="" class="mb-4 d-block"><img src="data:image/<%=post.img.contentType%>;base64,
-                     <%=post.img.data.toString('base64')%>" alt="Image" class="img-fluid rounded"></a>
+          <img src="/uploads/<%=post.photoName%>" alt="Image" class="img-fluid post-image">
         </div>
       </div>
     </div>
