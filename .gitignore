@@ -1,3 +1,5 @@
+pictures
+
 # Logs
 logs
 *.log
@@ -79,3 +81,4 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+node_modules
