@@ -1,0 +1,29 @@
+<%- include("partials/header"); -%>
+
+<div class="site-section overlay img-bg-section" id="services-section">
+  <div class="container">
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-9 text-center">
+        <div class="block-heading-1">
+          <h2><%=requestedPhotoThemeTitle%></h2>
+          <h3><%=requestedPhotoThemeSubtitle%></h3>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5 justify-content-center">
+
+      <%  photos.forEach(function(photo){ %>
+      <div class="col-md-5 text-center">
+        <div>
+          <a href="/<%=language%>/photos/<%=photo.theme +'/' + photo._id%>"><img class="img-fluid photo-image" src="/uploads/<%=photo.name%>" alt="<%=photo.name%>"></a>
+
+        </div>
+      </div>
+
+      <% }); %>
+
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer"); -%>

@@ -1028,6 +1028,11 @@ h1, h2, h3, h4, h5,
   color: #ff8b00;
 }
 
+.nav-link .small{
+  font-size: 70%;
+  color:#a8a8a8;
+}
+
 .site-mobile-menu .site-nav-wrap .arrow-collapse {
   position: absolute;
   right: 0px;

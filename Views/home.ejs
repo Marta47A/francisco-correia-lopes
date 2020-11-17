@@ -1,0 +1,220 @@
+<%- include("partials/header"); -%>
+
+<div class="owl-carousel slide-one-item">
+
+  <div class="site-section-cover overlay img-bg-section" style="background-image: url('images/cavaleiro-profissional (1).jpg'); ">
+    <div class="container">
+      <div class="row align-items-center justify-content-center text-center">
+        <div class="col-md-12 col-lg-9">
+          <h1 data-aos="fade-up" data-aos-delay=""><%=name%></h1>
+          <h2 class="mb-5 w-75 mx-auto heading2" data-aos="fade-up" data-aos-delay="100"><%=title%></h2>
+          <!-- <p class="mb-5 w-75 mx-auto" data-aos="fade-up" data-aos-delay="100">Cavaleiro Profissional</p> -->
+          <p data-aos="fade-up" data-aos-delay="200"><a href="#contact-section" class="btn btn-outline-white border-w-2 btn-md"><%=contactMe%></a></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="site-section-cover overlay img-bg-section" style="background-image: url('images/cavaleiro-profissional (2).jpg'); ">
+    <div class="container">
+      <div class="row align-items-center justify-content-center text-center">
+        <div class="col-md-12 col-lg-8">
+          <h1 data-aos="fade-up" data-aos-delay=""><%=slogan%></h1>
+          <p class="mb-5 w-75 mx-auto" data-aos="fade-up" data-aos-delay="100"></p>
+          <p data-aos="fade-up" data-aos-delay="200"><a href="#contact-section" class="btn btn-outline-white border-w-2 btn-md"><%=contactMe%>/a></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<div class="site-section" id="about-section" style="background-color: #333">
+  <div class="block__73694">
+    <div class="container">
+      <div class="row d-flex no-gutters align-items-stretch">
+
+        <div class="col-12 col-lg-6 block__73422" style="background-image: url('images/cavaleiro-profissional-biografia (1).jpg');" data-aos="fade-right" data-aos-delay="">
+        </div>
+
+
+        <div class="col-lg-5 ml-auto p-lg-5 mt-4 mt-lg-0" data-aos="fade-left" data-aos-delay="">
+          <h2 class="mb-3 text-primary"><%=biography%></h2>
+          <p><%=biography_text_1%></p>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="block__73694">
+    <div class="container">
+      <div class="row d-flex no-gutters align-items-stretch">
+
+        <div class="col-12 col-lg-6 block__73422 order-lg-2" style="background-image: url('images/cavaleiro-profissional-biografia (2).jpg');" data-aos="fade-left" data-aos-delay="">
+        </div>
+
+        <div class="col-lg-5 mr-auto p-lg-5 mt-4 mt-lg-0 order-lg-1" data-aos="fade-right" data-aos-delay="">
+          <!-- <h2 class="mb-3 text-primary">...</h2> -->
+          <p><%=biography_text_2%></p>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="site-section overlay img-bg-section" id="services-section" style="background-image: url('images/cavaleiro-profissional-dia-a-dia.jpg'); background-size: cover;">
+  <div class="container">
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <div class="block-heading-1" data-aos="fade-up" data-aos-delay="">
+          <h2><%=dailyLife%></h2>
+        </div>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="">
+        <div class="block__35630">
+          <div class="icon mb-3">
+            <img class="img-service" src="images/equitacao-de-trabalho.png" alt="">
+          </div>
+          <a href="/<%=language%>/photos/work-equitation-tests">
+            <h3 class="mb-3 text-white-normal"><%=workEquitationTests%></h3>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="">
+        <div class="block__35630">
+          <div class="icon mb-3">
+            <img class="img-service" src="images/estagios.png" alt="">
+          </div>
+          <a href="/<%=language%>/photos/riding-lessons">
+            <h3 class="mb-3 text-white-normal"><%=ridingLessons%></h3>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="">
+        <div class="block__35630">
+          <div class="icon mb-3">
+            <img class="img-service" src="images/breaking-dressage.png" alt="">
+          </div>
+          <a href="/<%=language%>/photos/work-training">
+            <h3 class="mb-3 text-white-normal"><%=workTraining%></h3>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="">
+        <div class="block__35630">
+          <div class="icon mb-3">
+            <img class="img-service" src="images/tauromaquia.png" alt="">
+          </div>
+          <h3 class="mb-3 text-white-normal-nolink"><%=bullfights%></h3>
+          <a href="/<%=language%>/photos/bullfight-amateur">
+            <h4 class="mb-3 text-white-smaller"><%=bullfights_amateur%></h4>
+          </a>
+          <a href="/<%=language%>/photos/bullfight-professional">
+            <h4 class="mb-3 text-white-smaller"><%=bullfights_professional%></h4>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="site-section" id="blog-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+        <div class="block-heading-1" data-aos="fade-up" data-aos-delay="">
+          <span><%=lastNews%></span>
+          <h2><a href="/<%=language%>/posts/"><%=news%></a></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+        <%  posts.forEach(function(post){ %>
+        <div class="col-md-6 col-lg-6" data-aos="fade-up" data-aos-delay="">
+          <div>
+            <img src="/uploads/<%=post.photoName%>" alt="Image" class="img-fluid post-image">
+            <h2><a href="/<%=language%>/posts/<%=post._id%>"><%=post["title"+language]%></a></h2>
+            <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post.updatedOn%></span></p>
+            <p><%=post["content"+language].substring(0, 100) + " ..."%></p>
+            <p><a href="/<%=language%>/posts/<%=post._id%>"><%=readMore%></a></p>
+
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="">
+        <span><a href="/<%=language%>/posts/"><%=moreNews%></a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="site-section" id="contact-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5" data-aos="fade-up" data-aos-delay="">
+        <div class="block-heading-1">
+          <!-- <span>Gequitacao-de-trabalho In Touch</span> -->
+          <h2><%=contactMe%></h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 mx-auto mb-5" data-aos="fade-up" data-aos-delay="100">
+        <form action="#" method="post">
+          <div class="form-group row">
+            <div class="col-md-6 mb-4 mb-lg-0">
+              <input type="text" class="form-control" placeholder="<%=contactMe_first_name%>">
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="<%=contactMe_last_name%>">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <input type="text" class="form-control" placeholder="<%=contactMe_email%>">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-12">
+              <textarea name="" id="" class="form-control" placeholder="<%=contactMe_msg%>" cols="30" rows="10"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-6">
+              <input type="submit" class="btn btn-block btn-primary text-white py-3 px-5" value="<%=contactMe_send%>">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-4 ml-auto" data-aos="fade-up" data-aos-delay="200">
+        <img class="img-fluid" src="images/monte-das-mos.jpeg" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%- include("partials/footer"); -%>

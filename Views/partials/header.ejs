@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title><%=name%> - <%=title%></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="keywords" content="<%=keywords%>">
+  <meta name="description" content="<%=description%>">
+  <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,700|Oswald:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
+  <link rel="stylesheet" href="/css/aos.css">
+  <link rel="stylesheet" href="/css/bootstrap-social.css">
+
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+  <div id="overlayer"></div>
+  <div class="loader">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div class="site-wrap" id="home-section">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+
+
+    <header class="site-navbar js-sticky-header site-navbar-target" role="banner" style="background-color: #333">
+
+      <div class="container">
+        <div class="row align-items-center position-relative">
+
+
+          <div class="site-logo">
+            <a href="/<%=language%>/" class="text-black"><span class="text-primary"><%=name%></a>
+          </div>
+
+
+          <div class="col-12">
+            <nav class="site-navigation text-right ml-auto " role="navigation">
+              <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                <li><a href="/PT/" class="nav-link small">PT</a></li>
+                <li><a href="/EN/" class="nav-link small">EN</a></li>
+                <li><a href="/FR/" class="nav-link small">FR</a></li>
+                <li><a href="/#home-section" class="nav-link"><%=home%></a></li>
+                <li><a href="/#about-section" class="nav-link"><%=biography%></a></li>
+                <li><a href="/#services-section" class="nav-link"><%=dailyLife%></a></li>
+                <li><a href="/#contact-section" class="nav-link"><%=contact%></a></li>
+                <li><a href="/#blog-section" class="nav-link"><%=news%></a></li>
+
+                    
+              </ul>
+
+            </nav>
+
+          </div>
+
+
+          <div class="toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+
+        </div>
+
+      </div>
+
+    </header>
