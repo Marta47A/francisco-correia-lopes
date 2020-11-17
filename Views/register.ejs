@@ -1,4 +1,4 @@
-<%- include('partials/header') %>
+<%- include("partials/header_sec"); %>
 
 <div class="site-section overlay img-bg-section" id="services-section" style="background-image: url('images/cavaleiro-profissional-dia-a-dia.jpg'); background-size: cover;">
   <div class="container">
@@ -33,7 +33,7 @@
 
     <div class="col-sm-9 col-md-6 col-lg-3 text-center">
       <div class="card-body">
-        <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+        <a class="btn btn-block btn-social btn-google" href="/<%=language%>/auth/google" role="button">
           <i class="fab fa-google"></i>
           <%=signUp%>
         </a>
@@ -44,4 +44,4 @@
   </div>
 </div>
 
-<%- include('partials/footer') %>
+<%- include("partials/footer") %>
