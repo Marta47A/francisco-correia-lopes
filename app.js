@@ -75,7 +75,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect("mongodb://localhost:27017/francisco-correia-lopes_DB", {
+mongoose.connect("mongodb+srv://admin-marta47a:"+process.env.PASS_MONGODB+"@cluster0.xca7w.mongodb.net/francisco-correia-lopes?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -986,11 +986,7 @@ app.post("/:language/register", function (req, res) {
 });
 
 app.post("/:language/login", function (req, res) {
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password,
-  });
-
+  
   req.login(user, function (err) {
     if (err) {
       console.log(err);
