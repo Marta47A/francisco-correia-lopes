@@ -136,8 +136,8 @@
     <div class="row">
       <div class="col-12 text-center mb-5">
         <div class="block-heading-1" data-aos="fade-up" data-aos-delay="">
-          <span><%=lastNews%></span>
-          <h2><a href="/<%=language%>/posts/"><%=news%></a></h2>
+          <h2><%=lastNews%></h2>
+          <a href="/<%=language%>/posts/"><span><%=moreNews%></span></a>
         </div>
       </div>
     </div>
@@ -184,22 +184,22 @@
         <form action="#" method="post">
           <div class="form-group row">
             <div class="col-md-6 mb-4 mb-lg-0">
-              <input type="text" class="form-control" placeholder="<%=contactMe_first_name%>">
+              <input name="firstName" type="text" class="form-control" placeholder="<%=contactMe_first_name%>">
             </div>
             <div class="col-md-6">
-              <input type="text" class="form-control" placeholder="<%=contactMe_last_name%>">
+              <input name="lastName" type="text" class="form-control" placeholder="<%=contactMe_last_name%>">
             </div>
           </div>
 
           <div class="form-group row">
             <div class="col-md-12">
-              <input type="text" class="form-control" placeholder="<%=contactMe_email%>">
+              <input name="email" type="text" class="form-control" placeholder="<%=contactMe_email%>">
             </div>
           </div>
 
           <div class="form-group row">
             <div class="col-md-12">
-              <textarea name="" id="" class="form-control" placeholder="<%=contactMe_msg%>" cols="30" rows="10"></textarea>
+              <textarea name="message" name="" id="" class="form-control" placeholder="<%=contactMe_msg%>" cols="30" rows="10"></textarea>
             </div>
           </div>
           <div class="form-group row">

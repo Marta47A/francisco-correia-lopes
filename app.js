@@ -15,6 +15,8 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv/config");
 const multer = require("multer");
+const nodemailer = require("nodemailer");
+
 
 var dataPT_=fs.readFileSync('public/Languages/PT.json', 'utf8');
 var dataPT=JSON.parse(dataPT_);
@@ -71,6 +73,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 mongoose.connect("mongodb://localhost:27017/francisco-correia-lopes_DB", {
   useNewUrlParser: true,
@@ -333,12 +336,439 @@ app.get("/:language/", function (req, res) {
         contactMe_email: contactMe_email,
         contactMe_msg: contactMe_msg,
         contactMe_send: contactMe_send,
-        language: req.params.language,
         language2: language2,
         language3: language3,
         language2_text: language2_text,
         language3_text: language3_text 
       });
+    });
+});
+
+app.post("/:language/", function (
+  req,
+  res
+) {
+
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // use SSL
+    auth: {
+      user: process.env.EMAIL, // generated ethereal user
+      pass: process.env.PASSWORD, // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+  const mailOptions = {
+    from: '"'+req.body.firstName + " " + req.body.lastName+'" <'+req.body.email+'>', // sender address
+    to: "franciscocorreialopes.website@gmail.com", // list of receivers
+    subject: "[Website] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
+    text: req.body.message + "\n\n" + req.body.email, // plain text body
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+    console.log(error);
+    } else {
+      res.redirect("/" + req.params.language+"/send-successful");
+    }
+  });
+
+  
+});
+
+
+app.get("/:language/biography", function (req, res) {
+
+  let biography_text_1;
+  let biography_text_2;
+  
+
+  switch(req.params.language) {
+    case "PT":
+      name = dataPT.name;
+      title = dataPT.title;
+      keywords = dataPT.keywords;
+      description = dataPT.description;
+      home = dataPT.home;
+      dailyLife = dataPT.dailyLife;
+      contact = dataPT.contact;
+      biography = dataPT.biography;
+      biography_text_1 = dataPT.biography_text_1;
+      biography_text_2 = dataPT.biography_text_2;
+      language2 ="EN";
+      language3 ="FR";
+      language2_text =english;
+      language3_text =french;
+      break;
+    case "EN":
+      name = dataEN.name;
+      title = dataEN.title;
+      keywords = dataEN.keywords;
+      description = dataEN.description;
+      home = dataEN.home;
+      dailyLife = dataEN.dailyLife;
+      contact = dataEN.contact;
+      biography = dataEN.biography;
+      biography_text_1 = dataEN.biography_text_1;
+      biography_text_2 = dataEN.biography_text_2;
+      language2 ="PT";
+      language3 ="FR";
+      language2_text =portuguese;
+      language3_text =french;
+      break;
+    case "FR":
+      name = dataFR.name;
+      title = dataFR.title;
+      keywords = dataFR.keywords;
+      description = dataFR.description;
+      home = dataFR.home;
+      contact = dataFR.contact;
+      dailyLife = dataFR.dailyLife;
+      biography = dataFR.biography;
+      biography_text_1 = dataFR.biography_text_1;
+      biography_text_2 = dataFR.biography_text_2;
+      language2 ="PT";
+      language3 ="EN";      
+      language2_text =portuguese;
+      language3_text =english;
+      break;
+    default:
+      // code block
+    }
+
+    res.render("biography", {
+      language: req.params.language,
+      name: name,
+      title: title,
+      keywords: keywords,
+      description: description,
+      home: home,
+      contact: contact,
+      biography: biography,
+      biography_text_1: biography_text_1,
+      biography_text_2: biography_text_2,
+      dailyLife: dailyLife,
+      news: news,
+      language2: language2,
+      language3: language3,
+      language2_text: language2_text,
+      language3_text: language3_text 
+    });
+});
+
+app.get("/:language/daily-life", function (req, res) {
+
+  let workEquitationTests;
+  let ridingLessons;
+  let workTraining;
+  let bullfights;
+  let bullfights_amateur;
+  let bullfights_professional;
+
+
+  switch(req.params.language) {
+    case "PT":
+      name = dataPT.name;
+      title = dataPT.title;
+      keywords = dataPT.keywords;
+      description = dataPT.description;
+      home = dataPT.home;
+      contact = dataPT.contact;
+      biography = dataPT.biography;
+      dailyLife = dataPT.dailyLife;
+      workEquitationTests = dataPT.workEquitationTests;
+      ridingLessons = dataPT.ridingLessons;
+      workTraining = dataPT.workTraining;
+      bullfights = dataPT.bullfights;
+      bullfights_amateur = dataPT.bullfights_amateur;
+      bullfights_professional = dataPT.bullfights_professional;
+      news = dataPT.news;
+      language2 ="EN";
+      language3 ="FR";
+      language2_text =english;
+      language3_text =french;
+      break;
+    case "EN":
+      name = dataEN.name;
+      title = dataEN.title;
+      keywords = dataEN.keywords;
+      description = dataEN.description;
+      home = dataEN.home;
+      contact = dataEN.contact;
+      biography = dataEN.biography;
+      dailyLife = dataEN.dailyLife;
+      workEquitationTests = dataEN.workEquitationTests;
+      ridingLessons = dataEN.ridingLessons;
+      workTraining = dataEN.workTraining;
+      bullfights = dataEN.bullfights;
+      bullfights_amateur = dataEN.bullfights_amateur;
+      bullfights_professional = dataEN.bullfights_professional;
+      news = dataEN.news;
+      language2 ="PT";
+      language3 ="FR";
+      language2_text =portuguese;
+      language3_text =french;
+      break;
+    case "FR":
+      name = dataFR.name;
+      title = dataFR.title;
+      keywords = dataFR.keywords;
+      description = dataFR.description;
+      home = dataFR.home;
+      contact = dataFR.contact;
+      biography = dataFR.biography;
+      dailyLife = dataFR.dailyLife;
+      workEquitationTests = dataFR.workEquitationTests;
+      ridingLessons = dataFR.ridingLessons;
+      workTraining = dataFR.workTraining;
+      bullfights = dataFR.bullfights;
+      bullfights_amateur = dataFR.bullfights_amateur;
+      bullfights_professional = dataFR.bullfights_professional;
+      news = dataFR.news
+      language2 ="PT";
+      language3 ="EN";      
+      language2_text =portuguese;
+      language3_text =english;
+      break;
+    default:
+      // code block
+    }
+
+    res.render("daily-life", {
+      language: req.params.language,
+      name: name,
+      title: title,
+      keywords: keywords,
+      description: description,
+      home: home,
+      contact: contact,
+      biography: biography,
+      dailyLife: dailyLife,
+      workEquitationTests: workEquitationTests,
+      ridingLessons: ridingLessons,
+      workTraining: workTraining,
+      bullfights: bullfights,
+      bullfights_amateur: bullfights_amateur,
+      bullfights_professional: bullfights_professional,
+      news: news,
+      language2: language2,
+      language3: language3,
+      language2_text: language2_text,
+      language3_text: language3_text 
+    });
+});
+
+app.get("/:language/contact", function (req, res) {
+
+  let contactMe_first_name;
+  let contactMe_last_name;
+  let contactMe_email;
+  let contactMe_msg;
+  let contactMe_send;
+
+  switch(req.params.language) {
+    case "PT":
+      name = dataPT.name;
+      title = dataPT.title;
+      keywords = dataPT.keywords;
+      description = dataPT.description;
+      home = dataPT.home;
+      contact = dataPT.contact;
+      contactMe = dataPT.contactMe;
+      biography = dataPT.biography;
+      dailyLife = dataPT.dailyLife;
+      news = dataPT.news;
+      contactMe_first_name = dataPT.contactMe_first_name;
+      contactMe_last_name = dataPT.contactMe_last_name;
+      contactMe_email = dataPT.contactMe_email;
+      contactMe_msg = dataPT.contactMe_msg;
+      contactMe_send = dataPT.contactMe_send;
+      language2 ="EN";
+      language3 ="FR";
+      language2_text =english;
+      language3_text =french;
+      break;
+    case "EN":
+      name = dataEN.name;
+      title = dataEN.title;
+      keywords = dataEN.keywords;
+      description = dataEN.description;
+      home = dataEN.home;
+      contact = dataEN.contact;
+      contactMe = dataEN.contactMe;
+      biography = dataEN.biography;
+      dailyLife = dataEN.dailyLife;
+      news = dataEN.news;
+      contactMe_first_name = dataEN.contactMe_first_name;
+      contactMe_last_name = dataEN.contactMe_last_name;
+      contactMe_email = dataEN.contactMe_email;
+      contactMe_msg = dataEN.contactMe_msg;
+      contactMe_send = dataEN.contactMe_send;
+      language2 ="PT";
+      language3 ="FR";
+      language2_text =portuguese;
+      language3_text =french;
+      break;
+    case "FR":
+      name = dataFR.name;
+      title = dataFR.title;
+      keywords = dataFR.keywords;
+      description = dataFR.description;
+      home = dataFR.home;
+      contact = dataFR.contact;
+      contactMe = dataFR.contactMe;
+      dailyLife = dataFR.dailyLife;
+      news = dataFR.news;
+      contactMe_first_name = dataFR.contactMe_first_name;
+      contactMe_last_name = dataFR.contactMe_last_name;
+      contactMe_email = dataFR.contactMe_email;
+      contactMe_msg = dataFR.contactMe_msg;
+      contactMe_send = dataFR.contactMe_send;
+      language2 ="PT";
+      language3 ="EN";      
+      language2_text =portuguese;
+      language3_text =english;
+      break;
+    default:
+      // code block
+    }
+
+    res.render("contact", {
+      language: req.params.language,
+      name: name,
+      title: title,
+      keywords: keywords,
+      description: description,
+      home: home,
+      contact: contact,
+      contactMe: contactMe,
+      biography: biography,
+      dailyLife: dailyLife,
+      news: news,
+      contactMe_first_name: contactMe_first_name,
+      contactMe_last_name: contactMe_last_name,
+      contactMe_email: contactMe_email,
+      contactMe_msg: contactMe_msg,
+      contactMe_send: contactMe_send,
+      language2: language2,
+      language3: language3,
+      language2_text: language2_text,
+      language3_text: language3_text 
+    });
+});
+
+app.post("/:language/contact", function (
+  req,
+  res
+) {
+
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // use SSL
+    auth: {
+      user: process.env.EMAIL, // generated ethereal user
+      pass: process.env.PASSWORD, // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+  const mailOptions = {
+    from: '"'+req.body.firstName + " " + req.body.lastName+'" <'+req.body.email+'>', // sender address
+    to: "franciscocorreialopes.website@gmail.com", // list of receivers
+    subject: "[www.franciscocorreialopes.com] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
+    text: req.body.message, // plain text body
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+    console.log(error);
+    } else {
+      res.redirect("/" + req.params.language+"/send-successful");
+    }
+  });
+
+  
+});
+
+app.get("/:language/send-successful", function (req, res) {
+
+  let sendSuccessful;
+
+  switch(req.params.language) {
+    case "PT":
+      name = dataPT.name;
+      title = dataPT.title;
+      keywords = dataPT.keywords;
+      description = dataPT.description;
+      home = dataPT.home;
+      biography = dataPT.biography;
+      dailyLife = dataPT.dailyLife;
+      contact = dataPT.contact;
+      sendSuccessful= dataPT.sendSuccessful;
+      news = dataPT.news;
+      language2 ="EN";
+      language3 ="FR";
+      language2_text =english;
+      language3_text =french;
+
+      break;
+    case "EN":
+      name = dataEN.name;
+      title = dataEN.title;
+      keywords = dataEN.keywords;
+      description = dataEN.description;
+      home = dataEN.home;
+      biography = dataEN.biography;
+      dailyLife = dataEN.dailyLife;
+      contact = dataEN.contact;
+      sendSuccessful= dataEN.sendSuccessful;
+      news = dataEN.news;
+      language2 ="PT";
+      language3 ="FR";
+      language2_text =portuguese;
+      language3_text =french;
+      break;
+    case "FR":
+      name = dataFR.name;
+      title = dataFR.title;
+      keywords = dataFR.keywords;
+      description = dataFR.description;
+      home = dataFR.home;
+      biography = dataFR.biography;
+      dailyLife = dataFR.dailyLife;
+      contact = dataFR.contact;
+      sendSuccessful= dataFR.sendSuccessful;
+      news = dataFR.news;
+      language2 ="PT";
+      language3 ="EN";      
+      language2_text =portuguese;
+      language3_text =english;
+
+      break;
+    default:
+      // code block
+    }
+    res.render("send-successful",{
+      name: name,
+      title: title,
+      keywords: keywords,
+      description: description,
+      home: home,
+      biography: biography,
+      dailyLife: dailyLife,
+      contact: contact,
+      news: news,
+      language: req.params.language,
+      language2: language2,
+      language3: language3,
+      language2_text: language2_text,
+      language3_text: language3_text,
+      sendSuccessful: sendSuccessful
     });
 });
 

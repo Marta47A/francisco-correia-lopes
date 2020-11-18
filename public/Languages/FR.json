@@ -26,6 +26,7 @@
     "contactMe_email": "Adresse électronique",
     "contactMe_msg": "Rédigez votre message.",
     "contactMe_send": "Envoyer le message",
+    "sendSuccessful": "Merci pour votre message, nous vous contacterons bientôt!",
     "register": "S'inscrire",
     "signUp": "S'inscrire avec Google",
     "login": "S'identifier",
