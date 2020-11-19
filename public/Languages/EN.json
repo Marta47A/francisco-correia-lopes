@@ -42,5 +42,9 @@
     "add": "Add",
     "publish": "Publish",
     "addPhoto": "Add Photo",
-    "publishPost": "Publish News"
+    "publishPost": "Publish News",
+    "language2": "PT",
+    "language3": "FR",
+    "language2_text": "Português",
+    "language3_text": "Français"
   }

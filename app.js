@@ -157,148 +157,21 @@ app.get("/", function (req, res) {
 });
 
 
-const portuguese = "Português";
-const english = "English";
-const french = "Français";
-
-let name;
-let title;
-let keywords;
-let description;
-let home;
-let contact;
-let biography;
-let dailyLife;
-let news;
-let language2;
-let language3;
-let language2_text;
-let language3_text;
+function wordsInLanguage(field, language){
+  let words;
+  switch(language) {
+    case "PT":
+      words = dataPT[field];
+    case "EN":
+      words = dataEN[field];
+    case "FR":
+      words = dataFR[field];
+    }
+    return words;
+}
 
 app.get("/:language/", function (req, res) {
-
-  let contactMe;
-  let slogan;
-  let biography_text_1;
-  let biography_text_2;
-  let workEquitationTests;
-  let ridingLessons;
-  let workTraining;
-  let bullfights;
-  let bullfights_amateur;
-  let bullfights_professional;
-  let lastNews;
-  let readMore;
-  let moreNews;
-  let contactMe_first_name;
-  let contactMe_last_name;
-  let contactMe_email;
-  let contactMe_msg;
-  let contactMe_send;
-
-  switch(req.params.language) {
-    case "PT":
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      contact = dataPT.contact;
-      contactMe = dataPT.contactMe;
-      slogan = dataPT.slogan;
-      biography = dataPT.biography;
-      biography_text_1 = dataPT.biography_text_1;
-      biography_text_2 = dataPT.biography_text_2;
-      dailyLife = dataPT.dailyLife;
-      workEquitationTests = dataPT.workEquitationTests;
-      ridingLessons = dataPT.ridingLessons;
-      workTraining = dataPT.workTraining;
-      bullfights = dataPT.bullfights;
-      bullfights_amateur = dataPT.bullfights_amateur;
-      bullfights_professional = dataPT.bullfights_professional;
-      lastNews = dataPT.lastNews;
-      news = dataPT.news;
-      readMore = dataPT.readMore;
-      moreNews = dataPT.moreNews;
-      contactMe_first_name = dataPT.contactMe_first_name;
-      contactMe_last_name = dataPT.contactMe_last_name;
-      contactMe_email = dataPT.contactMe_email;
-      contactMe_msg = dataPT.contactMe_msg;
-      contactMe_send = dataPT.contactMe_send;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      contact = dataEN.contact;
-      contactMe = dataEN.contactMe;
-      slogan = dataEN.slogan;
-      biography = dataEN.biography;
-      biography_text_1 = dataEN.biography_text_1;
-      biography_text_2 = dataEN.biography_text_2;
-      dailyLife = dataEN.dailyLife;
-      workEquitationTests = dataEN.workEquitationTests;
-      ridingLessons = dataEN.ridingLessons;
-      workTraining = dataEN.workTraining;
-      bullfights = dataEN.bullfights;
-      bullfights_amateur = dataEN.bullfights_amateur;
-      bullfights_professional = dataEN.bullfights_professional;
-      lastNews = dataEN.lastNews;
-      news = dataEN.news;
-      readMore = dataEN.readMore;
-      moreNews = dataEN.moreNews;
-      contactMe_first_name = dataEN.contactMe_first_name;
-      contactMe_last_name = dataEN.contactMe_last_name;
-      contactMe_email = dataEN.contactMe_email;
-      contactMe_msg = dataEN.contactMe_msg;
-      contactMe_send = dataEN.contactMe_send;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      contact = dataFR.contact;
-      contactMe = dataFR.contactMe;
-      slogan = dataFR.slogan;
-      biography = dataFR.biography;
-      biography_text_1 = dataFR.biography_text_1;
-      biography_text_2 = dataFR.biography_text_2;
-      dailyLife = dataFR.dailyLife;
-      workEquitationTests = dataFR.workEquitationTests;
-      ridingLessons = dataFR.ridingLessons;
-      workTraining = dataFR.workTraining;
-      bullfights = dataFR.bullfights;
-      bullfights_amateur = dataFR.bullfights_amateur;
-      bullfights_professional = dataFR.bullfights_professional;
-      lastNews = dataFR.lastNews;
-      news = dataFR.news;
-      readMore = dataFR.readMore;
-      moreNews = dataFR.moreNews;
-      contactMe_first_name = dataFR.contactMe_first_name;
-      contactMe_last_name = dataFR.contactMe_last_name;
-      contactMe_email = dataFR.contactMe_email;
-      contactMe_msg = dataFR.contactMe_msg;
-      contactMe_send = dataFR.contactMe_send;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+ const language = req.params.language;
 
   Post.find()
     .sort({
@@ -308,38 +181,38 @@ app.get("/:language/", function (req, res) {
     .exec(function (err, posts) {
       res.render("home", {
         posts: posts,
-        language: req.params.language,
-        name: name,
-        title: title,
-        keywords: keywords,
-        description: description,
-        home: home,
-        contact: contact,
-        contactMe: contactMe,
-        slogan: slogan,
-        biography: biography,
-        biography_text_1: biography_text_1,
-        biography_text_2: biography_text_2,
-        dailyLife: dailyLife,
-        workEquitationTests: workEquitationTests,
-        ridingLessons: ridingLessons,
-        workTraining: workTraining,
-        bullfights: bullfights,
-        bullfights_amateur: bullfights_amateur,
-        bullfights_professional: bullfights_professional,
-        lastNews: lastNews,
-        news: news,
-        readMore: readMore,
-        moreNews: moreNews,
-        contactMe_first_name: contactMe_first_name,
-        contactMe_last_name: contactMe_last_name,
-        contactMe_email: contactMe_email,
-        contactMe_msg: contactMe_msg,
-        contactMe_send: contactMe_send,
-        language2: language2,
-        language3: language3,
-        language2_text: language2_text,
-        language3_text: language3_text 
+        language: language,
+        name: wordsInLanguage("name", language),
+        title: wordsInLanguage("title", language),
+        keywords: wordsInLanguage("keywords", language),
+        description: wordsInLanguage("description", language),
+        home: wordsInLanguage("home", language),
+        biography: wordsInLanguage("biography", language),
+        dailyLife: wordsInLanguage("dailyLife", language),
+        news: wordsInLanguage("news", language),
+        contact: wordsInLanguage("contact", language),
+        language2: wordsInLanguage("language3", language),
+        language3: wordsInLanguage("language3", language),
+        language2_text: wordsInLanguage("language2_text", language),
+        language3_text: wordsInLanguage("language3_text", language),
+        slogan: wordsInLanguage("slogan", language),
+        contactMe: wordsInLanguage("contactMe", language),
+        biography_text_1: wordsInLanguage("biography_text_1", language),
+        biography_text_2: wordsInLanguage("biography_text_2", language),
+        workEquitationTests: wordsInLanguage("workEquitationTests", language),
+        ridingLessons: wordsInLanguage("ridingLessons", language),
+        workTraining: wordsInLanguage("workTraining", language),
+        bullfights: wordsInLanguage("bullfights", language),
+        bullfights_amateur: wordsInLanguage("bullfights_amateur", language),
+        bullfights_professional: wordsInLanguage("bullfights_professional", language),
+        lastNews: wordsInLanguage("lastNews", language),
+        readMore: wordsInLanguage("readMore", language),
+        moreNews: wordsInLanguage("moreNews", language),
+        contactMe_first_name: wordsInLanguage("contactMe_first_name", language),
+        contactMe_last_name: wordsInLanguage("contactMe_last_name", language),
+        contactMe_email: wordsInLanguage("contactMe_email", language),
+        contactMe_msg: wordsInLanguage("contactMe_msg", language),
+        contactMe_send: wordsInLanguage("contactMe_send", language) 
       });
     });
 });
@@ -365,7 +238,7 @@ app.post("/:language/", function (
     from: '"'+req.body.firstName + " " + req.body.lastName+'" <'+req.body.email+'>', // sender address
     to: "franciscocorreialopes.website@gmail.com", // list of receivers
     subject: "[Website] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
-    text: req.body.message + "\n\n" + req.body.email, // plain text body
+    text: req.body.message + "\n\n" + req.body.email // plain text body
   };
   
   transporter.sendMail(mailOptions, function(error, info){
@@ -382,281 +255,81 @@ app.post("/:language/", function (
 
 app.get("/:language/biography", function (req, res) {
 
-  let biography_text_1;
-  let biography_text_2;
-  
-
-  switch(req.params.language) {
-    case "PT":
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      biography = dataPT.biography;
-      biography_text_1 = dataPT.biography_text_1;
-      biography_text_2 = dataPT.biography_text_2;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      biography = dataEN.biography;
-      biography_text_1 = dataEN.biography_text_1;
-      biography_text_2 = dataEN.biography_text_2;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      contact = dataFR.contact;
-      dailyLife = dataFR.dailyLife;
-      biography = dataFR.biography;
-      biography_text_1 = dataFR.biography_text_1;
-      biography_text_2 = dataFR.biography_text_2;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+  const language = req.params.language;
 
     res.render("biography", {
-      language: req.params.language,
-      name: name,
-      title: title,
-      keywords: keywords,
-      description: description,
-      home: home,
-      contact: contact,
-      biography: biography,
-      biography_text_1: biography_text_1,
-      biography_text_2: biography_text_2,
-      dailyLife: dailyLife,
-      news: news,
-      language2: language2,
-      language3: language3,
-      language2_text: language2_text,
-      language3_text: language3_text 
+      language: language,
+      name: wordsInLanguage("name", language),
+      title: wordsInLanguage("title", language),
+      keywords: wordsInLanguage("keywords", language),
+      description: wordsInLanguage("description", language),
+      home: wordsInLanguage("home", language),
+      biography: wordsInLanguage("biography", language),
+      dailyLife: wordsInLanguage("dailyLife", language),
+      news: wordsInLanguage("news", language),
+      contact: wordsInLanguage("contact", language),
+      language2: wordsInLanguage("language3", language),
+      language3: wordsInLanguage("language3", language),
+      language2_text: wordsInLanguage("language2_text", language),
+      language3_text: wordsInLanguage("language3_text", language),
+      biography_text_1: wordsInLanguage("biography_text_1", language),
+      biography_text_2: wordsInLanguage("biography_text_2", language)
     });
 });
 
 app.get("/:language/daily-life", function (req, res) {
 
-  let workEquitationTests;
-  let ridingLessons;
-  let workTraining;
-  let bullfights;
-  let bullfights_amateur;
-  let bullfights_professional;
-
-
-  switch(req.params.language) {
-    case "PT":
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      contact = dataPT.contact;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      workEquitationTests = dataPT.workEquitationTests;
-      ridingLessons = dataPT.ridingLessons;
-      workTraining = dataPT.workTraining;
-      bullfights = dataPT.bullfights;
-      bullfights_amateur = dataPT.bullfights_amateur;
-      bullfights_professional = dataPT.bullfights_professional;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      contact = dataEN.contact;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      workEquitationTests = dataEN.workEquitationTests;
-      ridingLessons = dataEN.ridingLessons;
-      workTraining = dataEN.workTraining;
-      bullfights = dataEN.bullfights;
-      bullfights_amateur = dataEN.bullfights_amateur;
-      bullfights_professional = dataEN.bullfights_professional;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      contact = dataFR.contact;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      workEquitationTests = dataFR.workEquitationTests;
-      ridingLessons = dataFR.ridingLessons;
-      workTraining = dataFR.workTraining;
-      bullfights = dataFR.bullfights;
-      bullfights_amateur = dataFR.bullfights_amateur;
-      bullfights_professional = dataFR.bullfights_professional;
-      news = dataFR.news
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+    const language = req.params.language;
 
     res.render("daily-life", {
-      language: req.params.language,
-      name: name,
-      title: title,
-      keywords: keywords,
-      description: description,
-      home: home,
-      contact: contact,
-      biography: biography,
-      dailyLife: dailyLife,
-      workEquitationTests: workEquitationTests,
-      ridingLessons: ridingLessons,
-      workTraining: workTraining,
-      bullfights: bullfights,
-      bullfights_amateur: bullfights_amateur,
-      bullfights_professional: bullfights_professional,
-      news: news,
-      language2: language2,
-      language3: language3,
-      language2_text: language2_text,
-      language3_text: language3_text 
+      language: language,
+      name: wordsInLanguage("name", language),
+      title: wordsInLanguage("title", language),
+      keywords: wordsInLanguage("keywords", language),
+      description: wordsInLanguage("description", language),
+      home: wordsInLanguage("home", language),
+      biography: wordsInLanguage("biography", language),
+      dailyLife: wordsInLanguage("dailyLife", language),
+      news: wordsInLanguage("news", language),
+      contact: wordsInLanguage("contact", language),
+      language2: wordsInLanguage("language3", language),
+      language3: wordsInLanguage("language3", language),
+      language2_text: wordsInLanguage("language2_text", language),
+      language3_text: wordsInLanguage("language3_text", language),
+      workEquitationTests: wordsInLanguage("workEquitationTests", language),
+      ridingLessons: wordsInLanguage("ridingLessons", language),
+      workTraining: wordsInLanguage("workTraining", language),
+      bullfights: wordsInLanguage("bullfights", language),
+      bullfights_amateur: wordsInLanguage("bullfights_amateur", language),
+      bullfights_professional: wordsInLanguage("bullfights_professional", language)
     });
 });
 
 app.get("/:language/contact", function (req, res) {
-
-  let contactMe_first_name;
-  let contactMe_last_name;
-  let contactMe_email;
-  let contactMe_msg;
-  let contactMe_send;
-
-  switch(req.params.language) {
-    case "PT":
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      contact = dataPT.contact;
-      contactMe = dataPT.contactMe;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      news = dataPT.news;
-      contactMe_first_name = dataPT.contactMe_first_name;
-      contactMe_last_name = dataPT.contactMe_last_name;
-      contactMe_email = dataPT.contactMe_email;
-      contactMe_msg = dataPT.contactMe_msg;
-      contactMe_send = dataPT.contactMe_send;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      contact = dataEN.contact;
-      contactMe = dataEN.contactMe;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      news = dataEN.news;
-      contactMe_first_name = dataEN.contactMe_first_name;
-      contactMe_last_name = dataEN.contactMe_last_name;
-      contactMe_email = dataEN.contactMe_email;
-      contactMe_msg = dataEN.contactMe_msg;
-      contactMe_send = dataEN.contactMe_send;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      contact = dataFR.contact;
-      contactMe = dataFR.contactMe;
-      dailyLife = dataFR.dailyLife;
-      news = dataFR.news;
-      contactMe_first_name = dataFR.contactMe_first_name;
-      contactMe_last_name = dataFR.contactMe_last_name;
-      contactMe_email = dataFR.contactMe_email;
-      contactMe_msg = dataFR.contactMe_msg;
-      contactMe_send = dataFR.contactMe_send;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+  
+    const language = req.params.language;
 
     res.render("contact", {
-      language: req.params.language,
-      name: name,
-      title: title,
-      keywords: keywords,
-      description: description,
-      home: home,
-      contact: contact,
-      contactMe: contactMe,
-      biography: biography,
-      dailyLife: dailyLife,
-      news: news,
-      contactMe_first_name: contactMe_first_name,
-      contactMe_last_name: contactMe_last_name,
-      contactMe_email: contactMe_email,
-      contactMe_msg: contactMe_msg,
-      contactMe_send: contactMe_send,
-      language2: language2,
-      language3: language3,
-      language2_text: language2_text,
-      language3_text: language3_text 
+      language: language,
+      name: wordsInLanguage("name", language),
+      title: wordsInLanguage("title", language),
+      keywords: wordsInLanguage("keywords", language),
+      description: wordsInLanguage("description", language),
+      home: wordsInLanguage("home", language),
+      biography: wordsInLanguage("biography", language),
+      dailyLife: wordsInLanguage("dailyLife", language),
+      news: wordsInLanguage("news", language),
+      contact: wordsInLanguage("contact", language),
+      language2: wordsInLanguage("language3", language),
+      language3: wordsInLanguage("language3", language),
+      language2_text: wordsInLanguage("language2_text", language),
+      language3_text: wordsInLanguage("language3_text", language),
+      contactMe: wordsInLanguage("contactMe", language),
+      contactMe_first_name: wordsInLanguage("contactMe_first_name", language),
+      contactMe_last_name: wordsInLanguage("contactMe_last_name", language),
+      contactMe_email: wordsInLanguage("contactMe_email", language),
+      contactMe_msg: wordsInLanguage("contactMe_msg", language),
+      contactMe_send: wordsInLanguage("contactMe_send", language)
     });
 });
 
@@ -697,78 +370,24 @@ app.post("/:language/contact", function (
 
 app.get("/:language/send-successful", function (req, res) {
 
-  let sendSuccessful;
+  const language = req.params.language;
 
-  switch(req.params.language) {
-    case "PT":
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      sendSuccessful= dataPT.sendSuccessful;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-
-      break;
-    case "EN":
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      sendSuccessful= dataEN.sendSuccessful;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      sendSuccessful= dataFR.sendSuccessful;
-      news = dataFR.news;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-
-      break;
-    default:
-      // code block
-    }
     res.render("send-successful",{
-      name: name,
-      title: title,
-      keywords: keywords,
-      description: description,
-      home: home,
-      biography: biography,
-      dailyLife: dailyLife,
-      contact: contact,
-      news: news,
-      language: req.params.language,
-      language2: language2,
-      language3: language3,
-      language2_text: language2_text,
-      language3_text: language3_text,
-      sendSuccessful: sendSuccessful
+      language: language,
+      name: wordsInLanguage("name", language),
+      title: wordsInLanguage("title", language),
+      keywords: wordsInLanguage("keywords", language),
+      description: wordsInLanguage("description", language),
+      home: wordsInLanguage("home", language),
+      biography: wordsInLanguage("biography", language),
+      dailyLife: wordsInLanguage("dailyLife", language),
+      news: wordsInLanguage("news", language),
+      contact: wordsInLanguage("contact", language),
+      language2: wordsInLanguage("language3", language),
+      language3: wordsInLanguage("language3", language),
+      language2_text: wordsInLanguage("language2_text", language),
+      language3_text: wordsInLanguage("language3_text", language),
+      sendSuccessful: wordsInLanguage("sendSuccessful", language)
     });
 });
 
@@ -792,145 +411,31 @@ app.get(
 
 app.get("/:language/login", function (req, res) {
 
-  let login;
-  let signIn;
+    const language = req.params.language;
 
-  switch(req.params.language) {
-    case "PT":
-      login = dataPT.login;
-      signIn = dataPT.signIn;
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-
-      break;
-    case "EN":
-      login = dataEN.login;
-      signIn = dataEN.signIn;
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      login = dataFR.login;
-      signIn = dataFR.signIn;
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      news = dataFR.news;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
     res.render("login",{
-      login: login,
-      signIn: signIn,
-      name: name,
-      title: title,
-      keywords: keywords,
-      description: description,
-      home: home,
-      biography: biography,
-      dailyLife: dailyLife,
-      contact: contact,
-      news: news,
-      language: req.params.language,
-      language2: language2,
-      language3: language3,
-      language2_text: language2_text,
-      language3_text: language3_text
+      language: language,
+      name: wordsInLanguage("name", language),
+      title: wordsInLanguage("title", language),
+      keywords: wordsInLanguage("keywords", language),
+      description: wordsInLanguage("description", language),
+      home: wordsInLanguage("home", language),
+      biography: wordsInLanguage("biography", language),
+      dailyLife: wordsInLanguage("dailyLife", language),
+      news: wordsInLanguage("news", language),
+      contact: wordsInLanguage("contact", language),
+      language2: wordsInLanguage("language3", language),
+      language3: wordsInLanguage("language3", language),
+      language2_text: wordsInLanguage("language2_text", language),
+      language3_text: wordsInLanguage("language3_text", language),
+      login: wordsInLanguage("login", language),
+      signIn: wordsInLanguage("signIn", language)
     });
 });
 
 app.get("/:language/register", function (req, res) {
 
-  let register;
-  let signUp;
-
-  switch(req.params.language) {
-    case "PT":
-      register = dataPT.register;
-      signUp = dataPT.signUp;
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      register = dataEN.register;
-      signUp = dataEN.signUp;
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      register = dataFR.register;
-      signUp = dataFR.signUp;
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      news = dataFR.news;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+  const language = req.params.language;
 
   User.countDocuments({}, function (err, count) {
     if (err) {
@@ -938,22 +443,22 @@ app.get("/:language/register", function (req, res) {
     } else {
       if (count === 0) {
         res.render("register",{
-          register: register,
-          signUp: signUp,
-          name: name,
-          title: title,
-          keywords: keywords,
-          description: description,
-          home: home,
-          biography: biography,
-          dailyLife: dailyLife,
-          contact: contact,
-          news: news,
-          language: req.params.language,
-          language2: language2,
-          language3: language3,
-          language2_text: language2_text,
-          language3_text: language3_text 
+          language: language,
+          name: wordsInLanguage("name", language),
+          title: wordsInLanguage("title", language),
+          keywords: wordsInLanguage("keywords", language),
+          description: wordsInLanguage("description", language),
+          home: wordsInLanguage("home", language),
+          biography: wordsInLanguage("biography", language),
+          dailyLife: wordsInLanguage("dailyLife", language),
+          news: wordsInLanguage("news", language),
+          contact: wordsInLanguage("contact", language),
+          language2: wordsInLanguage("language3", language),
+          language3: wordsInLanguage("language3", language),
+          language2_text: wordsInLanguage("language2_text", language),
+          language3_text: wordsInLanguage("language3_text", language),
+          register: wordsInLanguage("register", language),
+          signUp: wordsInLanguage("signUp", language)
         });
       } else {
         res.send("There already is an administrator.");
@@ -1004,58 +509,7 @@ app.post("/:language/login", function (req, res) {
 
 app.get("/:language/posts", function (req, res) {
 
-  switch(req.params.language) {
-    case "PT":
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      news = dataPT.news;
-      readMore = dataPT.readMore;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      news = dataEN.news;
-      readMore = dataEN.readMore;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      news = dataFR.news;
-      readMore = dataFR.readMore;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+  const language = req.params.language;
 
   Post.find()
     .sort({
@@ -1064,143 +518,57 @@ app.get("/:language/posts", function (req, res) {
     .exec(function (err, posts) {
       res.render("posts", {
         posts: posts,
-        language: req.params.language,
-        name: name,
-        title: title,
-        keywords: keywords,
-        description: description,
-        home: home,
-        biography: biography,
-        dailyLife: dailyLife,
-        contact: contact,
-        news: news,
-        readMore: readMore,
-        language2: language2,
-        language3: language3,
-        language2_text: language2_text,
-        language3_text: language3_text 
+        language: language,
+        name: wordsInLanguage("name", language),
+        title: wordsInLanguage("title", language),
+        keywords: wordsInLanguage("keywords", language),
+        description: wordsInLanguage("description", language),
+        home: wordsInLanguage("home", language),
+        biography: wordsInLanguage("biography", language),
+        dailyLife: wordsInLanguage("dailyLife", language),
+        news: wordsInLanguage("news", language),
+        contact: wordsInLanguage("contact", language),
+        language2: wordsInLanguage("language3", language),
+        language3: wordsInLanguage("language3", language),
+        language2_text: wordsInLanguage("language2_text", language),
+        language3_text: wordsInLanguage("language3_text", language), 
+        readMore: wordsInLanguage("readMore", language)
       });
     });
 });
 
 app.get("/:language/posts/add-post", function (req, res) {
 
-  let publishPost;
-  let titlePT;
-  let titleEN;
-  let titleFR;
-  let contentPT;
-  let contentEN;
-  let contentFR;
-  let image;
-  let publish;
-
-  switch(req.params.language) {
-    case "PT":
-      publishPost = dataPT.publishPost;
-      titlePT = dataPT.titlePT;
-      titleEN = dataPT.titleEN;
-      titleFR = dataPT.titleFR;
-      contentPT = dataPT.contentPT;
-      contentEN = dataPT.contentEN;
-      contentFR = dataPT.contentFR;
-      image = dataPT.image;
-      publish = dataPT.publish;
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      publishPost = dataEN.publishPost;
-      titlePT = dataEN.titlePT;
-      titleEN = dataEN.titleEN;
-      titleFR = dataEN.titleFR;
-      contentPT = dataEN.contentPT;
-      contentEN = dataEN.contentEN;
-      contentFR = dataEN.contentFR;
-      image = dataEN.image;
-      publish = dataEN.publish;
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      publishPost = dataFR.publishPost;
-      titlePT = dataFR.titlePT;
-      titleEN = dataFR.titleEN;
-      titleFR = dataFR.titleFR;
-      contentPT = dataFR.contentPT;
-      contentEN = dataFR.contentEN;
-      contentFR = dataFR.contentFR;
-      image = dataFR.image;
-      publish = dataFR.publish;
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      news = dataFR.news;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-
-      break;
-    default:
-      // code block
-    }
+  const language = req.params.language;
 
   if (req.isAuthenticated()) {
     res.render("add-post",{
-      publishPost: publishPost,
-      titlePT: titlePT,
-      titleEN: titleEN,
-      titleFR: titleFR,
-      contentPT: contentPT,
-      contentEN: contentEN,
-      contentFR: contentFR,
-      image: image,
-      publish: publish,
-      name: name,
-      title: title,
-      keywords: keywords,
-      description: description,
-      home: home,
-      biography: biography,
-      dailyLife: dailyLife,
-      contact: contact,
-      news: news,
-      language: req.params.language,
-      language2: language2,
-      language3: language3,
-      language2_text: language2_text,
-      language3_text: language3_text
+      language: language,
+      name: wordsInLanguage("name", language),
+      title: wordsInLanguage("title", language),
+      keywords: wordsInLanguage("keywords", language),
+      description: wordsInLanguage("description", language),
+      home: wordsInLanguage("home", language),
+      biography: wordsInLanguage("biography", language),
+      dailyLife: wordsInLanguage("dailyLife", language),
+      news: wordsInLanguage("news", language),
+      contact: wordsInLanguage("contact", language),
+      language2: wordsInLanguage("language3", language),
+      language3: wordsInLanguage("language3", language),
+      language2_text: wordsInLanguage("language2_text", language),
+      language3_text: wordsInLanguage("language3_text", language),
+      publishPost: wordsInLanguage("news", language),
+      titlePT: wordsInLanguage("titlePT", language),
+      titleEN: wordsInLanguage("titleEN", language),
+      titleFR: wordsInLanguage("titleFR", language),
+      contentPT: wordsInLanguage("contentPT", language),
+      contentEN: wordsInLanguage("contentEN", language),
+      contentFR: wordsInLanguage("contentFR", language),
+      image: wordsInLanguage("image", language),
+      publish: wordsInLanguage("publish", language)
     });
   } else {
-    res.redirect("/" + req.params.language + "/login");
+    res.redirect("/" + language + "/login");
   }
 });
 
@@ -1233,58 +601,7 @@ app.post("/:language/posts/add-post", upload.single("postImage"), function (
 
 app.get("/:language/posts/:id", function (req, res) {
 
-  switch(req.params.language) {
-    case "PT":
-      readMore = dataPT.readMore;
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      readMore = dataEN.readMore;
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      readMore = dataFR.readMore;
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      news = dataFR.news;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+  const language = req.params.language;
 
   Post.findOne(
     {
@@ -1294,21 +611,21 @@ app.get("/:language/posts/:id", function (req, res) {
       if (post) {
         res.render("post", {
           post: post,
-          language: req.params.language,
-          readMore: readMore,
-          name: name,
-          title: title,
-          keywords: keywords,
-          description: description,
-          home: home,
-          biography: biography,
-          dailyLife: dailyLife,
-          contact: contact,
-          news: news,
-          language2: language2,
-          language3: language3,
-          language2_text: language2_text,
-          language3_text: language3_text 
+          language: language,
+          name: wordsInLanguage("name", language),
+          title: wordsInLanguage("title", language),
+          keywords: wordsInLanguage("keywords", language),
+          description: wordsInLanguage("description", language),
+          home: wordsInLanguage("home", language),
+          biography: wordsInLanguage("biography", language),
+          dailyLife: wordsInLanguage("dailyLife", language),
+          news: wordsInLanguage("news", language),
+          contact: wordsInLanguage("contact", language),
+          language2: wordsInLanguage("language3", language),
+          language3: wordsInLanguage("language3", language),
+          language2_text: wordsInLanguage("language2_text", language),
+          language3_text: wordsInLanguage("language3_text", language),
+          readMore: wordsInLanguage("readMore", language)
         });
       } else {
         res.send("No posts matching that title were found.");
@@ -1318,6 +635,9 @@ app.get("/:language/posts/:id", function (req, res) {
 });
 
 app.get("/:language/posts/:id/delete", function (req, res) {
+  
+  const language = req.params.language;
+  
   if (req.isAuthenticated()) {
     Post.deleteOne(
       {
@@ -1325,16 +645,15 @@ app.get("/:language/posts/:id/delete", function (req, res) {
       },
       function (err) {
         if (!err) {
-          res.redirect("/" + req.params.language + "/posts");
-          // res.redirect("/");
-          // res.render("photos/"+req.params.photoTheme);
+          res.redirect("/" + language + "/posts");
+
         } else {
           res.send("No posts matching that title were found.");
         }
       }
     );
   } else {
-    res.redirect("/" + req.params.language + "/login");
+    res.redirect("/" + language + "/login");
   }
 });
 
@@ -1344,6 +663,8 @@ app.get("/:language/posts/:id/delete", function (req, res) {
 
 app.get("/:language/photos/:photoTheme", function (req, res) {
 
+  const language = req.params.language;
+  
   const photoTheme = req.params.photoTheme;
   const photoThemeSplit = photoTheme.split("-");
   const photoThemeTitle = photoThemeSplit[0];
@@ -1351,76 +672,14 @@ app.get("/:language/photos/:photoTheme", function (req, res) {
   let photoThemeInLanguageSubtitle = "";
 
 
-  switch(req.params.language) {
-    case "PT":
-      if(photoThemeInLanguageTitle==="bullfights"){
-        photoThemeInLanguageTitle = dataPT[photoThemeTitle];
-        photoThemeInLanguageSubtitle = dataPT[photoTheme];
-      }
-      else{
-        photoThemeInLanguageTitle = dataPT[photoTheme];
-      }
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      if(photoThemeInLanguageTitle==="bullfights"){
-        photoThemeInLanguageTitle = dataEN[photoThemeTitle];
-        photoThemeInLanguageSubtitle = dataEN[photoTheme];
-      }
-      else{
-        photoThemeInLanguageTitle = dataEN[photoTheme];
-      }
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      if(photoThemeInLanguageTitle==="bullfights"){
-        photoThemeInLanguageTitle = dataFR[photoThemeTitle];
-        photoThemeInLanguageSubtitle = dataFR[photoTheme];
-      }
-      else{
-        photoThemeInLanguageTitle = dataFR[photoTheme];
-      }
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      news = dataFR.news;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
+  if(photoThemeInLanguageTitle==="bullfights"){
+    photoThemeInLanguageTitle = wordsInLanguage(photoThemeTitle,language);
+    photoThemeInLanguageSubtitle = wordsInLanguage(photoTheme,language);
   }
+  else{
+    photoThemeInLanguageTitle = wordsInLanguage(photoTheme,language);
+  }
+
 
   Photo.find(
     {
@@ -1430,22 +689,23 @@ app.get("/:language/photos/:photoTheme", function (req, res) {
       if (!err) {
         res.render("photos", {
           photos: photos,
+          language: language,
+          name: wordsInLanguage("name", language),
+          title: wordsInLanguage("title", language),
+          keywords: wordsInLanguage("keywords", language),
+          description: wordsInLanguage("description", language),
+          home: wordsInLanguage("home", language),
+          biography: wordsInLanguage("biography", language),
+          dailyLife: wordsInLanguage("dailyLife", language),
+          news: wordsInLanguage("news", language),
+          contact: wordsInLanguage("contact", language),
+          language2: wordsInLanguage("language3", language),
+          language3: wordsInLanguage("language3", language),
+          language2_text: wordsInLanguage("language2_text", language),
+          language3_text: wordsInLanguage("language3_text", language),
           requestedPhotoThemeTitle: photoThemeInLanguageTitle,
           requestedPhotoThemeSubtitle: photoThemeInLanguageSubtitle,
-          language: req.params.language,
-          name: name,
-          title: title,
-          keywords: keywords,
-          description: description,
-          home: home,
-          biography: biography,
-          dailyLife: dailyLife,
-          contact: contact,
-          news: news,
-          language2: language2,
-          language3: language3,
-          language2_text: language2_text,
-          language3_text: language3_text 
+
         });
       } else {
         res.send("No photos matching that title were found.");
@@ -1456,92 +716,31 @@ app.get("/:language/photos/:photoTheme", function (req, res) {
 
 app.get("/:language/photos/:photoTheme/add-photo", function (req, res) {
 
-  let addPhoto;
-  let image;
-  let add;
-
-  switch(req.params.language) {
-    case "PT":
-      addPhoto = dataPT.addPhoto;
-      image = dataPT.image;
-      add = dataPT.add;
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      addPhoto = dataEN.addPhoto;
-      image = dataEN.image;
-      add = dataEN.add;
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      addPhoto = dataFR.addPhoto;
-      image = dataFR.image;
-      add = dataFR.add;
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      news = dataFR.news;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+  const language = req.params.language;
 
   if (req.isAuthenticated()) {
     res.render("add-photo", { 
+      language: language,
+      name: wordsInLanguage("name", language),
+      title: wordsInLanguage("title", language),
+      keywords: wordsInLanguage("keywords", language),
+      description: wordsInLanguage("description", language),
+      home: wordsInLanguage("home", language),
+      biography: wordsInLanguage("biography", language),
+      dailyLife: wordsInLanguage("dailyLife", language),
+      news: wordsInLanguage("news", language),
+      contact: wordsInLanguage("contact", language),
+      language2: wordsInLanguage("language3", language),
+      language3: wordsInLanguage("language3", language),
+      language2_text: wordsInLanguage("language2_text", language),
+      language3_text: wordsInLanguage("language3_text", language),
       photoTheme: req.params.photoTheme,
-      addPhoto: addPhoto,
-      image: image,
-      add: add,
-      name: name,
-      title: title,
-      keywords: keywords,
-      description: description,
-      home: home,
-      biography: biography,
-      dailyLife: dailyLife,
-      contact: contact,
-      news: news,
-      language: req.params.language,
-      language2: language2,
-      language3: language3,
-      language2_text: language2_text,
-      language3_text: language3_text
+      addPhoto: wordsInLanguage("addPhoto", language),
+      image: wordsInLanguage("image", language),
+      add: wordsInLanguage("add", language)
     });
   } else {
-    res.redirect("/" + req.params.language + "/login");
+    res.redirect("/" + language + "/login");
   }
 });
 
@@ -1568,55 +767,7 @@ app.post(
 
 app.get("/:language/photos/:photoTheme/:id", function (req, res) {
 
-  switch(req.params.language) {
-    case "PT":
-      name = dataPT.name;
-      title = dataPT.title;
-      keywords = dataPT.keywords;
-      description = dataPT.description;
-      home = dataPT.home;
-      biography = dataPT.biography;
-      dailyLife = dataPT.dailyLife;
-      contact = dataPT.contact;
-      news = dataPT.news;
-      language2 ="EN";
-      language3 ="FR";
-      language2_text =english;
-      language3_text =french;
-      break;
-    case "EN":
-      name = dataEN.name;
-      title = dataEN.title;
-      keywords = dataEN.keywords;
-      description = dataEN.description;
-      home = dataEN.home;
-      biography = dataEN.biography;
-      dailyLife = dataEN.dailyLife;
-      contact = dataEN.contact;
-      news = dataEN.news;
-      language2 ="PT";
-      language3 ="FR";
-      language2_text =portuguese;
-      language3_text =french;
-      break;
-    case "FR":
-      name = dataFR.name;
-      title = dataFR.title;
-      keywords = dataFR.keywords;
-      description = dataFR.description;
-      home = dataFR.home;
-      biography = dataFR.biography;
-      dailyLife = dataFR.dailyLife;
-      contact = dataFR.contact;
-      news = dataFR.news;
-      language2 ="PT";
-      language3 ="EN";      
-      language2_text =portuguese;
-      language3_text =english;
-      break;
-    default:
-      // code block
-    }
+  const language = req.params.language;
 
   Photo.findOne(
     {
@@ -1626,20 +777,20 @@ app.get("/:language/photos/:photoTheme/:id", function (req, res) {
       if (photo) {
         res.render("photo", {
           photo: photo,
-          language: req.params.language,
-          name: name,
-          title: title,
-          keywords: keywords,
-          description: description,
-          home: home,
-          biography: biography,
-          dailyLife: dailyLife,
-          contact: contact,
-          news: news,
-          language2: language2,
-          language3: language3,
-          language2_text: language2_text,
-          language3_text: language3_text 
+          language: language,
+          name: wordsInLanguage("name", language),
+          title: wordsInLanguage("title", language),
+          keywords: wordsInLanguage("keywords", language),
+          description: wordsInLanguage("description", language),
+          home: wordsInLanguage("home", language),
+          biography: wordsInLanguage("biography", language),
+          dailyLife: wordsInLanguage("dailyLife", language),
+          news: wordsInLanguage("news", language),
+          contact: wordsInLanguage("contact", language),
+          language2: wordsInLanguage("language3", language),
+          language3: wordsInLanguage("language3", language),
+          language2_text: wordsInLanguage("language2_text", language),
+          language3_text: wordsInLanguage("language3_text", language)
         });
       } else {
         res.send("No photos matching that title were found.");
@@ -1649,6 +800,9 @@ app.get("/:language/photos/:photoTheme/:id", function (req, res) {
 });
 
 app.get("/:language/photos/:photoTheme/:id/delete", function (req, res) {
+
+  const language = req.params.language;
+
   if (req.isAuthenticated()) {
     Photo.deleteOne(
       {
@@ -1656,14 +810,14 @@ app.get("/:language/photos/:photoTheme/:id/delete", function (req, res) {
       },
       function (err) {
         if (!err) {
-          res.redirect("/" + req.params.language + "/photos/" + req.params.photoTheme);
+          res.redirect("/" + language + "/photos/" + req.params.photoTheme);
         } else {
           res.send("No photos matching that title were found.");
         }
       }
     );
   } else {
-    res.redirect("/" + req.params.language + "/login");
+    res.redirect("/" + language + "/login");
   }
 });
 

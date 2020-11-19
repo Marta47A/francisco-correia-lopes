@@ -42,5 +42,9 @@
     "add": "Ajouter",
     "publish": "Publier",
     "addPhoto": "Ajouter Photographie",
-    "publishPost": "Publier Nouvelles"
+    "publishPost": "Publier Nouvelles",
+    "language2": "PT",
+    "language3": "EN",
+    "language2_text": "Português",
+    "language3_text": "English"
   }
