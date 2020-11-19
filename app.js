@@ -18,14 +18,14 @@ const multer = require("multer");
 const nodemailer = require("nodemailer");
 
 
-var dataPT_=fs.readFileSync('public/Languages/PT.json', 'utf8');
-var dataPT=JSON.parse(dataPT_);
+const dataPT_=fs.readFileSync('public/languages/PT.json', 'utf8');
+const dataPT=JSON.parse(dataPT_);
 
-var dataEN_=fs.readFileSync('public/Languages/EN.json', 'utf8');
-var dataEN=JSON.parse(dataEN_);
+const dataEN_=fs.readFileSync('public/languages/EN.json', 'utf8');
+const dataEN=JSON.parse(dataEN_);
 
-var dataFR_=fs.readFileSync('public/Languages/FR.json', 'utf8');
-var dataFR=JSON.parse(dataFR_);
+const dataFR_=fs.readFileSync('public/languages/FR.json', 'utf8');
+const dataFR=JSON.parse(dataFR_);
 
 let currentDate = Date.now();
 
@@ -191,7 +191,7 @@ app.get("/:language/", function (req, res) {
         dailyLife: wordsInLanguage("dailyLife", language),
         news: wordsInLanguage("news", language),
         contact: wordsInLanguage("contact", language),
-        language2: wordsInLanguage("language3", language),
+        language2: wordsInLanguage("language2", language),
         language3: wordsInLanguage("language3", language),
         language2_text: wordsInLanguage("language2_text", language),
         language3_text: wordsInLanguage("language3_text", language),
@@ -268,7 +268,7 @@ app.get("/:language/biography", function (req, res) {
       dailyLife: wordsInLanguage("dailyLife", language),
       news: wordsInLanguage("news", language),
       contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language3", language),
+      language2: wordsInLanguage("language2", language),
       language3: wordsInLanguage("language3", language),
       language2_text: wordsInLanguage("language2_text", language),
       language3_text: wordsInLanguage("language3_text", language),
@@ -292,7 +292,7 @@ app.get("/:language/daily-life", function (req, res) {
       dailyLife: wordsInLanguage("dailyLife", language),
       news: wordsInLanguage("news", language),
       contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language3", language),
+      language2: wordsInLanguage("language2", language),
       language3: wordsInLanguage("language3", language),
       language2_text: wordsInLanguage("language2_text", language),
       language3_text: wordsInLanguage("language3_text", language),
@@ -320,7 +320,7 @@ app.get("/:language/contact", function (req, res) {
       dailyLife: wordsInLanguage("dailyLife", language),
       news: wordsInLanguage("news", language),
       contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language3", language),
+      language2: wordsInLanguage("language2", language),
       language3: wordsInLanguage("language3", language),
       language2_text: wordsInLanguage("language2_text", language),
       language3_text: wordsInLanguage("language3_text", language),
@@ -383,7 +383,7 @@ app.get("/:language/send-successful", function (req, res) {
       dailyLife: wordsInLanguage("dailyLife", language),
       news: wordsInLanguage("news", language),
       contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language3", language),
+      language2: wordsInLanguage("language2", language),
       language3: wordsInLanguage("language3", language),
       language2_text: wordsInLanguage("language2_text", language),
       language3_text: wordsInLanguage("language3_text", language),
@@ -424,7 +424,7 @@ app.get("/:language/login", function (req, res) {
       dailyLife: wordsInLanguage("dailyLife", language),
       news: wordsInLanguage("news", language),
       contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language3", language),
+      language2: wordsInLanguage("language2", language),
       language3: wordsInLanguage("language3", language),
       language2_text: wordsInLanguage("language2_text", language),
       language3_text: wordsInLanguage("language3_text", language),
@@ -453,7 +453,7 @@ app.get("/:language/register", function (req, res) {
           dailyLife: wordsInLanguage("dailyLife", language),
           news: wordsInLanguage("news", language),
           contact: wordsInLanguage("contact", language),
-          language2: wordsInLanguage("language3", language),
+          language2: wordsInLanguage("language2", language),
           language3: wordsInLanguage("language3", language),
           language2_text: wordsInLanguage("language2_text", language),
           language3_text: wordsInLanguage("language3_text", language),
@@ -528,7 +528,7 @@ app.get("/:language/posts", function (req, res) {
         dailyLife: wordsInLanguage("dailyLife", language),
         news: wordsInLanguage("news", language),
         contact: wordsInLanguage("contact", language),
-        language2: wordsInLanguage("language3", language),
+        language2: wordsInLanguage("language2", language),
         language3: wordsInLanguage("language3", language),
         language2_text: wordsInLanguage("language2_text", language),
         language3_text: wordsInLanguage("language3_text", language), 
@@ -553,7 +553,7 @@ app.get("/:language/posts/add-post", function (req, res) {
       dailyLife: wordsInLanguage("dailyLife", language),
       news: wordsInLanguage("news", language),
       contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language3", language),
+      language2: wordsInLanguage("language2", language),
       language3: wordsInLanguage("language3", language),
       language2_text: wordsInLanguage("language2_text", language),
       language3_text: wordsInLanguage("language3_text", language),
@@ -621,7 +621,7 @@ app.get("/:language/posts/:id", function (req, res) {
           dailyLife: wordsInLanguage("dailyLife", language),
           news: wordsInLanguage("news", language),
           contact: wordsInLanguage("contact", language),
-          language2: wordsInLanguage("language3", language),
+          language2: wordsInLanguage("language2", language),
           language3: wordsInLanguage("language3", language),
           language2_text: wordsInLanguage("language2_text", language),
           language3_text: wordsInLanguage("language3_text", language),
@@ -699,7 +699,7 @@ app.get("/:language/photos/:photoTheme", function (req, res) {
           dailyLife: wordsInLanguage("dailyLife", language),
           news: wordsInLanguage("news", language),
           contact: wordsInLanguage("contact", language),
-          language2: wordsInLanguage("language3", language),
+          language2: wordsInLanguage("language2", language),
           language3: wordsInLanguage("language3", language),
           language2_text: wordsInLanguage("language2_text", language),
           language3_text: wordsInLanguage("language3_text", language),
@@ -730,7 +730,7 @@ app.get("/:language/photos/:photoTheme/add-photo", function (req, res) {
       dailyLife: wordsInLanguage("dailyLife", language),
       news: wordsInLanguage("news", language),
       contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language3", language),
+      language2: wordsInLanguage("language2", language),
       language3: wordsInLanguage("language3", language),
       language2_text: wordsInLanguage("language2_text", language),
       language3_text: wordsInLanguage("language3_text", language),
@@ -787,7 +787,7 @@ app.get("/:language/photos/:photoTheme/:id", function (req, res) {
           dailyLife: wordsInLanguage("dailyLife", language),
           news: wordsInLanguage("news", language),
           contact: wordsInLanguage("contact", language),
-          language2: wordsInLanguage("language3", language),
+          language2: wordsInLanguage("language2", language),
           language3: wordsInLanguage("language3", language),
           language2_text: wordsInLanguage("language2_text", language),
           language3_text: wordsInLanguage("language3_text", language)
