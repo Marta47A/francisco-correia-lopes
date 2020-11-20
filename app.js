@@ -162,10 +162,13 @@ function wordsInLanguage(field, language){
   switch(language) {
     case "PT":
       words = dataPT[field];
+      break;
     case "EN":
       words = dataEN[field];
+      break;
     case "FR":
       words = dataFR[field];
+      break;
     }
     return words;
 }
@@ -353,8 +356,8 @@ app.post("/:language/contact", function (
   const mailOptions = {
     from: '"'+req.body.firstName + " " + req.body.lastName+'" <'+req.body.email+'>', // sender address
     to: "franciscocorreialopes.website@gmail.com", // list of receivers
-    subject: "[www.franciscocorreialopes.com] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
-    text: req.body.message, // plain text body
+    subject: "[Website] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
+    text: req.body.message + "\n\n" + req.body.email // plain text body
   };
   
   transporter.sendMail(mailOptions, function(error, info){
