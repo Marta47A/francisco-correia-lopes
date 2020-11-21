@@ -9,20 +9,46 @@
         </div>
       </div>
     </div>
+    <form visibility= "<%=visibility%>" class="" action="/<%=language%>/posts/add-post" method="get" enctype="multipart/form-data">
+      <div class="form-group form-part-container-md">
+        <div class="form-part-container-sm"><button class="btn btn-primary" type="submit" name="button"><%=add%></button>
+        </div>
+      </div>
+    </form>
     <div class="row mb-5 justify-content-center">
 
         <%  posts.forEach(function(post){ %>
         <div class="col-md-6 col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
           <div>
             <img src="/uploads/<%=post.photoName%>" alt="Image" class="img-fluid post-image">
-            <h2><%=post["title"+language]%></h2>
+            <h2><%=post[titleInLanguage]%></h2>
             <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post.updatedOn%></span></p>
-            <p><%=post["content"+language].substring(0, 100) + " ..."%></p>
+            <p><%=post[contentInLanguage].substring(0, 100) + " ..."%></p>
             <p><a href="/<%=language%>/posts/<%=post._id%>"><%=readMore%></a></p>
 
         </div>
       </div>
 
+      <form class="" action="/<%=language%>/posts/<%=post._id%>/delete" method="post" enctype="multipart/form-data">
+        <div class="form-group form-part-container-md">
+          <div class="form-part-container-sm">
+            <button class="btn btn-primary" type="submit" name="button">
+              <%=myDelete%>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <form class="" action="/<%=language%>/posts/<%=post._id%>/update" method="get" enctype="multipart/form-data">
+        <div class="form-group form-part-container-md">
+          <div class="form-part-container-sm">
+            <button class="btn btn-primary" type="submit" name="button">
+              <%=update%>
+            </button>
+          </div>
+        </div>
+      </form>
+      
         <% }); %>
 
     </div>

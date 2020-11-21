@@ -1,0 +1,52 @@
+<%- include("partials/header_sec"); -%>
+<div class="site-section overlay img-bg-section" id="services-section" style="background-image: url('images/cavaleiro-profissional-dia-a-dia.jpg'); background-size: cover;">
+  <div class="container">
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <div class="block-heading-1">
+          <h2><%=update%></h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-12">
+        <form class="" action="/<%=language%>/posts/<%=post._id%>/update" method="post" enctype="multipart/form-data">
+          <div class="form-group form-part-container-md">
+            <div class="form-part-container-sm"><label class="form-title"><%=titlePT%></label>
+              <input class="form-control" type="text" name="postTitlePT" value="<%=currentTitlePT%>">
+            </div>
+            <div class="form-part-container-sm"><label class="form-title"><%=titleEN%></label>
+              <input class="form-control" type="text" name="postTitleEN" value="<%=currentTitleEN%>">
+            </div>
+            <div class="form-part-container-sm"><label class="form-title"><%=titleFR%></label>
+              <input class="form-control" type="text" name="postTitleFR" value="<%=currentTitleFR%>">
+            </div>
+          </div>
+          <div class="form-group form-part-container-md">
+            <div class="form-part-container-sm"><label class="form-title"><%=image%></label>
+              <input type="file" class="form-control-file" name="postImage" value="<%=photoName%>">
+            </div>
+          </div>
+          <div class="form-group form-part-container-md">
+            <div class="form-part-container-sm"><label class="form-title"><%=contentPT%></label>
+              <textarea class="form-control" name="postBodyPT" rows="5" cols="30"><%=currentContentPT%></textarea>
+            </div>
+            <div class="form-part-container-sm"><label class="form-title"><%=contentEN%></label>
+              <textarea class="form-control" name="postBodyEN" rows="5" cols="30"><%=currentContentEN%></textarea>
+            </div>
+            <div class="form-part-container-sm"><label class="form-title"><%=contentFR%></label>
+              <textarea class="form-control" name="postBodyFR" rows="5" cols="30"><%=currentContentFR%></textarea>
+            </div>
+          </div>
+          <div class="form-group form-part-container-md">
+            <div class="form-part-container-sm"><button class="btn btn-primary" type="submit" name="button"><%=save%></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer"); -%>

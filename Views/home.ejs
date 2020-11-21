@@ -148,9 +148,9 @@
         <div class="col-md-6 col-lg-6" data-aos="fade-up" data-aos-delay="">
           <div>
             <img src="/uploads/<%=post.photoName%>" alt="Image" class="img-fluid post-image">
-            <h2><a href="/<%=language%>/posts/<%=post._id%>"><%=post["title"+language]%></a></h2>
+            <h2><a href="/<%=language%>/posts/<%=post._id%>"><%=post[titleInLanguage]%></a></h2>
             <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post.updatedOn%></span></p>
-            <p><%=post["content"+language].substring(0, 100) + " ..."%></p>
+            <p><%=post[contentInLanguage].substring(0, 100) + " ..."%></p>
             <p><a href="/<%=language%>/posts/<%=post._id%>"><%=readMore%></a></p>
 
         </div>

@@ -46,5 +46,8 @@
     "language2": "PT",
     "language3": "FR",
     "language2_text": "Português",
-    "language3_text": "Français"
+    "language3_text": "Français",
+    "update": "Update",
+    "myDelete": "Delete",
+    "save": "Save"
   }

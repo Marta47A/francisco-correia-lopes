@@ -10,16 +10,30 @@
         </div>
       </div>
     </div>
+    <form visibility= "<%=visibility%>" class="" action="/<%=language%>/photos/<%=photoTheme%>/add-photo" method="get" enctype="multipart/form-data">
+      <div class="form-group form-part-container-md">
+        <div class="form-part-container-sm"><button class="btn btn-primary" type="submit" name="button"><%=add%></button>
+        </div>
+      </div>
+    </form>
     <div class="row mb-5 justify-content-center">
 
-      <%  photos.forEach(function(photo){ %>
+      <% photos.forEach(function(photo){ %>
       <div class="col-md-5 text-center">
         <div>
-          <a href="/<%=language%>/photos/<%=photo.theme +'/' + photo._id%>"><img class="img-fluid photo-image" src="/uploads/<%=photo.name%>" alt="<%=photo.name%>"></a>
+          <a href="/<%=language%>/photos/<%=photo.photoTheme +'/' + photo._id%>"><img class="img-fluid photo-image" src="/uploads/<%=photo.name%>" alt="<%=photo.name%>"></a>
 
         </div>
       </div>
-
+      <form visibility= "<%=visibility%>" class="" action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/delete" method="post" enctype="multipart/form-data">
+        <div class="form-group form-part-container-md">
+          <div class="form-part-container-sm">
+            <button class="btn btn-primary" type="submit" name="button">
+              <%=myDelete%>
+            </button>
+          </div>
+        </div>
+      </form>
       <% }); %>
 
     </div>
