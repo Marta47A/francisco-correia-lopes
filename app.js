@@ -17,15 +17,14 @@ require("dotenv/config");
 const multer = require("multer");
 const nodemailer = require("nodemailer");
 
+const dataPT_ = fs.readFileSync("public/languages/PT.json", "utf8");
+const dataPT = JSON.parse(dataPT_);
 
-const dataPT_=fs.readFileSync('public/languages/PT.json', 'utf8');
-const dataPT=JSON.parse(dataPT_);
+const dataEN_ = fs.readFileSync("public/languages/EN.json", "utf8");
+const dataEN = JSON.parse(dataEN_);
 
-const dataEN_=fs.readFileSync('public/languages/EN.json', 'utf8');
-const dataEN=JSON.parse(dataEN_);
-
-const dataFR_=fs.readFileSync('public/languages/FR.json', 'utf8');
-const dataFR=JSON.parse(dataFR_);
+const dataFR_ = fs.readFileSync("public/languages/FR.json", "utf8");
+const dataFR = JSON.parse(dataFR_);
 
 let currentDate = Date.now();
 
@@ -74,11 +73,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-mongoose.connect("mongodb+srv://admin-marta47a:"+process.env.PASS_MONGODB+"@cluster0.xca7w.mongodb.net/francisco-correia-lopes?retryWrites=true&w=majority", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://admin-marta47a:" +
+    process.env.PASS_MONGODB +
+    "@cluster0.xca7w.mongodb.net/francisco-correia-lopes?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 mongoose.set("useCreateIndex", true);
 
 //Users
@@ -156,10 +159,9 @@ app.get("/", function (req, res) {
   res.redirect("/PT");
 });
 
-
-function wordsInLanguage(field, language){
+function wordsInLanguage(field, language) {
   let words;
-  switch(language) {
+  switch (language) {
     case "PT":
       words = dataPT[field];
       break;
@@ -169,14 +171,14 @@ function wordsInLanguage(field, language){
     case "FR":
       words = dataFR[field];
       break;
-    }
-    return words;
+  }
+  return words;
 }
 
 app.get("/:language/", function (req, res) {
- const language = req.params.language;
+  const language = req.params.language;
 
- Post.find()
+  Post.find()
     .sort({
       updatedOn: -1,
     })
@@ -207,7 +209,10 @@ app.get("/:language/", function (req, res) {
         workTraining: wordsInLanguage("workTraining", language),
         bullfights: wordsInLanguage("bullfights", language),
         bullfights_amateur: wordsInLanguage("bullfights_amateur", language),
-        bullfights_professional: wordsInLanguage("bullfights_professional", language),
+        bullfights_professional: wordsInLanguage(
+          "bullfights_professional",
+          language
+        ),
         lastNews: wordsInLanguage("lastNews", language),
         readMore: wordsInLanguage("readMore", language),
         moreNews: wordsInLanguage("moreNews", language),
@@ -217,19 +222,15 @@ app.get("/:language/", function (req, res) {
         contactMe_msg: wordsInLanguage("contactMe_msg", language),
         contactMe_send: wordsInLanguage("contactMe_send", language),
         titleInLanguage: postParameterInLanguage("title", language),
-        contentInLanguage: postParameterInLanguage("content", language)
+        contentInLanguage: postParameterInLanguage("content", language),
       });
     });
 });
 
-app.post("/:language/", function (
-  req,
-  res
-) {
-
+app.post("/:language/", function (req, res) {
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: "smtp.gmail.com",
     port: 465,
     secure: true, // use SSL
     auth: {
@@ -240,112 +241,113 @@ app.post("/:language/", function (
 
   // send mail with defined transport object
   const mailOptions = {
-    from: '"'+req.body.firstName + " " + req.body.lastName+'" <'+req.body.email+'>', // sender address
+    from:
+      '"' +
+      req.body.firstName +
+      " " +
+      req.body.lastName +
+      '" <' +
+      req.body.email +
+      ">", // sender address
     to: "franciscocorreialopes.website@gmail.com", // list of receivers
-    subject: "[Website] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
-    text: req.body.message + "\n\n" + req.body.email // plain text body
+    subject:
+      "[Website] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
+    text: req.body.message + "\n\n" + req.body.email, // plain text body
   };
-  
-  transporter.sendMail(mailOptions, function(error, info){
+
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-    console.log(error);
+      console.log(error);
     } else {
-      res.redirect("/" + req.params.language+"/send-successful");
+      res.redirect("/" + req.params.language + "/send-successful");
     }
   });
-
-  
 });
 
-
 app.get("/:language/biography", function (req, res) {
-
   const language = req.params.language;
 
-    res.render("biography", {
-      language: language,
-      name: wordsInLanguage("name", language),
-      title: wordsInLanguage("title", language),
-      keywords: wordsInLanguage("keywords", language),
-      description: wordsInLanguage("description", language),
-      home: wordsInLanguage("home", language),
-      biography: wordsInLanguage("biography", language),
-      dailyLife: wordsInLanguage("dailyLife", language),
-      news: wordsInLanguage("news", language),
-      contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language2", language),
-      language3: wordsInLanguage("language3", language),
-      language2_text: wordsInLanguage("language2_text", language),
-      language3_text: wordsInLanguage("language3_text", language),
-      biography_text_1: wordsInLanguage("biography_text_1", language),
-      biography_text_2: wordsInLanguage("biography_text_2", language)
-    });
+  res.render("biography", {
+    language: language,
+    name: wordsInLanguage("name", language),
+    title: wordsInLanguage("title", language),
+    keywords: wordsInLanguage("keywords", language),
+    description: wordsInLanguage("description", language),
+    home: wordsInLanguage("home", language),
+    biography: wordsInLanguage("biography", language),
+    dailyLife: wordsInLanguage("dailyLife", language),
+    news: wordsInLanguage("news", language),
+    contact: wordsInLanguage("contact", language),
+    language2: wordsInLanguage("language2", language),
+    language3: wordsInLanguage("language3", language),
+    language2_text: wordsInLanguage("language2_text", language),
+    language3_text: wordsInLanguage("language3_text", language),
+    biography_text_1: wordsInLanguage("biography_text_1", language),
+    biography_text_2: wordsInLanguage("biography_text_2", language),
+  });
 });
 
 app.get("/:language/daily-life", function (req, res) {
+  const language = req.params.language;
 
-    const language = req.params.language;
-
-    res.render("daily-life", {
-      language: language,
-      name: wordsInLanguage("name", language),
-      title: wordsInLanguage("title", language),
-      keywords: wordsInLanguage("keywords", language),
-      description: wordsInLanguage("description", language),
-      home: wordsInLanguage("home", language),
-      biography: wordsInLanguage("biography", language),
-      dailyLife: wordsInLanguage("dailyLife", language),
-      news: wordsInLanguage("news", language),
-      contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language2", language),
-      language3: wordsInLanguage("language3", language),
-      language2_text: wordsInLanguage("language2_text", language),
-      language3_text: wordsInLanguage("language3_text", language),
-      workEquitationTests: wordsInLanguage("workEquitationTests", language),
-      ridingLessons: wordsInLanguage("ridingLessons", language),
-      workTraining: wordsInLanguage("workTraining", language),
-      bullfights: wordsInLanguage("bullfights", language),
-      bullfights_amateur: wordsInLanguage("bullfights_amateur", language),
-      bullfights_professional: wordsInLanguage("bullfights_professional", language)
-    });
+  res.render("daily-life", {
+    language: language,
+    name: wordsInLanguage("name", language),
+    title: wordsInLanguage("title", language),
+    keywords: wordsInLanguage("keywords", language),
+    description: wordsInLanguage("description", language),
+    home: wordsInLanguage("home", language),
+    biography: wordsInLanguage("biography", language),
+    dailyLife: wordsInLanguage("dailyLife", language),
+    news: wordsInLanguage("news", language),
+    contact: wordsInLanguage("contact", language),
+    language2: wordsInLanguage("language2", language),
+    language3: wordsInLanguage("language3", language),
+    language2_text: wordsInLanguage("language2_text", language),
+    language3_text: wordsInLanguage("language3_text", language),
+    workEquitationTests: wordsInLanguage("workEquitationTests", language),
+    ridingLessons: wordsInLanguage("ridingLessons", language),
+    workTraining: wordsInLanguage("workTraining", language),
+    bullfights: wordsInLanguage("bullfights", language),
+    bullfights_amateur: wordsInLanguage("bullfights_amateur", language),
+    bullfights_professional: wordsInLanguage(
+      "bullfights_professional",
+      language
+    ),
+  });
 });
 
 app.get("/:language/contact", function (req, res) {
-  
-    const language = req.params.language;
+  const language = req.params.language;
 
-    res.render("contact", {
-      language: language,
-      name: wordsInLanguage("name", language),
-      title: wordsInLanguage("title", language),
-      keywords: wordsInLanguage("keywords", language),
-      description: wordsInLanguage("description", language),
-      home: wordsInLanguage("home", language),
-      biography: wordsInLanguage("biography", language),
-      dailyLife: wordsInLanguage("dailyLife", language),
-      news: wordsInLanguage("news", language),
-      contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language2", language),
-      language3: wordsInLanguage("language3", language),
-      language2_text: wordsInLanguage("language2_text", language),
-      language3_text: wordsInLanguage("language3_text", language),
-      contactMe: wordsInLanguage("contactMe", language),
-      contactMe_first_name: wordsInLanguage("contactMe_first_name", language),
-      contactMe_last_name: wordsInLanguage("contactMe_last_name", language),
-      contactMe_email: wordsInLanguage("contactMe_email", language),
-      contactMe_msg: wordsInLanguage("contactMe_msg", language),
-      contactMe_send: wordsInLanguage("contactMe_send", language)
-    });
+  res.render("contact", {
+    language: language,
+    name: wordsInLanguage("name", language),
+    title: wordsInLanguage("title", language),
+    keywords: wordsInLanguage("keywords", language),
+    description: wordsInLanguage("description", language),
+    home: wordsInLanguage("home", language),
+    biography: wordsInLanguage("biography", language),
+    dailyLife: wordsInLanguage("dailyLife", language),
+    news: wordsInLanguage("news", language),
+    contact: wordsInLanguage("contact", language),
+    language2: wordsInLanguage("language2", language),
+    language3: wordsInLanguage("language3", language),
+    language2_text: wordsInLanguage("language2_text", language),
+    language3_text: wordsInLanguage("language3_text", language),
+    contactMe: wordsInLanguage("contactMe", language),
+    contactMe_first_name: wordsInLanguage("contactMe_first_name", language),
+    contactMe_last_name: wordsInLanguage("contactMe_last_name", language),
+    contactMe_email: wordsInLanguage("contactMe_email", language),
+    contactMe_msg: wordsInLanguage("contactMe_msg", language),
+    contactMe_send: wordsInLanguage("contactMe_send", language),
+  });
 });
 
-app.post("/:language/contact", function (
-  req,
-  res
-) {
-
+app.post("/:language/contact", function (req, res) {
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: "smtp.gmail.com",
     port: 465,
     secure: true, // use SSL
     auth: {
@@ -356,44 +358,49 @@ app.post("/:language/contact", function (
 
   // send mail with defined transport object
   const mailOptions = {
-    from: '"'+req.body.firstName + " " + req.body.lastName+'" <'+req.body.email+'>', // sender address
+    from:
+      '"' +
+      req.body.firstName +
+      " " +
+      req.body.lastName +
+      '" <' +
+      req.body.email +
+      ">", // sender address
     to: "franciscocorreialopes.website@gmail.com", // list of receivers
-    subject: "[Website] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
-    text: req.body.message + "\n\n" + req.body.email // plain text body
+    subject:
+      "[Website] Contacto por " + req.body.firstName + " " + req.body.lastName, // Subject line
+    text: req.body.message + "\n\n" + req.body.email, // plain text body
   };
-  
-  transporter.sendMail(mailOptions, function(error, info){
+
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-    console.log(error);
+      console.log(error);
     } else {
-      res.redirect("/" + req.params.language+"/send-successful");
+      res.redirect("/" + req.params.language + "/send-successful");
     }
   });
-
-  
 });
 
 app.get("/:language/send-successful", function (req, res) {
-
   const language = req.params.language;
 
-    res.render("send-successful",{
-      language: language,
-      name: wordsInLanguage("name", language),
-      title: wordsInLanguage("title", language),
-      keywords: wordsInLanguage("keywords", language),
-      description: wordsInLanguage("description", language),
-      home: wordsInLanguage("home", language),
-      biography: wordsInLanguage("biography", language),
-      dailyLife: wordsInLanguage("dailyLife", language),
-      news: wordsInLanguage("news", language),
-      contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language2", language),
-      language3: wordsInLanguage("language3", language),
-      language2_text: wordsInLanguage("language2_text", language),
-      language3_text: wordsInLanguage("language3_text", language),
-      sendSuccessful: wordsInLanguage("sendSuccessful", language)
-    });
+  res.render("send-successful", {
+    language: language,
+    name: wordsInLanguage("name", language),
+    title: wordsInLanguage("title", language),
+    keywords: wordsInLanguage("keywords", language),
+    description: wordsInLanguage("description", language),
+    home: wordsInLanguage("home", language),
+    biography: wordsInLanguage("biography", language),
+    dailyLife: wordsInLanguage("dailyLife", language),
+    news: wordsInLanguage("news", language),
+    contact: wordsInLanguage("contact", language),
+    language2: wordsInLanguage("language2", language),
+    language3: wordsInLanguage("language3", language),
+    language2_text: wordsInLanguage("language2_text", language),
+    language3_text: wordsInLanguage("language3_text", language),
+    sendSuccessful: wordsInLanguage("sendSuccessful", language),
+  });
 });
 
 app.get(
@@ -415,31 +422,29 @@ app.get(
 );
 
 app.get("/:language/login", function (req, res) {
+  const language = req.params.language;
 
-    const language = req.params.language;
-
-    res.render("login",{
-      language: language,
-      name: wordsInLanguage("name", language),
-      title: wordsInLanguage("title", language),
-      keywords: wordsInLanguage("keywords", language),
-      description: wordsInLanguage("description", language),
-      home: wordsInLanguage("home", language),
-      biography: wordsInLanguage("biography", language),
-      dailyLife: wordsInLanguage("dailyLife", language),
-      news: wordsInLanguage("news", language),
-      contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language2", language),
-      language3: wordsInLanguage("language3", language),
-      language2_text: wordsInLanguage("language2_text", language),
-      language3_text: wordsInLanguage("language3_text", language),
-      login: wordsInLanguage("login", language),
-      signIn: wordsInLanguage("signIn", language)
-    });
+  res.render("login", {
+    language: language,
+    name: wordsInLanguage("name", language),
+    title: wordsInLanguage("title", language),
+    keywords: wordsInLanguage("keywords", language),
+    description: wordsInLanguage("description", language),
+    home: wordsInLanguage("home", language),
+    biography: wordsInLanguage("biography", language),
+    dailyLife: wordsInLanguage("dailyLife", language),
+    news: wordsInLanguage("news", language),
+    contact: wordsInLanguage("contact", language),
+    language2: wordsInLanguage("language2", language),
+    language3: wordsInLanguage("language3", language),
+    language2_text: wordsInLanguage("language2_text", language),
+    language3_text: wordsInLanguage("language3_text", language),
+    login: wordsInLanguage("login", language),
+    signIn: wordsInLanguage("signIn", language),
+  });
 });
 
 app.get("/:language/register", function (req, res) {
-
   const language = req.params.language;
 
   User.countDocuments({}, function (err, count) {
@@ -447,7 +452,7 @@ app.get("/:language/register", function (req, res) {
       console.log(err);
     } else {
       if (count === 0) {
-        res.render("register",{
+        res.render("register", {
           language: language,
           name: wordsInLanguage("name", language),
           title: wordsInLanguage("title", language),
@@ -463,7 +468,7 @@ app.get("/:language/register", function (req, res) {
           language2_text: wordsInLanguage("language2_text", language),
           language3_text: wordsInLanguage("language3_text", language),
           register: wordsInLanguage("register", language),
-          signUp: wordsInLanguage("signUp", language)
+          signUp: wordsInLanguage("signUp", language),
         });
       } else {
         res.send("There already is an administrator.");
@@ -496,7 +501,6 @@ app.post("/:language/register", function (req, res) {
 });
 
 app.post("/:language/login", function (req, res) {
-  
   req.login(user, function (err) {
     if (err) {
       console.log(err);
@@ -512,9 +516,9 @@ app.post("/:language/login", function (req, res) {
 
 ///////////////////////////////////Requests Targetting all posts////////////////////////
 
-function postParameterInLanguage(word, language){
+function postParameterInLanguage(word, language) {
   let words;
-  switch(language) {
+  switch (language) {
     case "PT":
       words = word + "PT";
       break;
@@ -524,59 +528,58 @@ function postParameterInLanguage(word, language){
     case "FR":
       words = word + "FR";
       break;
-    }
-    return words;
+  }
+  return words;
 }
 
 function postsGetParameters(language, visibility, res) {
   Post.find()
-  .sort({
-    updatedOn: -1,
-  })
-  .exec(function (err, posts) {
-    res.render("posts", {
-      posts: posts,
-      language: language,
-      name: wordsInLanguage("name", language),
-      title: wordsInLanguage("title", language),
-      keywords: wordsInLanguage("keywords", language),
-      description: wordsInLanguage("description", language),
-      home: wordsInLanguage("home", language),
-      biography: wordsInLanguage("biography", language),
-      dailyLife: wordsInLanguage("dailyLife", language),
-      news: wordsInLanguage("news", language),
-      contact: wordsInLanguage("contact", language),
-      language2: wordsInLanguage("language2", language),
-      language3: wordsInLanguage("language3", language),
-      language2_text: wordsInLanguage("language2_text", language),
-      language3_text: wordsInLanguage("language3_text", language), 
-      readMore: wordsInLanguage("readMore", language),
-      add: wordsInLanguage("add", language),
-      myDelete: wordsInLanguage("myDelete", language),
-      update: wordsInLanguage("update", language),
-      titleInLanguage: postParameterInLanguage("title", language),
-      contentInLanguage: postParameterInLanguage("content", language),
-      visibility: visibility,
+    .sort({
+      updatedOn: -1,
+    })
+    .exec(function (err, posts) {
+      res.render("posts", {
+        posts: posts,
+        language: language,
+        name: wordsInLanguage("name", language),
+        title: wordsInLanguage("title", language),
+        keywords: wordsInLanguage("keywords", language),
+        description: wordsInLanguage("description", language),
+        home: wordsInLanguage("home", language),
+        biography: wordsInLanguage("biography", language),
+        dailyLife: wordsInLanguage("dailyLife", language),
+        news: wordsInLanguage("news", language),
+        contact: wordsInLanguage("contact", language),
+        language2: wordsInLanguage("language2", language),
+        language3: wordsInLanguage("language3", language),
+        language2_text: wordsInLanguage("language2_text", language),
+        language3_text: wordsInLanguage("language3_text", language),
+        readMore: wordsInLanguage("readMore", language),
+        add: wordsInLanguage("add", language),
+        myDelete: wordsInLanguage("myDelete", language),
+        update: wordsInLanguage("update", language),
+        titleInLanguage: postParameterInLanguage("title", language),
+        contentInLanguage: postParameterInLanguage("content", language),
+        visibility: visibility,
+      });
     });
-  });
 }
 
 app.get("/:language/posts", function (req, res) {
-
   const language = req.params.language;
 
   if (req.isAuthenticated()) {
-    postsGetParameters(language, "visibility", res)
+    postsGetParameters(language, "block", res);
   } else {
-    postsGetParameters(language, "hidden", res)
-}});
+    postsGetParameters(language, "none", res);
+  }
+});
 
 app.get("/:language/posts/add-post", function (req, res) {
-
   const language = req.params.language;
 
   if (req.isAuthenticated()) {
-    res.render("add-post",{
+    res.render("add-post", {
       language: language,
       name: wordsInLanguage("name", language),
       title: wordsInLanguage("title", language),
@@ -599,7 +602,7 @@ app.get("/:language/posts/add-post", function (req, res) {
       contentEN: wordsInLanguage("contentEN", language),
       contentFR: wordsInLanguage("contentFR", language),
       image: wordsInLanguage("image", language),
-      publish: wordsInLanguage("publish", language)
+      publish: wordsInLanguage("publish", language),
     });
   } else {
     res.redirect("/" + language + "/login");
@@ -618,7 +621,7 @@ app.post("/:language/posts/add-post", upload.single("postImage"), function (
     contentEN: req.body.postBodyEN,
     contentFR: req.body.postBodyFR,
     updatedOn: Date.now(),
-    photoName: "postImage - " + currentDate + ".jpg"
+    photoName: "postImage - " + currentDate + ".jpg",
   });
 
   post.save(function (err) {
@@ -634,7 +637,6 @@ app.post("/:language/posts/add-post", upload.single("postImage"), function (
 ////////////////////////////////Requests Targetting A Specific Post////////////////////////
 
 app.get("/:language/posts/:id", function (req, res) {
-
   const language = req.params.language;
 
   Post.findOne(
@@ -659,7 +661,7 @@ app.get("/:language/posts/:id", function (req, res) {
           language3: wordsInLanguage("language3", language),
           language2_text: wordsInLanguage("language2_text", language),
           language3_text: wordsInLanguage("language3_text", language),
-          readMore: wordsInLanguage("readMore", language)
+          readMore: wordsInLanguage("readMore", language),
         });
       } else {
         res.send("No posts matching that title were found.");
@@ -669,7 +671,6 @@ app.get("/:language/posts/:id", function (req, res) {
 });
 
 app.get("/:language/posts/:id/update", function (req, res) {
-
   const language = req.params.language;
 
   Post.findOne(
@@ -709,7 +710,7 @@ app.get("/:language/posts/:id/update", function (req, res) {
           currentContentEN: post.contentEN,
           currentContentFR: post.contentFR,
           photoName: post.photoName,
-          image: wordsInLanguage("image", language)
+          image: wordsInLanguage("image", language),
         });
       } else {
         res.send("No posts matching that title were found.");
@@ -723,13 +724,31 @@ app.post("/:language/posts/:id/update", upload.single("postImage"), function (
   res
 ) {
   const language = req.params.language;
-  
+
   if (req.isAuthenticated()) {
-    Post.updateOne(
-      {
-        _id: req.params.id,
-      },{
-        $set: {
+    if (req.body.length !== 6) {
+      Post.findOne(
+        {
+          _id: req.params.id,
+        },
+        function (err, post) {
+          if (post) {
+            try {
+              fs.unlinkSync("public/uploads/" + post.photoName);
+            } catch (err) {
+              // handle the error
+            }
+          } else {
+            res.send("No posts matching that title were found.");
+          }
+        }
+      );
+
+      Post.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
           titlePT: req.body.postTitlePT,
           titleEN: req.body.postTitleEN,
           titleFR: req.body.postTitleFR,
@@ -737,27 +756,49 @@ app.post("/:language/posts/:id/update", upload.single("postImage"), function (
           contentEN: req.body.postBodyEN,
           contentFR: req.body.postBodyFR,
           updatedOn: Date.now(),
-          photoName: req.body.postImage
+          photoName: "postImage - " + currentDate + ".jpg",
         },
-      },
-      function (err) {
-        if (!err) {
-          res.redirect("/" + language + "/posts");
-
-        } else {
-          res.send("No posts matching that title were found.");
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/posts");
+          } else {
+            res.send("No posts matching that title were found.");
+          }
         }
-      }
-    );
+      );
+    } else {
+      Post.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+
+        {
+          titlePT: req.body.postTitlePT,
+          titleEN: req.body.postTitleEN,
+          titleFR: req.body.postTitleFR,
+          contentPT: req.body.postBodyPT,
+          contentEN: req.body.postBodyEN,
+          contentFR: req.body.postBodyFR,
+          updatedOn: Date.now(),
+        },
+
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/posts");
+          } else {
+            res.send("No posts matching that title were found.");
+          }
+        }
+      );
+    }
   } else {
     res.redirect("/" + language + "/login");
   }
 });
 
 app.post("/:language/posts/:id/delete", function (req, res) {
-  
   const language = req.params.language;
-  
+
   if (req.isAuthenticated()) {
     Post.deleteOne(
       {
@@ -766,7 +807,6 @@ app.post("/:language/posts/:id/delete", function (req, res) {
       function (err) {
         if (!err) {
           res.redirect("/" + language + "/posts");
-
         } else {
           res.send("No posts matching that title were found.");
         }
@@ -777,83 +817,103 @@ app.post("/:language/posts/:id/delete", function (req, res) {
   }
 });
 
-
 //Photos
 
 ///////////////////////////////////Requests Targetting all Photos////////////////////////
 
-function photosGetParameters(language, visibility, res, photoTheme, photoThemeInLanguageTitle, photoThemeInLanguageSubtitle){
-    Photo.find(
-      {
-        theme: photoTheme,
-      },
-      function (err, photos) {
-        if (!err) {
-          res.render("photos", {
-            photos: photos,
-            photoTheme: photoTheme,
-            language: language,
-            name: wordsInLanguage("name", language),
-            title: wordsInLanguage("title", language),
-            keywords: wordsInLanguage("keywords", language),
-            description: wordsInLanguage("description", language),
-            home: wordsInLanguage("home", language),
-            biography: wordsInLanguage("biography", language),
-            dailyLife: wordsInLanguage("dailyLife", language),
-            news: wordsInLanguage("news", language),
-            contact: wordsInLanguage("contact", language),
-            language2: wordsInLanguage("language2", language),
-            language3: wordsInLanguage("language3", language),
-            language2_text: wordsInLanguage("language2_text", language),
-            language3_text: wordsInLanguage("language3_text", language),
-            requestedPhotoThemeTitle: photoThemeInLanguageTitle,
-            requestedPhotoThemeSubtitle: photoThemeInLanguageSubtitle,
-            add: wordsInLanguage("add", language),
-            myDelete: wordsInLanguage("myDelete", language),
-            visibility: visibility
-          });
-        } else {
-          res.send("No photos matching that title were found.");
-        }
+function photosGetParameters(
+  language,
+  visibility,
+  res,
+  photoTheme,
+  photoThemeInLanguageTitle,
+  photoThemeInLanguageSubtitle
+) {
+  Photo.find(
+    {
+      theme: photoTheme,
+    },
+    function (err, photos) {
+      if (!err) {
+        res.render("photos", {
+          photos: photos,
+          photoTheme: photoTheme,
+          language: language,
+          name: wordsInLanguage("name", language),
+          title: wordsInLanguage("title", language),
+          keywords: wordsInLanguage("keywords", language),
+          description: wordsInLanguage("description", language),
+          home: wordsInLanguage("home", language),
+          biography: wordsInLanguage("biography", language),
+          dailyLife: wordsInLanguage("dailyLife", language),
+          news: wordsInLanguage("news", language),
+          contact: wordsInLanguage("contact", language),
+          language2: wordsInLanguage("language2", language),
+          language3: wordsInLanguage("language3", language),
+          language2_text: wordsInLanguage("language2_text", language),
+          language3_text: wordsInLanguage("language3_text", language),
+          requestedPhotoThemeTitle: photoThemeInLanguageTitle,
+          requestedPhotoThemeSubtitle: photoThemeInLanguageSubtitle,
+          add: wordsInLanguage("add", language),
+          myDelete: wordsInLanguage("myDelete", language),
+          visibility: visibility,
+        });
+      } else {
+        res.send("No photos matching that title were found.");
       }
-    );
-
+    }
+  );
 }
 
 app.get("/:language/photos/:photoTheme", function (req, res) {
-
   const language = req.params.language;
-  
+
   const photoTheme = req.params.photoTheme;
   const photoThemeSplit = photoTheme.split("-");
   const photoThemeTitle = photoThemeSplit[0];
+  const photoThemeSubtitle = photoThemeSplit[1];
   let photoThemeInLanguageTitle;
   let photoThemeInLanguageSubtitle = "";
 
-
-  if(photoThemeInLanguageTitle==="bullfights"){
-    photoThemeInLanguageTitle = wordsInLanguage(photoThemeTitle,language);
-    photoThemeInLanguageSubtitle = wordsInLanguage(photoTheme,language);
-  }
-  else{
-    photoThemeInLanguageTitle = wordsInLanguage(photoTheme,language);
+  if (photoThemeTitle === "bullfights") {
+    photoThemeInLanguageTitle = wordsInLanguage(photoThemeTitle, language);
+    photoThemeInLanguageSubtitle = wordsInLanguage(
+      photoThemeSubtitle,
+      language
+    );
+  } else {
+    photoThemeInLanguageTitle = wordsInLanguage(
+      _.camelCase([(string = photoTheme)]),
+      language
+    );
   }
 
   if (req.isAuthenticated()) {
-    photosGetParameters(language, "visibility", res, photoTheme, photoThemeInLanguageTitle, photoThemeInLanguageSubtitle);
-  
+    photosGetParameters(
+      language,
+      "block",
+      res,
+      photoTheme,
+      photoThemeInLanguageTitle,
+      photoThemeInLanguageSubtitle
+    );
   } else {
-    photosGetParameters(language, "hidden", res, photoTheme, photoThemeInLanguageTitle, photoThemeInLanguageSubtitle);
+    photosGetParameters(
+      language,
+      "none",
+      res,
+      photoTheme,
+      photoThemeInLanguageTitle,
+      photoThemeInLanguageSubtitle
+    );
   }
 });
 
-
 app.get("/:language/photos/:photoTheme/add-photo", function (req, res) {
-
   const language = req.params.language;
 
   if (req.isAuthenticated()) {
-    res.render("add-photo", { 
+    res.render("add-photo", {
       language: language,
       name: wordsInLanguage("name", language),
       title: wordsInLanguage("title", language),
@@ -871,7 +931,7 @@ app.get("/:language/photos/:photoTheme/add-photo", function (req, res) {
       photoTheme: req.params.photoTheme,
       addPhoto: wordsInLanguage("addPhoto", language),
       image: wordsInLanguage("image", language),
-      add: wordsInLanguage("add", language)
+      add: wordsInLanguage("add", language),
     });
   } else {
     res.redirect("/" + language + "/login");
@@ -884,12 +944,14 @@ app.post(
   function (req, res, next) {
     const photo = new Photo({
       theme: req.params.photoTheme,
-      name: "photoImage - " + currentDate + ".jpg"
+      name: "photoImage - " + currentDate + ".jpg",
     });
 
     photo.save(function (err) {
       if (!err) {
-        res.redirect("/" + req.params.language + "/photos/" + req.params.photoTheme);
+        res.redirect(
+          "/" + req.params.language + "/photos/" + req.params.photoTheme
+        );
       } else {
         res.send(err);
       }
@@ -900,7 +962,6 @@ app.post(
 ////////////////////////////////Requests Targetting A Specific Photo////////////////////////
 
 app.get("/:language/photos/:photoTheme/:id", function (req, res) {
-
   const language = req.params.language;
 
   Photo.findOne(
@@ -924,7 +985,7 @@ app.get("/:language/photos/:photoTheme/:id", function (req, res) {
           language2: wordsInLanguage("language2", language),
           language3: wordsInLanguage("language3", language),
           language2_text: wordsInLanguage("language2_text", language),
-          language3_text: wordsInLanguage("language3_text", language)
+          language3_text: wordsInLanguage("language3_text", language),
         });
       } else {
         res.send("No photos matching that title were found.");
@@ -934,7 +995,6 @@ app.get("/:language/photos/:photoTheme/:id", function (req, res) {
 });
 
 app.post("/:language/photos/:photoTheme/:id/delete", function (req, res) {
-
   const language = req.params.language;
 
   if (req.isAuthenticated()) {

@@ -2,7 +2,7 @@
 
 <div class="site-section overlay img-bg-section" id="services-section">
   <div class="container">
-    <div class="row mb-5 justify-content-center">
+    <div class="row justify-content-center">
       <div class="col-md-9 text-center">
         <div class="block-heading-1">
           <h2><%=requestedPhotoThemeTitle%></h2>
@@ -10,32 +10,53 @@
         </div>
       </div>
     </div>
-    <form visibility= "<%=visibility%>" class="" action="/<%=language%>/photos/<%=photoTheme%>/add-photo" method="get" enctype="multipart/form-data">
-      <div class="form-group form-part-container-md">
-        <div class="form-part-container-sm"><button class="btn btn-primary" type="submit" name="button"><%=add%></button>
-        </div>
-      </div>
-    </form>
     <div class="row mb-5 justify-content-center">
-
-      <% photos.forEach(function(photo){ %>
-      <div class="col-md-5 text-center">
-        <div>
-          <a href="/<%=language%>/photos/<%=photo.photoTheme +'/' + photo._id%>"><img class="img-fluid photo-image" src="/uploads/<%=photo.name%>" alt="<%=photo.name%>"></a>
-
-        </div>
-      </div>
-      <form visibility= "<%=visibility%>" class="" action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/delete" method="post" enctype="multipart/form-data">
+      <form
+        style="display: <%=visibility%>"
+        class=""
+        action="/<%=language%>/photos/<%=photoTheme%>/add-photo"
+        method="get"
+        enctype="multipart/form-data"
+      >
         <div class="form-group form-part-container-md">
           <div class="form-part-container-sm">
             <button class="btn btn-primary" type="submit" name="button">
-              <%=myDelete%>
+              <%=add%> <i class="far fa-plus-square"></i>
             </button>
           </div>
         </div>
       </form>
+    </div>
+    <div class="row mb-5 justify-content-center">
+      <% photos.forEach(function(photo){ %>
+      <div class="col-md-6 text-center">
+        <div>
+          <a href="/<%=language%>/photos/<%=photo.photoTheme +'/' + photo._id%>"
+            ><img
+              class="img-fluid photo-image"
+              src="/uploads/<%=photo.name%>"
+              alt="<%=photo.name%>"
+          /></a>
+        </div>
+      </div>
+      <form
+        style="display: <%=visibility%>"
+        class="mb-5"
+        action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/delete"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="form-part-container-sm">
+          <button
+            class="btn btn-primary button-post btn-sm"
+            type="submit"
+            name="button"
+          >
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </div>
+      </form>
       <% }); %>
-
     </div>
   </div>
 </div>

@@ -58,6 +58,10 @@
   margin-left: 10px;
 }
 
+.button-post{
+  width: 35px;
+}
+
 /* Base */
 .font-size-10 {
   font-size: 10px;

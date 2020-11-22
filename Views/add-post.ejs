@@ -1,5 +1,12 @@
 <%- include("partials/header_sec"); -%>
-<div class="site-section overlay img-bg-section" id="services-section" style="background-image: url('images/cavaleiro-profissional-dia-a-dia.jpg'); background-size: cover;">
+<div
+  class="site-section overlay img-bg-section"
+  id="services-section"
+  style="
+    background-image: url('images/cavaleiro-profissional-dia-a-dia.jpg');
+    background-size: cover;
+  "
+>
   <div class="container">
     <div class="row mb-5 justify-content-center">
       <div class="col-md-7 text-center">
@@ -11,36 +18,69 @@
 
     <div class="row mb-5 justify-content-center">
       <div class="col-md-12">
-        <form class="" action="/<%=language%>/posts/add-post" method="post" enctype="multipart/form-data">
+        <form
+          class=""
+          action="/<%=language%>/posts/add-post"
+          method="post"
+          enctype="multipart/form-data"
+        >
           <div class="form-group form-part-container-md">
-            <div class="form-part-container-sm"><label class="form-title"><%=titlePT%></label>
-              <input class="form-control" type="text" name="postTitlePT">
-            </div>
-            <div class="form-part-container-sm"><label class="form-title"><%=titleEN%></label>
-              <input class="form-control" type="text" name="postTitleEN">
-            </div>
-            <div class="form-part-container-sm"><label class="form-title"><%=titleFR%></label>
-              <input class="form-control" type="text" name="postTitleFR">
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=image%></label>
+              <input type="file" class="form-control-file" name="postImage" />
             </div>
           </div>
           <div class="form-group form-part-container-md">
-            <div class="form-part-container-sm"><label class="form-title"><%=image%></label>
-              <input type="file" class="form-control-file" name="postImage">
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=titlePT%></label>
+              <input class="form-control" type="text" name="postTitlePT" />
+            </div>
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=contentPT%></label>
+              <textarea
+                class="form-control"
+                name="postBodyPT"
+                rows="5"
+                cols="30"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-group form-part-container-md">
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=titleEN%></label>
+              <input class="form-control" type="text" name="postTitleEN" />
+            </div>
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=contentEN%></label>
+              <textarea
+                class="form-control"
+                name="postBodyEN"
+                rows="5"
+                cols="30"
+              ></textarea>
             </div>
           </div>
           <div class="form-group form-part-container-md">
-            <div class="form-part-container-sm"><label class="form-title"><%=contentPT%></label>
-              <textarea class="form-control" name="postBodyPT" rows="5" cols="30"></textarea>
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=titleFR%></label>
+              <input class="form-control" type="text" name="postTitleFR" />
             </div>
-            <div class="form-part-container-sm"><label class="form-title"><%=contentEN%></label>
-              <textarea class="form-control" name="postBodyEN" rows="5" cols="30"></textarea>
-            </div>
-            <div class="form-part-container-sm"><label class="form-title"><%=contentFR%></label>
-              <textarea class="form-control" name="postBodyFR" rows="5" cols="30"></textarea>
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=contentFR%></label>
+              <textarea
+                class="form-control"
+                name="postBodyFR"
+                rows="5"
+                cols="30"
+              ></textarea>
             </div>
           </div>
           <div class="form-group form-part-container-md">
-            <div class="form-part-container-sm"><button class="btn btn-primary" type="submit" name="button"><%=publish%></button>
+            <div class="form-part-container-sm">
+              <button class="btn btn-primary" type="submit" name="button">
+                <%=publish%>
+              </button>
             </div>
           </div>
         </form>

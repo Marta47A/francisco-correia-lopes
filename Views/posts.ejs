@@ -2,55 +2,89 @@
 
 <div class="site-section overlay img-bg-section" id="services-section">
   <div class="container">
-    <div class="row mb-5 justify-content-center">
+    <div class="row justify-content-center">
       <div class="col-md-7 text-center">
         <div class="block-heading-1">
           <h2><%=news%></h2>
         </div>
       </div>
     </div>
-    <form visibility= "<%=visibility%>" class="" action="/<%=language%>/posts/add-post" method="get" enctype="multipart/form-data">
-      <div class="form-group form-part-container-md">
-        <div class="form-part-container-sm"><button class="btn btn-primary" type="submit" name="button"><%=add%></button>
-        </div>
-      </div>
-    </form>
     <div class="row mb-5 justify-content-center">
-
-        <%  posts.forEach(function(post){ %>
-        <div class="col-md-6 col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
-          <div>
-            <img src="/uploads/<%=post.photoName%>" alt="Image" class="img-fluid post-image">
-            <h2><%=post[titleInLanguage]%></h2>
-            <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post.updatedOn%></span></p>
-            <p><%=post[contentInLanguage].substring(0, 100) + " ..."%></p>
-            <p><a href="/<%=language%>/posts/<%=post._id%>"><%=readMore%></a></p>
-
+      <form
+        style="display: <%=visibility%>"
+        class=""
+        action="/<%=language%>/posts/add-post"
+        method="get"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group form-part-container-md">
+          <div class="form-part-container-sm">
+            <button class="btn btn-primary" type="submit" name="button">
+              <%=add%> <i class="far fa-plus-square"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row mb-5 justify-content-center">
+      <% posts.forEach(function(post){ %>
+      <div class="col-md-6 mb-5" data-aos="fade-up" data-aos-delay="">
+        <div>
+          <img
+            src="/uploads/<%=post.photoName%>"
+            alt="Image"
+            class="img-fluid post-image"
+          />
+          <h2><%=post[titleInLanguage]%></h2>
+          <p class="text-muted mb-3 text-uppercase small">
+            <span class="mr-2"><%=post.updatedOn%></span>
+          </p>
+          <p><%=post[contentInLanguage].substring(0, 100) + " ..."%></p>
+          <p><a href="/<%=language%>/posts/<%=post._id%>"><%=readMore%></a></p>
         </div>
       </div>
 
-      <form class="" action="/<%=language%>/posts/<%=post._id%>/delete" method="post" enctype="multipart/form-data">
-        <div class="form-group form-part-container-md">
+      <div
+        style="display: <%=visibility%>"
+        class="col-md-2 mb-5"
+        data-aos="fade-up"
+        data-aos-delay=""
+      >
+        <form
+          class=""
+          action="/<%=language%>/posts/<%=post._id%>/update"
+          method="get"
+          enctype="multipart/form-data"
+        >
           <div class="form-part-container-sm">
-            <button class="btn btn-primary" type="submit" name="button">
-              <%=myDelete%>
+            <button
+              class="btn btn-primary button-post btn-sm"
+              type="submit"
+              name="button"
+            >
+              <i class="far fa-edit"></i>
             </button>
           </div>
-        </div>
-      </form>
-
-      <form class="" action="/<%=language%>/posts/<%=post._id%>/update" method="get" enctype="multipart/form-data">
-        <div class="form-group form-part-container-md">
+        </form>
+        <form
+          class="mb-5"
+          action="/<%=language%>/posts/<%=post._id%>/delete"
+          method="post"
+          enctype="multipart/form-data"
+        >
           <div class="form-part-container-sm">
-            <button class="btn btn-primary" type="submit" name="button">
-              <%=update%>
+            <button
+              class="btn btn-primary button-post btn-sm"
+              type="submit"
+              name="button"
+            >
+              <i class="far fa-trash-alt"></i>
             </button>
           </div>
-        </div>
-      </form>
-      
-        <% }); %>
+        </form>
+      </div>
 
+      <% }); %>
     </div>
   </div>
 </div>
