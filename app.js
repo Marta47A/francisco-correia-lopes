@@ -208,9 +208,9 @@ app.get("/:language/", function (req, res) {
         ridingLessons: wordsInLanguage("ridingLessons", language),
         workTraining: wordsInLanguage("workTraining", language),
         bullfights: wordsInLanguage("bullfights", language),
-        bullfights_amateur: wordsInLanguage("bullfights_amateur", language),
-        bullfights_professional: wordsInLanguage(
-          "bullfights_professional",
+        amateur: wordsInLanguage("amateur", language),
+        professional: wordsInLanguage(
+          "professional",
           language
         ),
         lastNews: wordsInLanguage("lastNews", language),
@@ -309,9 +309,9 @@ app.get("/:language/daily-life", function (req, res) {
     ridingLessons: wordsInLanguage("ridingLessons", language),
     workTraining: wordsInLanguage("workTraining", language),
     bullfights: wordsInLanguage("bullfights", language),
-    bullfights_amateur: wordsInLanguage("bullfights_amateur", language),
-    bullfights_professional: wordsInLanguage(
-      "bullfights_professional",
+    amateur: wordsInLanguage("amateur", language),
+    professional: wordsInLanguage(
+      "professional",
       language
     ),
   });
