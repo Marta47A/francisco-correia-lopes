@@ -29,17 +29,35 @@
     </div>
     <div class="row mb-5 justify-content-center">
       <% photos.forEach(function(photo){ %>
-      <div class="col-md-7 text-center">
-        <div>
+      <div class="col-md-4 text-center">
+        <div class="thumbnail">
           <a href="/<%=language%>/photos/<%=photo.photoTheme +'/' + photo._id%>"
             ><img
               class="img-fluid photo-image"
               src="/uploads/<%=photo.name%>"
               alt="<%=photo.name%>"
           /></a>
+          <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=photo[titleInLanguage]%></span></p>
         </div>
       </div>
       <form
+      class=""
+      style="display: <%=visibility%>"
+      action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>"
+      method="get"
+      enctype="multipart/form-data"
+    >
+      <div class="form-part-container-sm">
+        <button
+          class="btn btn-primary button-post btn-sm"
+          type="submit"
+          name="button"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </div>
+    </form>
+    <form
         style="display: <%=visibility%>"
         class="mb-5"
         action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/delete"

@@ -3,16 +3,32 @@
   <div class="container">
     <div class="row mb-5 justify-content-center">
       <div class="col-md-7 text-center">
-        <div class="block-heading-1">
-          <h2><%=post["title"+language]%></h2>
+        <div>
+          <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post["subtitle"+language]%></span></p>
+          <img src="/uploads/<%=post.photoName%>" alt="Image" class="img-fluid post-image">
         </div>
       </div>
+      <form
+      class=""
+      action="/<%=language%>/posts/<%=post._id%>/update-image"
+      method="get"
+      enctype="multipart/form-data"
+    >
+      <div class="form-part-container-sm">
+        <button
+          class="btn btn-primary button-post btn-sm"
+          type="submit"
+          name="button"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </div>
+    </form>
     </div>
     <div class="row mb-5 justify-content-center">
       <div class="col-md-7 text-center">
-        <div>
-          <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=post.updatedOn%></span></p>
-          <img src="/uploads/<%=post.photoName%>" alt="Image" class="img-fluid post-image">
+        <div class="block-heading-1">
+          <h2><%=post["title"+language]%></h2>
         </div>
       </div>
     </div>
@@ -23,6 +39,22 @@
         </div>
       </div>
     </div>
+    <form
+      class=""
+      action="/<%=language%>/posts/<%=post._id%>/update"
+      method="get"
+      enctype="multipart/form-data"
+    >
+      <div class="form-part-container-sm">
+        <button
+          class="btn btn-primary button-post btn-sm"
+          type="submit"
+          name="button"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 

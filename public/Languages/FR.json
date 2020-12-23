@@ -34,6 +34,9 @@
     "titlePT": "Titre en Portugais",
     "titleEN": "Titre en Anglais",
     "titleFR": "Titre en Français",
+    "subtitlePT": "Sous-titre en Portugais",
+    "subtitleEN": "Sous-titre en Anglais",
+    "subtitleFR": "Sous-titre en Français",
     "contentPT": "Contenu en Portugais",
     "contentEN": "Contenu en Anglais",
     "contentFR": "Contenu en Français",
@@ -49,5 +52,6 @@
     "language3_text": "English",
     "update": "Réactualiser",
     "myDelete": "Éliminer",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "dateOfPost": "Date de l'Évènement"
   }

@@ -6,7 +6,44 @@
       <div class="col-md-8 text-center">
         <div>
           <img src="/uploads/<%=photo.name%>" alt="Image" class="img-fluid photo-image-big">
+          <form
+          class=""
+          style="display: <%=visibility%>"
+          action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/update-image"
+          method="get"
+          enctype="multipart/form-data"
+        >
+          <div class="form-part-container-sm">
+            <button
+              class="btn btn-primary button-post btn-sm"
+              type="submit"
+              name="button"
+            >
+              <i class="far fa-edit"></i>
+            </button>
+          </div>
+        </form>
         </div>
+
+    <div>          <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=photo[titleInLanguage]%></span></p>
+      <form
+      class=""
+      style="display: <%=visibility%>"
+      action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/update"
+      method="get"
+      enctype="multipart/form-data"
+    >
+      <div class="form-part-container-sm">
+        <button
+          class="btn btn-primary button-post btn-sm"
+          type="submit"
+          name="button"
+        >
+          <i class="far fa-edit"></i>
+        </button>
+      </div>
+    </form>
+    </div>
       </div>
     </div>
 

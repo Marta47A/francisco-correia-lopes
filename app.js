@@ -101,10 +101,13 @@ const postSchema = {
   titlePT: String,
   titleEN: String,
   titleFR: String,
+  subtitlePT: String,
+  subtitleEN: String,
+  subtitleFR: String,
   contentPT: String,
   contentEN: String,
   contentFR: String,
-  updatedOn: Date,
+  dateOfPost: Date,
   photoName: String,
 };
 
@@ -180,7 +183,7 @@ app.get("/:language/", function (req, res) {
 
   Post.find()
     .sort({
-      updatedOn: -1,
+      dateOfPost: -1,
     })
     .limit(2)
     .exec(function (err, posts) {
@@ -221,8 +224,8 @@ app.get("/:language/", function (req, res) {
         contactMe_email: wordsInLanguage("contactMe_email", language),
         contactMe_msg: wordsInLanguage("contactMe_msg", language),
         contactMe_send: wordsInLanguage("contactMe_send", language),
-        titleInLanguage: postParameterInLanguage("title", language),
-        contentInLanguage: postParameterInLanguage("content", language),
+        titleInLanguage: parameterInLanguage("title", language),
+        contentInLanguage: parameterInLanguage("content", language),
       });
     });
 });
@@ -516,7 +519,7 @@ app.post("/:language/login", function (req, res) {
 
 ///////////////////////////////////Requests Targetting all posts////////////////////////
 
-function postParameterInLanguage(word, language) {
+function parameterInLanguage(word, language) {
   let words;
   switch (language) {
     case "PT":
@@ -535,7 +538,7 @@ function postParameterInLanguage(word, language) {
 function postsGetParameters(language, visibility, res) {
   Post.find()
     .sort({
-      updatedOn: -1,
+      dateOfPost: -1,
     })
     .exec(function (err, posts) {
       res.render("posts", {
@@ -558,8 +561,8 @@ function postsGetParameters(language, visibility, res) {
         add: wordsInLanguage("add", language),
         myDelete: wordsInLanguage("myDelete", language),
         update: wordsInLanguage("update", language),
-        titleInLanguage: postParameterInLanguage("title", language),
-        contentInLanguage: postParameterInLanguage("content", language),
+        titleInLanguage: parameterInLanguage("title", language),
+        contentInLanguage: parameterInLanguage("content", language),
         visibility: visibility,
       });
     });
@@ -598,11 +601,15 @@ app.get("/:language/posts/add-post", function (req, res) {
       titlePT: wordsInLanguage("titlePT", language),
       titleEN: wordsInLanguage("titleEN", language),
       titleFR: wordsInLanguage("titleFR", language),
+      subtitlePT: wordsInLanguage("subtitlePT", language),
+      subtitleEN: wordsInLanguage("subtitleEN", language),
+      subtitleFR: wordsInLanguage("subtitleFR", language),
       contentPT: wordsInLanguage("contentPT", language),
       contentEN: wordsInLanguage("contentEN", language),
       contentFR: wordsInLanguage("contentFR", language),
       image: wordsInLanguage("image", language),
       publish: wordsInLanguage("publish", language),
+      dateOfPost: wordsInLanguage("dateOfPost", language)
     });
   } else {
     res.redirect("/" + language + "/login");
@@ -617,10 +624,13 @@ app.post("/:language/posts/add-post", upload.single("postImage"), function (
     titlePT: req.body.postTitlePT,
     titleEN: req.body.postTitleEN,
     titleFR: req.body.postTitleFR,
+    subtitlePT: req.body.postSubtitlePT,
+    subtitleEN: req.body.postSubtitleEN,
+    subtitleFR: req.body.postSubtitleFR,
     contentPT: req.body.postBodyPT,
     contentEN: req.body.postBodyEN,
     contentFR: req.body.postBodyFR,
-    updatedOn: Date.now(),
+    dateOfPost: req.body.dateOfPost,
     photoName: "postImage - " + currentDate + ".jpg",
   });
 
@@ -700,15 +710,58 @@ app.get("/:language/posts/:id/update", function (req, res) {
           titlePT: wordsInLanguage("titlePT", language),
           titleEN: wordsInLanguage("titleEN", language),
           titleFR: wordsInLanguage("titleFR", language),
+          subtitlePT: wordsInLanguage("subtitlePT", language),
+          subtitleEN: wordsInLanguage("subtitleEN", language),
+          subtitleFR: wordsInLanguage("subtitleFR", language),
           contentPT: wordsInLanguage("contentPT", language),
           contentEN: wordsInLanguage("contentEN", language),
           contentFR: wordsInLanguage("contentFR", language),
           currentTitlePT: post.titlePT,
           currentTitleEN: post.titleEN,
           currentTitleFR: post.titleFR,
+          currentSubtitlePT: post.subtitlePT,
+          currentSubtitleEN: post.subtitleEN,
+          currentSubtitleFR: post.subtitleFR,
           currentContentPT: post.contentPT,
           currentContentEN: post.contentEN,
           currentContentFR: post.contentFR,
+          photoName: post.photoName,
+          dateOfPost: wordsInLanguage("dateOfPost", language),
+        });
+      } else {
+        res.send("No posts matching that title were found.");
+      }
+    }
+  );
+});
+
+app.get("/:language/posts/:id/update-image", function (req, res) {
+  const language = req.params.language;
+
+  Post.findOne(
+    {
+      _id: req.params.id,
+    },
+    function (err, post) {
+      if (post) {
+        res.render("edit-post", {
+          post: post,
+          language: language,
+          name: wordsInLanguage("name", language),
+          title: wordsInLanguage("title", language),
+          keywords: wordsInLanguage("keywords", language),
+          description: wordsInLanguage("description", language),
+          home: wordsInLanguage("home", language),
+          biography: wordsInLanguage("biography", language),
+          dailyLife: wordsInLanguage("dailyLife", language),
+          news: wordsInLanguage("news", language),
+          contact: wordsInLanguage("contact", language),
+          language2: wordsInLanguage("language2", language),
+          language3: wordsInLanguage("language3", language),
+          language2_text: wordsInLanguage("language2_text", language),
+          language3_text: wordsInLanguage("language3_text", language),
+          update: wordsInLanguage("update", language),
+          save: wordsInLanguage("save", language),
           photoName: post.photoName,
           image: wordsInLanguage("image", language),
         });
@@ -719,14 +772,48 @@ app.get("/:language/posts/:id/update", function (req, res) {
   );
 });
 
-app.post("/:language/posts/:id/update", upload.single("postImage"), function (
+app.post("/:language/posts/:id/update", function (
   req,
   res
 ) {
   const language = req.params.language;
 
   if (req.isAuthenticated()) {
-    if (req.body.length !== 6) {
+     
+      Post.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          titlePT: req.body.postTitlePT,
+          titleEN: req.body.postTitleEN,
+          titleFR: req.body.postTitleFR,
+          contentPT: req.body.postBodyPT,
+          contentEN: req.body.postBodyEN,
+          contentFR: req.body.postBodyFR,
+          dateOfPost: req.body.dateOfPost,
+        },
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/posts");
+          } else {
+            res.send("No posts matching that title were found.");
+          }
+        }
+      );
+    
+  } else {
+    res.redirect("/" + language + "/login");
+  }
+});
+
+app.post("/:language/posts/:id/update-image", upload.single("postImage"), function (
+  req,
+  res
+) {
+  const language = req.params.language;
+
+  if (req.isAuthenticated()) {
       Post.findOne(
         {
           _id: req.params.id,
@@ -749,13 +836,6 @@ app.post("/:language/posts/:id/update", upload.single("postImage"), function (
           _id: req.params.id,
         },
         {
-          titlePT: req.body.postTitlePT,
-          titleEN: req.body.postTitleEN,
-          titleFR: req.body.postTitleFR,
-          contentPT: req.body.postBodyPT,
-          contentEN: req.body.postBodyEN,
-          contentFR: req.body.postBodyFR,
-          updatedOn: Date.now(),
           photoName: "postImage - " + currentDate + ".jpg",
         },
         function (err) {
@@ -766,40 +846,33 @@ app.post("/:language/posts/:id/update", upload.single("postImage"), function (
           }
         }
       );
-    } else {
-      Post.findOneAndUpdate(
-        {
-          _id: req.params.id,
-        },
-
-        {
-          titlePT: req.body.postTitlePT,
-          titleEN: req.body.postTitleEN,
-          titleFR: req.body.postTitleFR,
-          contentPT: req.body.postBodyPT,
-          contentEN: req.body.postBodyEN,
-          contentFR: req.body.postBodyFR,
-          updatedOn: Date.now(),
-        },
-
-        function (err) {
-          if (!err) {
-            res.redirect("/" + language + "/posts");
-          } else {
-            res.send("No posts matching that title were found.");
-          }
-        }
-      );
-    }
+    
   } else {
     res.redirect("/" + language + "/login");
   }
 });
 
+
 app.post("/:language/posts/:id/delete", function (req, res) {
   const language = req.params.language;
 
   if (req.isAuthenticated()) {
+    Post.findOne(
+      {
+        _id: req.params.id,
+      },
+      function (err, post) {
+        if (post) {
+          try {
+            fs.unlinkSync("public/uploads/" + post.photoName);
+          } catch (err) {
+            // handle the error
+          }
+        } else {
+          res.send("No posts matching that title were found.");
+        }
+      }
+    );
     Post.deleteOne(
       {
         _id: req.params.id,
@@ -857,6 +930,7 @@ function photosGetParameters(
           add: wordsInLanguage("add", language),
           myDelete: wordsInLanguage("myDelete", language),
           visibility: visibility,
+          titleInLanguage: parameterInLanguage("title", language),
         });
       } else {
         res.send("No photos matching that title were found.");
@@ -932,6 +1006,9 @@ app.get("/:language/photos/:photoTheme/add-photo", function (req, res) {
       addPhoto: wordsInLanguage("addPhoto", language),
       image: wordsInLanguage("image", language),
       add: wordsInLanguage("add", language),
+      titlePT: wordsInLanguage("titlePT", language),
+      titleEN: wordsInLanguage("titleEN", language),
+      titleFR: wordsInLanguage("titleFR", language),
     });
   } else {
     res.redirect("/" + language + "/login");
@@ -945,6 +1022,9 @@ app.post(
     const photo = new Photo({
       theme: req.params.photoTheme,
       name: "photoImage - " + currentDate + ".jpg",
+      titlePT: req.body.photoTitlePT,
+      titleEN: req.body.photoTitleEN,
+      titleFR: req.body.photoTitleFR,
     });
 
     photo.save(function (err) {
@@ -994,10 +1074,181 @@ app.get("/:language/photos/:photoTheme/:id", function (req, res) {
   );
 });
 
+app.get("/:language/photos/:photoTheme/:id/update", function (req, res) {
+  const language = req.params.language;
+
+  Photo.findOne(
+    {
+      _id: req.params.id,
+    },
+    function (err, photo) {
+      if (photo) {
+        res.render("edit-photo", {
+          photo: photo,
+          language: language,
+          name: wordsInLanguage("name", language),
+          title: wordsInLanguage("title", language),
+          keywords: wordsInLanguage("keywords", language),
+          description: wordsInLanguage("description", language),
+          home: wordsInLanguage("home", language),
+          biography: wordsInLanguage("biography", language),
+          dailyLife: wordsInLanguage("dailyLife", language),
+          news: wordsInLanguage("news", language),
+          contact: wordsInLanguage("contact", language),
+          language2: wordsInLanguage("language2", language),
+          language3: wordsInLanguage("language3", language),
+          language2_text: wordsInLanguage("language2_text", language),
+          language3_text: wordsInLanguage("language3_text", language),
+          update: wordsInLanguage("update", language),
+          save: wordsInLanguage("save", language),
+          titlePT: wordsInLanguage("titlePT", language),
+          titleEN: wordsInLanguage("titleEN", language),
+          titleFR: wordsInLanguage("titleFR", language),
+          currentTitlePT: photo.titlePT,
+          currentTitleEN: photo.titleEN,
+          currentTitleFR: photo.titleFR,
+          photoName: photo.photoName,
+        });
+      } else {
+        res.send("No photos matching that title were found.");
+      }
+    }
+  );
+});
+
+app.get("/:language/photos/:photoTheme/:id/update-image", function (req, res) {
+  const language = req.params.language;
+
+  Photo.findOne(
+    {
+      _id: req.params.id,
+    },
+    function (err, photo) {
+      if (photo) {
+        res.render("edit-photo", {
+          photo: photo,
+          language: language,
+          name: wordsInLanguage("name", language),
+          title: wordsInLanguage("title", language),
+          keywords: wordsInLanguage("keywords", language),
+          description: wordsInLanguage("description", language),
+          home: wordsInLanguage("home", language),
+          biography: wordsInLanguage("biography", language),
+          dailyLife: wordsInLanguage("dailyLife", language),
+          news: wordsInLanguage("news", language),
+          contact: wordsInLanguage("contact", language),
+          language2: wordsInLanguage("language2", language),
+          language3: wordsInLanguage("language3", language),
+          language2_text: wordsInLanguage("language2_text", language),
+          language3_text: wordsInLanguage("language3_text", language),
+          update: wordsInLanguage("update", language),
+          save: wordsInLanguage("save", language),
+          photoName: photo.photoName,
+          image: wordsInLanguage("image", language),
+        });
+      } else {
+        res.send("No photos matching that title were found.");
+      }
+    }
+  );
+});
+
+app.post("/:language/photos/:photoTheme/:id/update", function (
+  req,
+  res
+) {
+  const language = req.params.language;
+
+  if (req.isAuthenticated()) {
+ 
+      Photo.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          titlePT: req.body.photoTitlePT,
+          titleEN: req.body.photoTitleEN,
+          titleFR: req.body.photoTitleFR
+        },
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/photos/" + req.params.photoTheme);
+          } else {
+            res.send("No photos matching that title were found.");
+          }
+        }
+      );
+
+  } else {
+    res.redirect("/" + language + "/login");
+  }
+});
+
+app.post("/:language/photos/:photoTheme/:id/update-image", upload.single("photoImage"), function (
+  req,
+  res
+) {
+  const language = req.params.language;
+
+  if (req.isAuthenticated()) {
+      Photo.findOne(
+        {
+          _id: req.params.id,
+        },
+        function (err, photo) {
+          if (photo) {
+            try {
+              fs.unlinkSync("public/uploads/" + photo.photoName);
+            } catch (err) {
+              // handle the error
+            }
+          } else {
+            res.send("No photos matching that title were found.");
+          }
+        }
+      );
+
+      Photo.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          photoName: "postImage - " + currentDate + ".jpg",
+        },
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/photos/" + req.params.photoTheme);
+          } else {
+            res.send("No photos matching that title were found.");
+          }
+        }
+      );
+
+  } else {
+    res.redirect("/" + language + "/login");
+  }
+});
+
 app.post("/:language/photos/:photoTheme/:id/delete", function (req, res) {
   const language = req.params.language;
 
   if (req.isAuthenticated()) {
+    Photo.findOne(
+      {
+        _id: req.params.id,
+      },
+      function (err, photo) {
+        if (photo) {
+          try {
+            fs.unlinkSync("public/uploads/" + photo.name);
+          } catch (err) {
+            // handle the error
+          }
+        } else {
+          res.send("No posts matching that title were found.");
+        }
+      }
+    );
     Photo.deleteOne(
       {
         _id: req.params.id,

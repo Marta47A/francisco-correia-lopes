@@ -24,14 +24,14 @@
           method="post"
           enctype="multipart/form-data"
         >
+         
           <div class="form-group form-part-container-md">
             <div class="form-part-container-sm">
-              <label class="form-title"><%=image%></label>
+              <label class="form-title"><%=dateOfPost%></label>
               <input
-                type="file"
-                class="form-control-file"
-                name="postImage"
-                value="<%=photoName%>"
+              class="form-control"
+              type="month"
+                value="<%=dateOfPost%>"  placeholder="YYYY-MM"
               />
             </div>
           </div>
@@ -43,6 +43,15 @@
                 type="text"
                 name="postTitlePT"
                 value="<%=currentTitlePT%>"
+              />
+            </div>
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=subtitlePT%></label>
+              <input
+                class="form-control"
+                type="text"
+                name="postSubtitlePT"
+                value="<%=currentSubtitlePT%>"
               />
             </div>
             <div class="form-part-container-sm">
@@ -69,6 +78,15 @@
               />
             </div>
             <div class="form-part-container-sm">
+              <label class="form-title"><%=subtitleEN%></label>
+              <input
+                class="form-control"
+                type="text"
+                name="postSubtitleEN"
+                value="<%=currentSubtitleEN%>"
+              />
+            </div>
+            <div class="form-part-container-sm">
               <label class="form-title"><%=contentEN%></label>
               <textarea
                 class="form-control"
@@ -88,6 +106,15 @@
                 type="text"
                 name="postTitleFR"
                 value="<%=currentTitleFR%>"
+              />
+            </div>
+            <div class="form-part-container-sm">
+              <label class="form-title"><%=subtitleFR%></label>
+              <input
+                class="form-control"
+                type="text"
+                name="postTitleFR"
+                value="<%=currentSubtitleFR%>"
               />
             </div>
             <div class="form-part-container-sm">

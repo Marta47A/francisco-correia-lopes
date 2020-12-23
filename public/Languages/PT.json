@@ -34,6 +34,9 @@
     "titlePT": "Título em Português",
     "titleEN": "Título em Inglês",
     "titleFR": "Título em Francês",
+    "subtitlePT": "Subítulo em Português",
+    "subtitleEN": "Subtítulo em Inglês",
+    "subtitleFR": "Subtítulo em Francês",
     "contentPT": "Conteúdo em Portugês",
     "contentEN": "Conteúdo em Inglês",
     "contentFR": "Conteúdo em Francês",
@@ -49,5 +52,6 @@
     "language3_text": "Français",
     "update": "Editar",
     "myDelete": "Apagar",
-    "save": "Guardar"
+    "save": "Guardar",
+    "dateOfPost": "Data do Evento"
   }
