@@ -22,17 +22,15 @@
           class=""
           action="/<%=language%>/photos/<%=photo.theme%>/<%=photo._id%>/update"
           method="post"
-          enctype="multipart/form-data"
         >
-          
           <div class="form-group form-part-container-md">
             <div class="form-part-container-sm">
               <label class="form-title"><%=titlePT%></label>
               <input
                 class="form-control"
                 type="text"
-                name="photoTitlePT"
-                value="<%=currentTitlePT%>"
+                name="titlePT"
+                value="<%=photo.titlePT%>"
               />
             </div>
             <div class="form-part-container-sm">
@@ -40,18 +38,18 @@
               <input
                 class="form-control"
                 type="text"
-                name="photoTitleEN"
-                value="<%=currentTitleEN%>"
+                name="titleEN"
+                value="<%=photo.titleEN%>"
               />
             </div>
-            
+
             <div class="form-part-container-sm">
               <label class="form-title"><%=titleFR%></label>
               <input
                 class="form-control"
                 type="text"
-                name="photoTitleFR"
-                value="<%=currentTitleFR%>"
+                name="titleFR"
+                value="<%=photo.titleFR%>"
               />
             </div>
           </div>

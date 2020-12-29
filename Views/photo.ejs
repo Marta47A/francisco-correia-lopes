@@ -1,52 +1,73 @@
 <%- include("partials/header_sec"); -%>
 <div class="site-section overlay img-bg-section" id="services-section">
   <div class="container">
+    <div class="row mb-5 justify-content-center">
+      <div>
+        <p class="mb-3 text-uppercase">
+          <span class="mr-2"><%=photo["title"+language]%></span>
+        </p>
+        </div>
 
+      <div
+          style="display: <%=visibility%>"
+          class="m-0"
+        >
+          <form
+            class=""
+            action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/update"
+            method="get"
+            enctype="multipart/form-data"
+          >
+            <div class="form-part-container-sm">
+              <button
+                class="btn btn-primary button-post btn-sm"
+                type="submit"
+                name="button"
+              >
+                <i class="far fa-edit"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      
+    </div>
     <div class="row mb-5 justify-content-center">
       <div class="col-md-8 text-center">
         <div>
-          <img src="/uploads/<%=photo.name%>" alt="Image" class="img-fluid photo-image-big">
-          <form
-          class=""
-          style="display: <%=visibility%>"
-          action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/update-image"
-          method="get"
-          enctype="multipart/form-data"
-        >
-          <div class="form-part-container-sm">
-            <button
-              class="btn btn-primary button-post btn-sm"
-              type="submit"
-              name="button"
-            >
-              <i class="far fa-edit"></i>
-            </button>
+          <img
+            src="/uploads/<%=photo.name%>"
+            alt="Image"
+            class="img-fluid photo-image-big"
+          />
           </div>
-        </form>
+          </div>
+
+          <div
+            style="display: <%=visibility%>"
+            class="col-md-2 mb-5"
+            data-aos="fade-up"
+            data-aos-delay=""
+          >
+            <form
+              class=""
+              action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/update-image"
+              method="get"
+              enctype="multipart/form-data"
+            >
+              <div class="form-part-container-sm">
+                <button
+                  class="btn btn-primary button-post btn-sm"
+                  type="submit"
+                  name="button"
+                >
+                  <i class="far fa-edit"></i>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-    <div>          <p class="text-muted mb-3 text-uppercase small"><span class="mr-2"><%=photo[titleInLanguage]%></span></p>
-      <form
-      class=""
-      style="display: <%=visibility%>"
-      action="/<%=language%>/photos/<%=photoTheme +'/' + photo._id%>/update"
-      method="get"
-      enctype="multipart/form-data"
-    >
-      <div class="form-part-container-sm">
-        <button
-          class="btn btn-primary button-post btn-sm"
-          type="submit"
-          name="button"
-        >
-          <i class="far fa-edit"></i>
-        </button>
-      </div>
-    </form>
-    </div>
       </div>
     </div>
-
   </div>
 </div>
 

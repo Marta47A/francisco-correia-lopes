@@ -24,26 +24,21 @@
           method="post"
           enctype="multipart/form-data"
         >
-         
           <div class="form-group form-part-container-md">
             <div class="form-part-container-sm">
               <label class="form-title"><%=dateOfPost%></label>
               <input
-              class="form-control"
-              type="month"
-                value="<%=dateOfPost%>"  placeholder="YYYY-MM"
+                class="form-control"
+                type="date"
+                name="dateOfPost"
+                value="<%=post.dateOfPost%>"
               />
             </div>
           </div>
           <div class="form-group form-part-container-md">
             <div class="form-part-container-sm">
               <label class="form-title"><%=titlePT%></label>
-              <input
-                class="form-control"
-                type="text"
-                name="postTitlePT"
-                value="<%=currentTitlePT%>"
-              />
+              <input class="form-control" type="text" name="postTitlePT" value="<%=post.titlePT%>" />
             </div>
             <div class="form-part-container-sm">
               <label class="form-title"><%=subtitlePT%></label>
@@ -51,18 +46,18 @@
                 class="form-control"
                 type="text"
                 name="postSubtitlePT"
-                value="<%=currentSubtitlePT%>"
+                value="<%=post.subtitlePT%>"
               />
             </div>
             <div class="form-part-container-sm">
               <label class="form-title"><%=contentPT%></label>
               <textarea
                 class="form-control"
-                name="postBodyPT"
+                name="postContentPT"
                 rows="5"
                 cols="30"
               >
-<%=currentContentPT%></textarea
+<%=post.contentPT%></textarea
               >
             </div>
           </div>
@@ -74,7 +69,7 @@
                 class="form-control"
                 type="text"
                 name="postTitleEN"
-                value="<%=currentTitleEN%>"
+                value="<%=post.titleEN%>"
               />
             </div>
             <div class="form-part-container-sm">
@@ -83,18 +78,18 @@
                 class="form-control"
                 type="text"
                 name="postSubtitleEN"
-                value="<%=currentSubtitleEN%>"
+                value="<%=post.subtitleEN%>"
               />
             </div>
             <div class="form-part-container-sm">
               <label class="form-title"><%=contentEN%></label>
               <textarea
                 class="form-control"
-                name="postBodyEN"
+                name="postContentEN"
                 rows="5"
                 cols="30"
               >
-<%=currentContentEN%></textarea
+<%=post.contentEN%></textarea
               >
             </div>
           </div>
@@ -105,7 +100,7 @@
                 class="form-control"
                 type="text"
                 name="postTitleFR"
-                value="<%=currentTitleFR%>"
+                value="<%=post.titleFR%>"
               />
             </div>
             <div class="form-part-container-sm">
@@ -114,18 +109,18 @@
                 class="form-control"
                 type="text"
                 name="postTitleFR"
-                value="<%=currentSubtitleFR%>"
+                value="<%=post.subtitleFR%>"
               />
             </div>
             <div class="form-part-container-sm">
               <label class="form-title"><%=contentFR%></label>
               <textarea
                 class="form-control"
-                name="postBodyFR"
+                name="postContentFR"
                 rows="5"
                 cols="30"
               >
-<%=currentContentFR%></textarea
+<%=post.contentFR%></textarea
               >
             </div>
           </div>
