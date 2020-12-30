@@ -16,6 +16,7 @@ const path = require("path");
 require("dotenv/config");
 const multer = require("multer");
 const nodemailer = require("nodemailer");
+const moment = require('moment');
 
 const dataPT_ = fs.readFileSync("public/languages/PT.json", "utf8");
 const dataPT = JSON.parse(dataPT_);
@@ -25,6 +26,7 @@ const dataEN = JSON.parse(dataEN_);
 
 const dataFR_ = fs.readFileSync("public/languages/FR.json", "utf8");
 const dataFR = JSON.parse(dataFR_);
+
 
 let currentDate = Date.now();
 
@@ -607,6 +609,7 @@ app.get("/:language/posts/add-post", function (req, res) {
       image: wordsInLanguage("image", language),
       publish: wordsInLanguage("publish", language),
       dateOfPost: wordsInLanguage("dateOfPost", language),
+      dateOfToday: moment(Date.now()).format('YYYY-MM-DD'),
     });
   } else {
     res.redirect("/" + language + "/login");
@@ -624,9 +627,9 @@ app.post(
       subtitlePT: req.body.postSubtitlePT,
       subtitleEN: req.body.postSubtitleEN,
       subtitleFR: req.body.postSubtitleFR,
-      contentPT: req.body.postBodyPT,
-      contentEN: req.body.postBodyEN,
-      contentFR: req.body.postBodyFR,
+      contentPT: req.body.postContentPT,
+      contentEN: req.body.postContentEN,
+      contentFR: req.body.postContentFR,
       dateOfPost: req.body.dateOfPost,
       photoName: "postImage - " + currentDate + ".jpg",
     });
@@ -696,6 +699,7 @@ app.get("/:language/posts/:id/update", function (req, res) {
     },
     function (err, post) {
       if (post) {
+        var formatted_date = moment(post.dateOfPost).format('YYYY-MM-DD');
         res.render("edit-post", {
           post: post,
           language: language,
@@ -724,6 +728,7 @@ app.get("/:language/posts/:id/update", function (req, res) {
           contentEN: wordsInLanguage("contentEN", language),
           contentFR: wordsInLanguage("contentFR", language),
           dateOfPost: wordsInLanguage("dateOfPost", language),
+          formatted_date: formatted_date,
         });
       } else {
         res.send("No posts matching that title were found.");
@@ -746,16 +751,16 @@ app.post("/:language/posts/:id/update", function (req, res) {
       subtitlePT: req.body.postSubtitlePT,
       subtitleEN: req.body.postSubtitleEN,
       subtitleFR: req.body.postSubtitleFR,
-      contentPT: req.body.postBodyPT,
-      contentEN: req.body.postBodyEN,
-      contentFR: req.body.postBodyFR,
+      contentPT: req.body.postContentPT,
+      contentEN: req.body.postContentEN,
+      contentFR: req.body.postContentFR,
       dateOfPost: req.body.dateOfPost,
     },
     function (err) {
       if (!err) {
         res.redirect("/" + language + "/posts");
       } else {
-        res.send("No posts matching that title were found.");
+        res.send(err);
       }
     }
   );
