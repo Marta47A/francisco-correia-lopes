@@ -13,29 +13,7 @@
          
         </div>
       </div>
-      <div
-        style="display: <%=visibility%>"
-        class="col-md-2 mb-5"
-        data-aos="fade-up"
-        data-aos-delay=""
-      >
-        <form
-          class=""
-          action="/<%=language%>/posts/<%=post._id%>/update-image"
-          method="get"
-          enctype="multipart/form-data"
-        >
-          <div class="form-part-container-sm">
-            <button
-              class="btn btn-primary button-post btn-sm"
-              type="submit"
-              name="button"
-            >
-              <i class="far fa-edit"></i>
-            </button>
-          </div>
-        </form>
-      </div>
+ 
     </div>
     <div class="row mb-5 justify-content-center">
       <div class="col-md-7 text-center">
@@ -47,31 +25,7 @@
           <span class="mr-2"><%=post["subtitle"+language]%></span>
         </p></div>
       </div>
-      <div class="col-sm-2">
-        <div
-          style="display: <%=visibility%>"
-          class="col-md-2 mb-5"
-          data-aos="fade-up"
-          data-aos-delay=""
-        >
-          <form
-            class=""
-            action="/<%=language%>/posts/<%=post._id%>/update"
-            method="get"
-            enctype="multipart/form-data"
-          >
-            <div class="form-part-container-sm">
-              <button
-                class="btn btn-primary button-post btn-sm"
-                type="submit"
-                name="button"
-              >
-                <i class="far fa-edit"></i>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      
     </div>
     <div class="row">
       <div class="col-sm-8">

@@ -16,7 +16,7 @@ const path = require("path");
 require("dotenv/config");
 const multer = require("multer");
 const nodemailer = require("nodemailer");
-const moment = require('moment');
+const moment = require("moment");
 
 const dataPT_ = fs.readFileSync("public/languages/PT.json", "utf8");
 const dataPT = JSON.parse(dataPT_);
@@ -26,7 +26,6 @@ const dataEN = JSON.parse(dataEN_);
 
 const dataFR_ = fs.readFileSync("public/languages/FR.json", "utf8");
 const dataFR = JSON.parse(dataFR_);
-
 
 let currentDate = Date.now();
 
@@ -61,7 +60,7 @@ const imageFilter = function (req, file, cb) {
   cb(null, true);
 };
 
-const upload = multer({
+let upload = multer({
   storage: multerStorage,
   fileFilter: imageFilter,
 });
@@ -609,7 +608,7 @@ app.get("/:language/posts/add-post", function (req, res) {
       image: wordsInLanguage("image", language),
       publish: wordsInLanguage("publish", language),
       dateOfPost: wordsInLanguage("dateOfPost", language),
-      dateOfToday: moment(Date.now()).format('YYYY-MM-DD'),
+      dateOfToday: moment(Date.now()).format("YYYY-MM-DD"),
     });
   } else {
     res.redirect("/" + language + "/login");
@@ -620,6 +619,12 @@ app.post(
   "/:language/posts/add-post",
   upload.single("postImage"),
   function (req, res) {
+    let photoImage = "";
+
+    if (req.file) {
+      photoImage = "postImage - " + currentDate + ".jpg";
+    }
+
     const post = new Post({
       titlePT: req.body.postTitlePT,
       titleEN: req.body.postTitleEN,
@@ -631,7 +636,7 @@ app.post(
       contentEN: req.body.postContentEN,
       contentFR: req.body.postContentFR,
       dateOfPost: req.body.dateOfPost,
-      photoName: "postImage - " + currentDate + ".jpg",
+      photoName: photoImage,
     });
 
     post.save(function (err) {
@@ -647,10 +652,14 @@ app.post(
 
 ////////////////////////////////Requests Targetting A Specific Post////////////////////////
 
-function postGetParameters(id, language, visibility, res) {
+function postGetParameters(id, language, visibility, res) {}
+
+app.get("/:language/posts/:id", function (req, res) {
+  const language = req.params.language;
+
   Post.findOne(
     {
-      _id: id,
+      _id: req.params.id,
     },
     function (err, post) {
       if (post) {
@@ -671,23 +680,12 @@ function postGetParameters(id, language, visibility, res) {
           language2_text: wordsInLanguage("language2_text", language),
           language3_text: wordsInLanguage("language3_text", language),
           readMore: wordsInLanguage("readMore", language),
-          visibility: visibility,
         });
       } else {
         res.send("No posts matching that title were found.");
       }
     }
   );
-}
-
-app.get("/:language/posts/:id", function (req, res) {
-  const language = req.params.language;
-
-  if (req.isAuthenticated()) {
-    postGetParameters(req.params.id, language, "block", res);
-  } else {
-    postGetParameters(req.params.id, language, "none", res);
-  }
 });
 
 app.get("/:language/posts/:id/update", function (req, res) {
@@ -699,7 +697,7 @@ app.get("/:language/posts/:id/update", function (req, res) {
     },
     function (err, post) {
       if (post) {
-        var formatted_date = moment(post.dateOfPost).format('YYYY-MM-DD');
+        var formatted_date = moment(post.dateOfPost).format("YYYY-MM-DD");
         res.render("edit-post", {
           post: post,
           language: language,
@@ -729,71 +727,6 @@ app.get("/:language/posts/:id/update", function (req, res) {
           contentFR: wordsInLanguage("contentFR", language),
           dateOfPost: wordsInLanguage("dateOfPost", language),
           formatted_date: formatted_date,
-        });
-      } else {
-        res.send("No posts matching that title were found.");
-      }
-    }
-  );
-});
-
-app.post("/:language/posts/:id/update", function (req, res) {
-  const language = req.params.language;
-
-  Post.findOneAndUpdate(
-    {
-      _id: req.params.id,
-    },
-    {
-      titlePT: req.body.postTitlePT,
-      titleEN: req.body.postTitleEN,
-      titleFR: req.body.postTitleFR,
-      subtitlePT: req.body.postSubtitlePT,
-      subtitleEN: req.body.postSubtitleEN,
-      subtitleFR: req.body.postSubtitleFR,
-      contentPT: req.body.postContentPT,
-      contentEN: req.body.postContentEN,
-      contentFR: req.body.postContentFR,
-      dateOfPost: req.body.dateOfPost,
-    },
-    function (err) {
-      if (!err) {
-        res.redirect("/" + language + "/posts");
-      } else {
-        res.send(err);
-      }
-    }
-  );
-});
-
-
-app.get("/:language/posts/:id/update-image", function (req, res) {
-  const language = req.params.language;
-
-  Post.findOne(
-    {
-      _id: req.params.id,
-    },
-    function (err, post) {
-      if (post) {
-        res.render("edit-post-image", {
-          post: post,
-          language: language,
-          name: wordsInLanguage("name", language),
-          title: wordsInLanguage("title", language),
-          keywords: wordsInLanguage("keywords", language),
-          description: wordsInLanguage("description", language),
-          home: wordsInLanguage("home", language),
-          biography: wordsInLanguage("biography", language),
-          dailyLife: wordsInLanguage("dailyLife", language),
-          news: wordsInLanguage("news", language),
-          contact: wordsInLanguage("contact", language),
-          language2: wordsInLanguage("language2", language),
-          language3: wordsInLanguage("language3", language),
-          language2_text: wordsInLanguage("language2_text", language),
-          language3_text: wordsInLanguage("language3_text", language),
-          update: wordsInLanguage("update", language),
-          save: wordsInLanguage("save", language),
           image: wordsInLanguage("image", language),
         });
       } else {
@@ -804,43 +737,63 @@ app.get("/:language/posts/:id/update-image", function (req, res) {
 });
 
 app.post(
-  "/:language/posts/:id/update-image",
+  "/:language/posts/:id/update",
   upload.single("postImage"),
   function (req, res) {
     const language = req.params.language;
 
-    Post.findOne(
-      {
-        _id: req.params.id,
-      },
-      function (err, post) {
-        if (post) {
-          try {
-            fs.unlinkSync("public/uploads/" + post.photoName);
-          } catch (err) {
-            // handle the error
+    if (!req.file) {
+      Post.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          titlePT: req.body.postTitlePT,
+          titleEN: req.body.postTitleEN,
+          titleFR: req.body.postTitleFR,
+          subtitlePT: req.body.postSubtitlePT,
+          subtitleEN: req.body.postSubtitleEN,
+          subtitleFR: req.body.postSubtitleFR,
+          contentPT: req.body.postContentPT,
+          contentEN: req.body.postContentEN,
+          contentFR: req.body.postContentFR,
+          dateOfPost: req.body.dateOfPost,
+        },
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/posts");
+          } else {
+            res.send(err);
           }
-        } else {
-          res.send("No posts matching that title were found.");
         }
-      }
-    );
-
-    Post.findOneAndUpdate(
-      {
-        _id: req.params.id,
-      },
-      {
-        photoName: "postImage - " + currentDate + ".jpg",
-      },
-      function (err) {
-        if (!err) {
-          res.redirect("/" + language + "/posts");
-        } else {
-          res.send("No posts matching that title were found.");
+      );
+    } else {
+      Post.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          titlePT: req.body.postTitlePT,
+          titleEN: req.body.postTitleEN,
+          titleFR: req.body.postTitleFR,
+          subtitlePT: req.body.postSubtitlePT,
+          subtitleEN: req.body.postSubtitleEN,
+          subtitleFR: req.body.postSubtitleFR,
+          contentPT: req.body.postContentPT,
+          contentEN: req.body.postContentEN,
+          contentFR: req.body.postContentFR,
+          dateOfPost: req.body.dateOfPost,
+          photoName: "postImage - " + currentDate + ".jpg",
+        },
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/posts");
+          } else {
+            res.send(err);
+          }
         }
-      }
-    );
+      );
+    }
   }
 );
 
@@ -1010,9 +963,15 @@ app.post(
   "/:language/photos/:photoTheme/add-photo",
   upload.single("photoImage"),
   function (req, res, next) {
+    let imageName = "";
+
+    if (req.file) {
+      imageName = "photoImage - " + currentDate + ".jpg";
+    }
+
     const photo = new Photo({
       theme: req.params.photoTheme,
-      name: "photoImage - " + currentDate + ".jpg",
+      name: imageName,
       titlePT: req.body.photoTitlePT,
       titleEN: req.body.photoTitleEN,
       titleFR: req.body.photoTitleFR,
@@ -1032,10 +991,13 @@ app.post(
 
 ////////////////////////////////Requests Targetting A Specific Photo////////////////////////
 
-function photoGetParameters(id, photoTheme, language, visibility, res) {
+function photoGetParameters(id, photoTheme, language, visibility, res) {}
+
+app.get("/:language/photos/:photoTheme/:id", function (req, res) {
+  const language = req.params.language;
   Photo.findOne(
     {
-      _id: id,
+      _id: req.params.id,
     },
     function (err, photo) {
       if (photo) {
@@ -1055,7 +1017,6 @@ function photoGetParameters(id, photoTheme, language, visibility, res) {
           language3: wordsInLanguage("language3", language),
           language2_text: wordsInLanguage("language2_text", language),
           language3_text: wordsInLanguage("language3_text", language),
-          visibility: visibility,
           photoTheme: photoTheme,
         });
       } else {
@@ -1063,27 +1024,6 @@ function photoGetParameters(id, photoTheme, language, visibility, res) {
       }
     }
   );
-}
-
-app.get("/:language/photos/:photoTheme/:id", function (req, res) {
-  const language = req.params.language;
-  if (req.isAuthenticated()) {
-    photoGetParameters(
-      req.params.id,
-      req.params.photoTheme,
-      language,
-      "block",
-      res
-    );
-  } else {
-    photoGetParameters(
-      req.params.id,
-      req.params.photoTheme,
-      language,
-      "none",
-      res
-    );
-  }
 });
 
 app.get("/:language/photos/:photoTheme/:id/update", function (req, res) {
@@ -1116,64 +1056,6 @@ app.get("/:language/photos/:photoTheme/:id/update", function (req, res) {
           titlePT: wordsInLanguage("titlePT", language),
           titleEN: wordsInLanguage("titleEN", language),
           titleFR: wordsInLanguage("titleFR", language),
-        });
-      } else {
-        res.send("No photos matching that title were found.");
-      }
-    }
-  );
-});
-
-app.post("/:language/photos/:photoTheme/:id/update", function (req, res) {
-  const language = req.params.language;
-
-  Photo.findOneAndUpdate(
-    {
-      _id: req.params.id,
-    },
-    {
-      titlePT: req.body.titlePT,
-      titleEN: req.body.titleEN,
-      titleFR: req.body.titleFR,
-    },
-    function (err) {
-      if (!err) {
-        res.redirect("/" + language + "/photos/" + req.params.photoTheme);
-      } else {
-        res.send("No photos matching that title were found.");
-      }
-    }
-  );
-});
-
-app.get("/:language/photos/:photoTheme/:id/update-image", function (req, res) {
-  const language = req.params.language;
-
-  Photo.findOne(
-    {
-      _id: req.params.id,
-    },
-    function (err, photo) {
-      if (photo) {
-        res.render("edit-photo-image", {
-          photo: photo,
-          language: language,
-          name: wordsInLanguage("name", language),
-          title: wordsInLanguage("title", language),
-          keywords: wordsInLanguage("keywords", language),
-          description: wordsInLanguage("description", language),
-          home: wordsInLanguage("home", language),
-          biography: wordsInLanguage("biography", language),
-          dailyLife: wordsInLanguage("dailyLife", language),
-          news: wordsInLanguage("news", language),
-          contact: wordsInLanguage("contact", language),
-          language2: wordsInLanguage("language2", language),
-          language3: wordsInLanguage("language3", language),
-          language2_text: wordsInLanguage("language2_text", language),
-          language3_text: wordsInLanguage("language3_text", language),
-          update: wordsInLanguage("update", language),
-          save: wordsInLanguage("save", language),
-          photoName: photo.photoName,
           image: wordsInLanguage("image", language),
         });
       } else {
@@ -1184,43 +1066,49 @@ app.get("/:language/photos/:photoTheme/:id/update-image", function (req, res) {
 });
 
 app.post(
-  "/:language/photos/:photoTheme/:id/update-image",
+  "/:language/photos/:photoTheme/:id/update",
   upload.single("photoImage"),
   function (req, res) {
     const language = req.params.language;
 
-    Photo.findOne(
-      {
-        _id: req.params.id,
-      },
-      function (err, photo) {
-        if (photo) {
-          try {
-            fs.unlinkSync("public/uploads/" + photo.photoName);
-          } catch (err) {
-            // handle the error
+    if (!req.file) {
+      Photo.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          titlePT: req.body.titlePT,
+          titleEN: req.body.titleEN,
+          titleFR: req.body.titleFR,
+        },
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/photos/" + req.params.photoTheme);
+          } else {
+            res.send("No photos matching that title were found.");
           }
-        } else {
-          res.send("No photos matching that title were found.");
         }
-      }
-    );
-
-    Photo.findOneAndUpdate(
-      {
-        _id: req.params.id,
-      },
-      {
-        photoName: "postImage - " + currentDate + ".jpg",
-      },
-      function (err) {
-        if (!err) {
-          res.redirect("/" + language + "/photos/" + req.params.photoTheme);
-        } else {
-          res.send("No photos matching that title were found.");
+      );
+    } else {
+      Photo.findOneAndUpdate(
+        {
+          _id: req.params.id,
+        },
+        {
+          titlePT: req.body.titlePT,
+          titleEN: req.body.titleEN,
+          titleFR: req.body.titleFR,
+          name: "photoImage - " + currentDate + ".jpg",
+        },
+        function (err) {
+          if (!err) {
+            res.redirect("/" + language + "/photos/" + req.params.photoTheme);
+          } else {
+            res.send("No photos matching that title were found.");
+          }
         }
-      }
-    );
+      );
+    }
   }
 );
 
